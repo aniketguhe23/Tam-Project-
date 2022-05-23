@@ -29,48 +29,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('users/destroy', 'UsersController@massDestroy')->name('users.massDestroy');
     Route::resource('users', 'UsersController');
 
-    // Customers
-    Route::delete('customers/destroy', 'CustomersController@massDestroy')->name('customers.massDestroy');
-    Route::resource('customers', 'CustomersController');
 
-    // Karigars
-    Route::delete('karigars/destroy', 'KarigarController@massDestroy')->name('karigars.massDestroy');
-    Route::resource('karigars', 'KarigarController');
+    // Category
+    Route::delete('categorys/destroy', 'CategoryController@massDestroy')->name('categorys.massDestroy');
+    Route::post('categorys/media', 'CategoryController@storeMedia')->name('categorys.storeMedia');
+    Route::resource('categorys', 'CategoryController');
 
-    // Product Categories
-    Route::delete('product-categories/destroy', 'ProductCategoryController@massDestroy')->name('product-categories.massDestroy');
-    Route::post('product-categories/media', 'ProductCategoryController@storeMedia')->name('product-categories.storeMedia');
-    Route::post('product-categories/ckmedia', 'ProductCategoryController@storeCKEditorImages')->name('product-categories.storeCKEditorImages');
-    Route::resource('product-categories', 'ProductCategoryController');
-
-    // Products
-    Route::delete('products/destroy', 'ProductController@massDestroy')->name('products.massDestroy');
-    Route::post('products/media', 'ProductController@storeMedia')->name('products.storeMedia');
-    Route::post('products/ckmedia', 'ProductController@storeCKEditorImages')->name('products.storeCKEditorImages');
-    Route::resource('products', 'ProductController');
-
-    // Design Numbers
-    Route::delete('design-numbers/destroy', 'DesignNumberController@massDestroy')->name('design-numbers.massDestroy');
-    Route::post('design-numbers/media', 'DesignNumberController@storeMedia')->name('design-numbers.storeMedia');
-    Route::post('design-numbers/ckmedia', 'DesignNumberController@storeCKEditorImages')->name('design-numbers.storeCKEditorImages');
-    Route::resource('design-numbers', 'DesignNumberController');
-
-    Route::get('design-share-show', 'DesignNumberController@desing_share_show');
-    Route::get('design-share-create', 'DesignNumberController@desing_share_create');
-    Route::post('design-share-store', 'DesignNumberController@desing_share_store');
-    Route::get('design-share-data', 'DesignNumberController@desing_share_data');
-    Route::get('design-share-edit/{id}', 'DesignNumberController@desing_share_edit');
-    Route::post('design-share-update', 'DesignNumberController@desing_share_update');
-    Route::get('design-share-delete/{id}', 'DesignNumberController@desing_share_delete');
-
-    // Customer Orders
-    Route::delete('customer-orders/destroy', 'CustomerOrdersController@massDestroy')->name('customer-orders.massDestroy');
-    Route::resource('customer-orders', 'CustomerOrdersController');
-
-    // Karigar Orders
-    Route::delete('karigar-orders/destroy', 'KarigarOrdersController@massDestroy')->name('karigar-orders.massDestroy');
-    Route::resource('karigar-orders', 'KarigarOrdersController');
-
+   
     // Task Statuses
     Route::delete('task-statuses/destroy', 'TaskStatusController@massDestroy')->name('task-statuses.massDestroy');
     Route::resource('task-statuses', 'TaskStatusController');
