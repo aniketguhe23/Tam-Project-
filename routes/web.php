@@ -35,6 +35,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('categorys/media', 'CategoryController@storeMedia')->name('categorys.storeMedia');
     Route::resource('categorys', 'CategoryController');
 
+    // Counselor 
+    Route::delete('counselors/destroy', 'CounselorController@massDestroy')->name('counselors.massDestroy');
+    Route::resource('counselors', 'CounselorController');
+  
+
    
     // Task Statuses
     Route::delete('task-statuses/destroy', 'TaskStatusController@massDestroy')->name('task-statuses.massDestroy');

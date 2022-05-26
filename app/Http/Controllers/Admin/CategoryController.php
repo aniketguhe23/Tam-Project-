@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\MassDestroyProductCategoryRequest;
-use App\Http\Requests\StoreProductCategoryRequest;
-use App\Http\Requests\UpdateProductCategoryRequest;
+use App\Http\Requests\MassDestroyCategoryRequest;
+use App\Http\Requests\StoreCategoryRequest;
+use App\Http\Requests\UpdateCategoryRequest;
 use App\Models\Category;
 use Gate;
 use Illuminate\Http\Request;
@@ -29,7 +29,7 @@ class CategoryController extends Controller
                 $viewGate      = 'category_show';
                 $editGate      = 'category_edit';
                 $deleteGate    = 'category_delete';
-                $crudRoutePart = 'category';
+                $crudRoutePart = 'categorys';
 
                 return view('partials.datatablesActions', compact(
                     'viewGate',
@@ -86,7 +86,6 @@ class CategoryController extends Controller
     public function show(Category $category)
     {
         abort_if(Gate::denies('category_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         return view('admin.categorys.show', compact('category'));
     }
 
