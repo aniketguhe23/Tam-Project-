@@ -20,13 +20,16 @@
 
             <div class="form-group">
                 <label class="required" for="category_name">Category</label>
+                       
                 <select class="form-control select2 {{ $errors->has('category_name') ? 'is-invalid' : '' }}" name="category_id" id="category_id">
-                    @foreach($categorys as $id => $category)
+                @if(!empty($categorys))   
+                @foreach($categorys as $id => $category)
                         <option value="{{ $id }}" {{ old('category_id') == $id ? 'selected' : '' }}>{{ $category->category_name }}</option>
                     @endforeach
+                @endif
                 </select>
                  @if($errors->has('category'))
-                    <span class="text-danger">{{ $errors->first('categorys') }}</span>
+                    <span class="text-danger">{{ $errors->first('category') }}</span>
                 @endif
                 <span class="help-block">{{ trans('cruds.counselor.fields.category_helper') }}</span>
             </div>

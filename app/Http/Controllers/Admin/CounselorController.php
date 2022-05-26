@@ -20,7 +20,8 @@ class CounselorController extends Controller
         abort_if(Gate::denies('counselor_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $users = User::with(['roles'])->where('status',2)->get();
-        return view('admin.counselors.index', compact('users'));
+        $categorys = Category::get();
+        return view('admin.counselors.index', compact('users','categorys'));
     }
 
     public function create()
@@ -29,44 +30,52 @@ class CounselorController extends Controller
 
         $roles = Role::all()->pluck('title', 'id');
         $categorys = Category::get();
-
         return view('admin.counselors.create', compact('roles','categorys'));
     }
 
     public function store(StoreCounselorRequest $request)
     {
-        $user = User::create($request->all());
+      //  dd($request->all());
+        $counselorArr = array();
+        $counselorArr['name'] = $request->name;
+        $counselorArr['category_id'] = $request->category_id;
+        $counselorArr['email'] = $request->email;
+        $counselorArr['phone_no'] = $request->phone_no;
+        $counselorArr['password'] = $request->password;
+        $counselorArr['status'] = 2;
+        $user = User::create($counselorArr);
         $user->roles()->sync($request->input('roles', []));
 
         return redirect()->route('admin.counselors.index');
     }
 
-    public function edit(Counselor $counselor)
+    public function edit(User $counselor)
     {
         abort_if(Gate::denies('counselor_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $roles = Role::all()->pluck('title', 'id');
-
-        $user->load('roles');
-
-        return view('admin.counselors.edit', compact('roles', 'user'));
+        $categorys = Category::get();
+        return view('admin.counselors.edit', compact('counselor','categorys'));
     }
 
-    public function update(UpdateCounselorRequest $request, User $user)
+    public function update(UpdateCounselorRequest $request, User $counselor)
     {
-        $user->update($request->all());
-        $user->roles()->sync($request->input('roles', []));
-
+        $counselorArr = array();
+        $counselorArr['name'] = $request->name;
+        $counselorArr['category_id'] = $request->category_id;
+        $counselorArr['email'] = $request->email;
+        $counselorArr['phone_no'] = $request->phone_no;
+        $counselorArr['password'] = $request->password;  
+        $counselorArr['status'] = 2;
+        $counselor->update($counselorArr);
         return redirect()->route('admin.counselors.index');
     }
 
-    public function show(User $user)
+    public function show(User $counselor)
     {
         abort_if(Gate::denies('counselor_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $user->load('roles');
+        $counselor->load('roles');
 
-        return view('admin.counselors.show', compact('user'));
+        return view('admin.counselors.show', compact('counselor'));
     }
 
     public function destroy(User $user)

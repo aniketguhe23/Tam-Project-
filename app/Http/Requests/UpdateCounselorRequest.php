@@ -7,11 +7,11 @@ use Gate;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Response;
 
-class StoreCounselorRequest extends FormRequest
+class UpdateCounselorRequest extends FormRequest
 {
     public function authorize()
     {
-        return Gate::allows('counselor_create');
+        return Gate::allows('counselor_update');
     }
 
     public function rules()
