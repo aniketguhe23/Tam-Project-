@@ -29,6 +29,15 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('users/destroy', 'UsersController@massDestroy')->name('users.massDestroy');
     Route::resource('users', 'UsersController');
 
+    // Book Appointment
+    Route::delete('bookappointments/destroy', 'BookAppointmentController@massDestroy')->name('bookappointments.massDestroy');
+    Route::post('bookappointments/media', 'BookAppointmentController@storeMedia')->name('bookappointments.storeMedia');
+    Route::resource('bookappointments', 'BookAppointmentController');
+
+    // Tamhub
+    Route::delete('tamhubs/destroy', 'TamHubController@massDestroy')->name('tamhubs.massDestroy');
+    Route::post('tamhubs/media', 'TamHubController@storeMedia')->name('tamhubs.storeMedia');
+    Route::resource('tamhubs', 'TamHubController');
 
     // Category
     Route::delete('categorys/destroy', 'CategoryController@massDestroy')->name('categorys.massDestroy');
@@ -38,6 +47,14 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Counselor 
     Route::delete('counselors/destroy', 'CounselorController@massDestroy')->name('counselors.massDestroy');
     Route::resource('counselors', 'CounselorController');
+    
+    // Counselor Current cases
+    Route::delete('counselor-current-cases/destroy', 'CounselorCurrentCasesController@massDestroy')->name('counselor_current_cases.massDestroy');
+    Route::resource('counselor-current-cases', 'CounselorCurrentCasesController');
+  
+    // Counselor Past Cases
+    Route::delete('counselor-past-cases/destroy', 'CounselorPastCasesController@massDestroy')->name('counselor-past-cases.massDestroy');
+    Route::resource('counselor-past-cases', 'CounselorPastCasesController');
   
 
    

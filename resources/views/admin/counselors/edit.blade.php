@@ -33,6 +33,16 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.counselor.fields.category_helper') }}</span>
             </div>
+
+            <div class="form-group">
+                <label class="required" for="phone_no">{{ trans('cruds.counselor.fields.phone_no') }}</label>
+                <input class="form-control {{ $errors->has('phone_no') ? 'is-invalid' : '' }}" type="number" name="phone_no" id="phone_no" value="{{ old('phone_no') }}" required>
+                @if($errors->has('phone_no'))
+                    <span class="text-danger">{{ $errors->first('phone_no') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.counselor.fields.phone_no_helper') }}</span>
+            </div>
+
             <div class="form-group">
                 <label class="required" for="email">{{ trans('cruds.counselor.fields.email') }}</label>
                 <input class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}" type="email" name="email" id="email" value="{{ old('email', $counselor->email) }}" required>
@@ -41,6 +51,7 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.counselor.fields.email_helper') }}</span>
             </div>
+
             <div class="form-group">
                 <label class="required" for="password">{{ trans('cruds.counselor.fields.password') }}</label>
                 <input class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}" type="password" name="password" id="password">

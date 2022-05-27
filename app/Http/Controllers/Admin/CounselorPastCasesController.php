@@ -3,39 +3,40 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\MassDestroyCounselorRequest;
-use App\Http\Requests\StoreCounselorRequest;
-use App\Http\Requests\UpdateCounselorRequest;
-use App\Models\Role;
+use Illuminate\Http\Request;
+use App\Http\Requests\MassDestroyPastCasesRequest;
+use App\Http\Requests\StorePastCasesRequest;
+use App\Http\Requests\UpdatePastCasesRequest;
+use App\Models\CounselorPastCases;
 use App\Models\User;
 use App\Models\Category;
 use Gate;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class CounselorController extends Controller
+class CounselorPastCasesController extends Controller
 {
+    
     public function index()
     {
-        abort_if(Gate::denies('counselor_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('counselor_past_cases_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $users = User::with(['roles'])->where('status',2)->get();
+        $users = CounselorPastCases::get();
         $categorys = Category::get();
-        return view('admin.counselors.index', compact('users','categorys'));
+        return view('admin.counselorpastcases.index');
     }
 
     public function create()
     {
-        abort_if(Gate::denies('counselor_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('counselor_past_cases_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $roles = Role::all()->pluck('title', 'id');
         $categorys = Category::get();
-        return view('admin.counselors.create', compact('roles','categorys'));
+        return view('admin.counselorpastcases.create');
     }
 
     public function store(StoreCounselorRequest $request)
     {
-      //  dd($request->all());
+        //  dd($request->all());
         $counselorArr = array();
         $counselorArr['name'] = $request->name;
         $counselorArr['category_id'] = $request->category_id;
@@ -43,17 +44,17 @@ class CounselorController extends Controller
         $counselorArr['phone_no'] = $request->phone_no;
         $counselorArr['password'] = $request->password;
         $counselorArr['status'] = 2;
-        $user = User::create($counselorArr);
+        $user = CounselorPastCases::create($counselorArr);
         $user->roles()->sync($request->input('roles', []));
 
-        return redirect()->route('admin.counselors.index');
+        return redirect()->route('admin.counselorpastcases.index');
     }
 
     public function edit(User $counselor)
     {
-        abort_if(Gate::denies('counselor_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('counselor_past_cases_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $categorys = Category::get();
-        return view('admin.counselors.edit', compact('counselor','categorys'));
+        return view('admin.counselorpastcases.edit', compact('counselor','categorys'));
     }
 
     public function update(UpdateCounselorRequest $request, User $counselor)
@@ -66,21 +67,21 @@ class CounselorController extends Controller
         $counselorArr['password'] = $request->password;  
         $counselorArr['status'] = 2;
         $counselor->update($counselorArr);
-        return redirect()->route('admin.counselors.index');
+        return redirect()->route('admin.counselorpastcases.index');
     }
 
     public function show(User $counselor)
     {
-        abort_if(Gate::denies('counselor_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('counselor_past_cases_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $counselor->load('roles');
 
-        return view('admin.counselors.show', compact('counselor'));
+        return view('admin.counselorpastcases.show', compact('counselor'));
     }
 
     public function destroy(User $counselor)
     {
-        abort_if(Gate::denies('counselor_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('counselor_past_cases_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $counselor->delete();
 
@@ -89,8 +90,10 @@ class CounselorController extends Controller
 
     public function massDestroy(MassDestroyCounselorRequest $request)
     {
-        User::whereIn('id', request('ids'))->delete();
+        CounselorPastCases::whereIn('id', request('ids'))->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }
+    
+    
 }

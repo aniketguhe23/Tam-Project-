@@ -14,10 +14,12 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->datetime('email_verified_at')->nullable();
             $table->string('remember_token')->nullable();
-            $table->string('password');
+            $table->string('password');      
             $table->integer('phone_no')->nullable();
             $table->string('gender')->nullable();
             $table->string('location')->nullable();
+            $table->string('category_id')->nullable();
+            $table->string('status')->nullable();
             $table->string('employment_status')->nullable();
             $table->date('age')->nullable();
             $table->string('social_login_type')->nullable();    

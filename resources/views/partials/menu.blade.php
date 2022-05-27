@@ -24,14 +24,26 @@
                         </p>
                     </a>
                 </li>
-                @can('counselor_access')
+                @can('tamhub_access')
                     <li class="nav-item">
-                        <a href="{{ route("admin.counselors.index") }}" class="nav-link {{ request()->is("admin/counselors") || request()->is("admin/counselors/*") ? "active" : "" }}">
+                        <a href="{{ route("admin.tamhubs.index") }}" class="nav-link {{ request()->is("admin/tamhubs") || request()->is("admin/tamhubs/*") ? "active" : "" }}">
                             <i class="fa-fw nav-icon fas fa-user-tie">
 
                             </i>
                             <p>
-                                {{ trans('cruds.counselor.title') }}
+                                {{ trans('cruds.tamhub.title') }}
+                            </p>
+                        </a>
+                    </li>
+                @endcan
+                @can('bookappointment_access')
+                    <li class="nav-item">
+                        <a href="{{ route("admin.bookappointments.index") }}" class="nav-link {{ request()->is("admin/bookappointments") || request()->is("admin/bookappointments/*") ? "active" : "" }}">
+                            <i class="fa-fw nav-icon fas fa-user-tie">
+
+                            </i>
+                            <p>
+                                {{ trans('cruds.bookappointment.title') }}
                             </p>
                         </a>
                     </li>
@@ -48,6 +60,43 @@
                         </a>
                     </li>
                 @endcan
+                @can('counselor_access')
+                    <li class="nav-item">
+                        <a href="{{ route("admin.counselors.index") }}" class="nav-link {{ request()->is("admin/counselors") || request()->is("admin/counselors/*") ? "active" : "" }}">
+                            <i class="fa-fw nav-icon fas fa-user-tie">
+
+                            </i>
+                            <p>
+                                {{ trans('cruds.counselor.title') }}
+                            </p>
+                        </a>
+                    </li>
+                @endcan
+                @can('counselor_current_cases_access')
+                    <li class="nav-item">
+                        <a href="{{ route("admin.counselor-current-cases.index") }}" class="nav-link {{ request()->is("admin/counselor-current-cases") || request()->is("admin/counselor-current-cases/*") ? "active" : "" }}">
+                            <i class="fa-fw nav-icon fas fa-user-tie">
+
+                            </i>
+                            <p>
+                                {{ trans('cruds.current_cases.title') }}
+                            </p>
+                        </a>
+                    </li>
+                @endcan
+                @can('counselor_past_cases_access')
+                    <li class="nav-item">
+                        <a href="{{ route("admin.counselor-past-cases.index") }}" class="nav-link {{ request()->is("admin/counselor-past-cases") || request()->is("admin/counselor-past-cases/*") ? "active" : "" }}">
+                            <i class="fa-fw nav-icon fas fa-user-tie">
+
+                            </i>
+                            <p>
+                            {{ trans('cruds.past_cases.title') }}
+                            </p>
+                        </a>
+                    </li>
+                @endcan
+              
                 @can('user_management_access')
                     <li class="nav-item has-treeview {{ request()->is("admin/permissions*") ? "menu-open" : "" }} {{ request()->is("admin/roles*") ? "menu-open" : "" }} {{ request()->is("admin/users*") ? "menu-open" : "" }}">
                         <a class="nav-link nav-dropdown-toggle" href="#">

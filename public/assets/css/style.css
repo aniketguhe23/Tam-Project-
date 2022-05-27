@@ -136,3 +136,11 @@ color: #fff;
     color: #fff !important;
   }
   
+  .tab button:hover {
+    background-color: #275642 !important;
+  }
+
+  .a{
+    color: #275642 !important;
+    font-size: 10px !important;
+}
