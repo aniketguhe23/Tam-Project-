@@ -19,8 +19,8 @@ class CreateCounselorCurrentCasesTable extends Migration
             $table->integer('task_assignment_id');
             $table->integer('user_id');
             $table->integer('task_no');
-            $table->string('topic');
-            $table->string('feedback');
+            $table->longText('topic');
+            $table->longText('feedback');
             $table->timestamps();
             $table->softDeletes();
         });

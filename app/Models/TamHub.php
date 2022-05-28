@@ -11,7 +11,7 @@ class TamHub extends Model
 {
     use SoftDeletes, HasFactory;
 
-    public $table = '';
+    public $table = 'tamhub';
 
     protected $dates = [
         'created_at',
@@ -20,7 +20,16 @@ class TamHub extends Model
     ];
 
     protected $fillable = [
-      
+        'id',
+        'organisation_name',
+        'city',
+        'areas',
+        'services',
+        'special_note',
+        'contact_no',
+        'email_id',
+        'website_link',
+        'address',
     ];
 
     protected function serializeDate(DateTimeInterface $date)

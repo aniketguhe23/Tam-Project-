@@ -18,7 +18,7 @@ class CreateTaskTable extends Migration
             $table->integer('task_no');
             $table->integer('category_id');
             $table->integer('user_id');
-            $table->string('topic');
+            $table->longText('topic');
             $table->string('status');
             $table->timestamps();
             $table->softDeletes();

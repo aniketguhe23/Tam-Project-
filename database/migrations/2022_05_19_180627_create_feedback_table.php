@@ -15,11 +15,11 @@ class CreateFeedbackTable extends Migration
     {
         Schema::create('feedback', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('feedback');
-            $table->string('comment');
-            $table->string('counselor_id');
-            $table->string('user_id');
-            $table->string('star_reviews');
+            $table->text('feedback');
+            $table->longText('comment');
+            $table->integer('counselor_id');
+            $table->integer('user_id');
+            $table->integer('star_reviews');
             $table->integer('status');
             $table->timestamps();
             $table->softDeletes();

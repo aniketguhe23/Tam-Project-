@@ -18,7 +18,7 @@ class CreateAsyncChatTable extends Migration
             $table->integer('category_id');
             $table->integer('sender_id');
             $table->integer('reciver_id');
-            $table->string('message');
+            $table->longText('message');
             $table->string('status');
             $table->date('date');
             $table->time('time');

@@ -16,9 +16,9 @@ class CreateAuditLogsTable extends Migration
         
         Schema::create('audit_logs', function (Blueprint $table) {
             $table->id('id');
-            $table->string('description');
+            $table->longText('description');
             $table->integer('user_id');
-            $table->string('properties');
+            $table->longText('properties');
             $table->integer('host');
             $table->timestamps();
             $table->softDeletes();

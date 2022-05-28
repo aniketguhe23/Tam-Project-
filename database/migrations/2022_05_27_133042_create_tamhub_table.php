@@ -15,7 +15,15 @@ class CreateTamhubTable extends Migration
     {
         Schema::create('tamhub', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('tamhub_name');
+            $table->string('organisation_name');
+            $table->string('city');
+            $table->longText('areas');
+            $table->string('services');
+            $table->longText('special_note');
+            $table->bigInteger('contact_no');
+            $table->string('email_id');
+            $table->string('website_link');
+            $table->longText('address');
             $table->timestamps();
             $table->softDeletes();
         });

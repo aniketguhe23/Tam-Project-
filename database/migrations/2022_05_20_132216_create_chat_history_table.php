@@ -19,7 +19,7 @@ class CreateChatHistoryTable extends Migration
             $table->integer('assignment_of_cc');
             $table->integer('sender_id');
             $table->integer('reciver_id');
-            $table->string('message');
+            $table->longText('message');
             $table->string('status');
             $table->date('date');
             $table->time('time');

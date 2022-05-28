@@ -17,8 +17,8 @@ class CreateCounselorPastCasesTable extends Migration
             $table->bigIncrements('id');
             $table->integer('category_id');
             $table->integer('user_id');
-            $table->string('topic');
-            $table->string('content');
+            $table->text('topic');
+            $table->longText('content');
             $table->timestamps();
             $table->softDeletes();
         });
