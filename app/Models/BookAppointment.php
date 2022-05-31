@@ -11,7 +11,7 @@ class BookAppointment extends Model
 {
     use SoftDeletes, HasFactory;
 
-    public $table = '';
+    public $table = 'bookappointment';
 
     protected $dates = [
         'created_at',
@@ -20,7 +20,11 @@ class BookAppointment extends Model
     ];
 
     protected $fillable = [
-      
+        'id',
+        'url',
+        'created_at',
+        'updated_at',
+        'deleted_at'
     ];
 
     protected function serializeDate(DateTimeInterface $date)

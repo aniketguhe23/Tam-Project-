@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('content')
-@can('user_create')
+@can('counselor_create')
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
             <a class="btn btn-success" href="{{ route('admin.counselor-past-cases.create') }}">
@@ -44,6 +44,12 @@
                             {{ trans('cruds.past_cases.fields.past_cases_feedback') }}
                         </th>
                         <th>
+                            {{ trans('cruds.past_cases.fields.past_cases_assigment') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.past_cases.fields.past_cases_categories') }}
+                        </th>
+                        <th>
                             Action
                         </th>
                     </tr>
@@ -51,6 +57,8 @@
                 <tbody>
                   
                         <tr>
+                            <td> </td>
+                            <td> </td>
                             <td> </td>
                             <td> </td>
                             <td> </td>

@@ -60,43 +60,57 @@
                         </a>
                     </li>
                 @endcan
-                @can('counselor_access')
-                    <li class="nav-item">
-                        <a href="{{ route("admin.counselors.index") }}" class="nav-link {{ request()->is("admin/counselors") || request()->is("admin/counselors/*") ? "active" : "" }}">
-                            <i class="fa-fw nav-icon fas fa-user-tie">
+                @can('counselor_management_access')
+                    <li class="nav-item has-treeview {{ request()->is("admin/counselors*") ? "menu-open" : "" }} {{ request()->is("admin/counselorcurrentcases*") ? "menu-open" : "" }} {{ request()->is("admin/counselor-past-cases*") ? "menu-open" : "" }}">
+                        <a class="nav-link nav-dropdown-toggle" href="#">
+                            <i class="fa-fw nav-icon fas fa-users">
 
                             </i>
                             <p>
                                 {{ trans('cruds.counselor.title') }}
+                                <i class="right fa fa-fw fa-angle-left nav-icon"></i>
                             </p>
                         </a>
-                    </li>
-                @endcan
-                @can('counselor_current_cases_access')
-                    <li class="nav-item">
-                        <a href="{{ route("admin.counselor-current-cases.index") }}" class="nav-link {{ request()->is("admin/counselor-current-cases") || request()->is("admin/counselor-current-cases/*") ? "active" : "" }}">
-                            <i class="fa-fw nav-icon fas fa-user-tie">
+                        <ul class="nav nav-treeview">
+                            @can('counselor_access')
+                                <li class="nav-item">
+                                    <a href="{{ route("admin.counselors.index") }}" class="nav-link {{ request()->is("admin/counselors") || request()->is("admin/counselors/*") ? "active" : "" }}">
+                                        <i class="fa-fw nav-icon fas fa-user-tie">
 
-                            </i>
-                            <p>
-                                {{ trans('cruds.current_cases.title') }}
-                            </p>
-                        </a>
-                    </li>
-                @endcan
-                @can('counselor_past_cases_access')
-                    <li class="nav-item">
-                        <a href="{{ route("admin.counselor-past-cases.index") }}" class="nav-link {{ request()->is("admin/counselor-past-cases") || request()->is("admin/counselor-past-cases/*") ? "active" : "" }}">
-                            <i class="fa-fw nav-icon fas fa-user-tie">
+                                        </i>
+                                        <p>
+                                            {{ trans('cruds.counselor.title') }}
+                                        </p>
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('counselor_current_cases_access')
+                                <li class="nav-item">
+                                    <a href="{{ route("admin.counselorcurrentcases.index") }}" class="nav-link {{ request()->is("admin/counselorcurrentcases") || request()->is("admin/counselorcurrentcases/*") ? "active" : "" }}">
+                                        <i class="fa-fw nav-icon fas fa-user-tie">
 
-                            </i>
-                            <p>
-                            {{ trans('cruds.past_cases.title') }}
-                            </p>
-                        </a>
+                                        </i>
+                                        <p>
+                                            {{ trans('cruds.current_cases.title') }}
+                                        </p>
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('counselor_past_cases_access')
+                                <li class="nav-item">
+                                    <a href="{{ route("admin.counselor-past-cases.index") }}" class="nav-link {{ request()->is("admin/counselor-past-cases") || request()->is("admin/counselor-past-cases/*") ? "active" : "" }}">
+                                        <i class="fa-fw nav-icon fas fa-user-tie">
+
+                                        </i>
+                                        <p>
+                                        {{ trans('cruds.past_cases.title') }}
+                                        </p>
+                                    </a>
+                                </li>
+                            @endcan
+                        </ul>
                     </li>
                 @endcan
-              
                 @can('user_management_access')
                     <li class="nav-item has-treeview {{ request()->is("admin/permissions*") ? "menu-open" : "" }} {{ request()->is("admin/roles*") ? "menu-open" : "" }} {{ request()->is("admin/users*") ? "menu-open" : "" }}">
                         <a class="nav-link nav-dropdown-toggle" href="#">

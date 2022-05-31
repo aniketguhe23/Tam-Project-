@@ -49,8 +49,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::resource('counselors', 'CounselorController');
     
     // Counselor Current cases
-    Route::delete('counselor-current-cases/destroy', 'CounselorCurrentCasesController@massDestroy')->name('counselor_current_cases.massDestroy');
-    Route::resource('counselor-current-cases', 'CounselorCurrentCasesController');
+    Route::delete('counselorcurrentcases/destroy', 'CounselorCurrentCasesController@massDestroy')->name('counselor_current_cases.massDestroy');
+    Route::resource('counselorcurrentcases', 'CounselorCurrentCasesController');
   
     // Counselor Past Cases
     Route::delete('counselor-past-cases/destroy', 'CounselorPastCasesController@massDestroy')->name('counselor-past-cases.massDestroy');

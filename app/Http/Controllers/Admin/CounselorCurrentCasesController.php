@@ -20,9 +20,8 @@ class CounselorCurrentCasesController extends Controller
         {
             abort_if(Gate::denies('counselor_current_cases_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
     
-            // $counselorcurrentcases = CounselorCurrentCases::get();
-            // $categorys = Category::get();
-            return view('admin.counselorpastcases.index');
+            $counselorcurrentcases = CounselorCurrentCases::get();
+            return view('admin.counselorcurrentcases.index');
         }
     
         public function create()

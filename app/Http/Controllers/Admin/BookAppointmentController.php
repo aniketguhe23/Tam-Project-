@@ -16,10 +16,8 @@ class BookAppointmentController extends Controller
     public function index()
     {
         abort_if(Gate::denies('bookappointment_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        // dd("bhupendra");
-        // $users = User::with(['roles'])->where('status',2)->get();
-        // $categorys = Category::get();
-        return view('admin.bookappointments.index');
+        $bookappointments = BookAppointment::get();
+        return view('admin.bookappointments.index',compact('bookappointments'));
     }
 
     public function create()
@@ -28,39 +26,44 @@ class BookAppointmentController extends Controller
         return view('admin.bookappointments.create');
     }
 
-    public function edit(TamHub $tamhub)
+    
+    public function store(StoreBookAppointmentRequest $request)
     {
-        // abort_if(Gate::denies('bookappointment_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        // $categorys = Category::get();
-        // return view('admin..edit', compact('counselor','categorys'));
+        $bookappointments = BookAppointment::create($request->all());
+        return redirect()->route('admin.bookappointments.index');
     }
 
-    public function update(UpdateBookAppointmentRequest $request, TamHub $tamhub)
+    public function edit(BookAppointment $bookappointment)
     {
-        return redirect()->route('admin..index');
+        abort_if(Gate::denies('bookappointment_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        return view('admin.bookappointments.edit', compact('bookappointment'));
     }
 
-    public function show(TamHub $tamhub)
+    public function update(UpdatebookappointmentRequest $request, bookappointment $bookappointment)
+    {
+        $bookappointment->update($request->all());
+
+        return redirect()->route('admin.bookappointments.index');
+    }
+
+    public function show(BookAppointment $bookappointment)
     {
         abort_if(Gate::denies('bookappointment_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $counselor->load('roles');
-
-        return view('admin..show', compact('counselor'));
+        return view('admin.bookappointments.show', compact('bookappointment'));
     }
 
-    public function destroy(TamHub $tamhub)
+    public function destroy(BookAppointment $bookappointment)
     {
         abort_if(Gate::denies('bookappointment_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $tamhub->delete();
+        $bookappointment->delete();
 
         return back();
     }
 
-    public function massDestroy(MassDestroyBookAppointmentRequest $request)
+    public function massDestroy(MassDestroybookappointmentRequest $request)
     {
-        Tamhub::whereIn('id', request('ids'))->delete();
+        BookAppointment::whereIn('id', request('ids'))->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

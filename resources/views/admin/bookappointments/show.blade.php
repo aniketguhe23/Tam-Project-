@@ -3,13 +3,13 @@
 
 <div class="card">
     <div class="card-header">
-        {{ trans('global.show') }} {{ trans('cruds.category.title') }}
+        {{ trans('global.show') }} {{ trans('cruds.bookappointment.title') }}
     </div>
 
     <div class="card-body">
         <div class="form-group">
             <div class="form-group">
-                <a class="btn btn-default" href="{{ route('admin.categorys.index') }}">
+                <a class="btn btn-default" href="{{ route('admin.bookappointments.index') }}">
                     {{ trans('global.back_to_list') }}
                 </a>
             </div>
@@ -17,24 +17,24 @@
                 <tbody>
                     <tr>
                         <th>
-                            {{ trans('cruds.category.fields.id') }}
+                            {{ trans('cruds.bookappointment.fields.id') }}
                         </th>
                         <td>
-                            {{ $category->id }}
+                            {{ $bookappointment->id }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.category.fields.category_name') }}
+                            {{ trans('cruds.bookappointment.fields.url') }}
                         </th>
                         <td>
-                            {{ $category->category_name }}
+                            {{ $bookappointment->url }}
                         </td>
                     </tr>
                 </tbody>
             </table>
             <div class="form-group">
-                <a class="btn btn-default" href="{{ route('admin.categorys.index') }}">
+                <a class="btn btn-default" href="{{ route('admin.bookappointments.index') }}">
                     {{ trans('global.back_to_list') }}
                 </a>
             </div>

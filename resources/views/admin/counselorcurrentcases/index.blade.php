@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('content')
-@can('user_create')
+@can('counselor_current_cases_create')
     <!-- <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
             <a class="btn btn-success" href="{{ route('admin.counselorcurrentcases.create') }}">
@@ -41,6 +41,12 @@
                             {{ trans('cruds.current_cases.fields.current_cases_chat_type') }}
                         </th>
                         <th>
+                            {{ trans('cruds.current_cases.fields.current_cases_assigment') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.current_cases.fields.current_cases_categories') }}
+                        </th>
+                        <th>
                             Action
                         </th>
                     </tr>
@@ -48,6 +54,8 @@
                 <tbody>
                   
                         <tr>
+                            <td> </td>
+                            <td> </td>
                             <td> </td>
                             <td> </td>
                             <td> </td>

@@ -10,6 +10,7 @@ use App\Models\Role;
 use App\Models\User;
 use App\Models\Category;
 use Gate;
+use Auth;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -18,8 +19,8 @@ class CounselorController extends Controller
     public function index()
     {
         abort_if(Gate::denies('counselor_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $users = User::with(['roles'])->where('status',2)->get();
+        $sessionCounselorid = Auth::user()->id;
+        $users = User::with(['roles'])->where('id',$sessionCounselorid)->where('status',2)->get();
         $categorys = Category::get();
         return view('admin.counselors.index', compact('users','categorys'));
     }
@@ -27,7 +28,6 @@ class CounselorController extends Controller
     public function create()
     {
         abort_if(Gate::denies('counselor_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $roles = Role::all()->pluck('title', 'id');
         $categorys = Category::get();
         return view('admin.counselors.create', compact('roles','categorys'));

@@ -25,4 +25,11 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
     }
+
+    protected function redirectTo($request)
+    {
+        if (! $request->expectsJson()) {
+            return route('admin');
+        }
+    }
 }

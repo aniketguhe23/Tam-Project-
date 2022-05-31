@@ -10,11 +10,7 @@
 }
 .content{
 	margin-left: 1rem;
-}   
-
-.sidebar-dark-primary .sidebar a{
-	color: #000 !important;
-}
+}  
 [class*=sidebar-dark] .brand-link {
     background: linear-gradient(90deg, rgb(39, 86, 66) 10%, rgba(39, 86, 66, 1) 100%);
 	border-bottom: none !important;
@@ -43,9 +39,33 @@
 .nav-sidebar>.nav-item .nav-icon {
     font-size: 14px !important;
 }
-.sidebar-dark-primary .nav-treeview.nav-item.nav-link.active, .sidebar-dark-primary .nav-treeview.nav-item.nav-link.active:hover {
-    background-color: rgba(255,255,255,0.4) !important;
+.sidebar-dark-primary .nav-sidebar>.nav-item.menu-open>.nav-link,
+ .sidebar-dark-primary .nav-sidebar>.nav-item:hover>.nav-link {
     color: #275642 !important;
+    background-color: #fff!important;
+}
+.sidebar-dark-primary .nav-treeview.nav-item.nav-link.active, 
+.sidebar-dark-primary .nav-treeview.nav-item.nav-link.active:hover {
+    background-color: #fff !important;
+    color: #275642 !important;
+}
+.sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link:active, 
+.sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link:focus {
+   background-color: #fff !important;
+    color: #275642 !important;
+}
+.sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active {
+    color: #275642 !important;
+    background-color: #E5E5E5!important;
+}
+.btn-primary:hover {
+    color: #fff!important;
+    background-color: #275642!important;
+    border-color: #275642!important;
+}
+.sidebar-dark-primary .nav-sidebar>.nav-item:hover>.nav-link {
+    color: #275642 !important;
+    background-color: #fff!important;
 }
 .rounded {
     border-radius: 7.25rem !important;
@@ -122,25 +142,19 @@ color: #fff;
     padding: 1px 10px;
     color: #fff;
 }
-
-
-.btn-primary {
-    color: #fff;
-    background-color: #275642 !important;
-    border-color: #275642 !important;
-    box-shadow: 0 1px 1px rgb(0 0 0 / 8%);
-}
-
 .tab button.active {
     background-color: #275642 !important;
     color: #fff !important;
   }
   
-  .tab button:hover {
+.tab button:hover {
     background-color: #275642 !important;
   }
 
-  .a{
+.a{
     color: #275642 !important;
     font-size: 10px !important;
+}
+.a:hover{
+    color: #275642 !important;
 }
