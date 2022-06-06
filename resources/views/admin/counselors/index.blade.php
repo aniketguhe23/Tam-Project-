@@ -57,17 +57,23 @@
                 <tbody>
                     @foreach($users as $key => $user)
                         <tr data-entry-id="{{ $user->id }}">
-                            <td> </td>
-                            <td> </td>
-                            <td> </td>
-                            <td> </td>
-                            <td> </td>
-                            <td> </td>
-                            <td> </td>
-                            <td> </td>
-                            <td> </td>
-                            <td> </td>
-                           
+                            <td></td>
+                            <td>{{ $user->id }} </td>
+                            <td>{{ $user->name }} </td>
+                            <td>{{ $user->age }} </td>
+                            <td>{{ $user->gender }} </td>
+                            <td>{{ $user->topic }} </td>
+                            <td>{{ $user->location }} </td>
+                            <td> 0 </td>
+                            <td> live  </td>
+                            <td>     
+                                <select class="form-control select2 {{ $errors->has('category_name') ? 'is-invalid' : '' }}" name="category_id" id="category_id">
+                                   <option> Selecte Counselor </option>
+                                   @foreach($counselorassignments as $key => $counselorassignment)  
+                                   <option>{{ $counselorassignment->name }} </option>
+                                   @endforeach
+                                </select>
+                            </td>
                             <td>
                                 @can('user_show')
                                     <a class="btn btn-xs btn-primary" href="{{ route('admin.counselors.show', $user->id) }}">
@@ -88,9 +94,7 @@
                                         <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
                                     </form>
                                 @endcan
-
                             </td>
-
                         </tr>
                     @endforeach
                 </tbody>

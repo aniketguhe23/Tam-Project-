@@ -19,14 +19,19 @@ class CounselorController extends Controller
     public function index()
     {
         abort_if(Gate::denies('counselor_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $users = User::with(['roles'])->get();
         $sessionCounselorid = Auth::user()->id;
-        if($sessionCounselorid==1){
-            $users = User::with(['roles'])->where('status',2)->get();
+
+        if($sessionCounselorid == 1){
+            $users = User::with(['roles'])->where('status',1)->get();
+            $counselorassignments = User::with(['roles'])->get();
         }else{
             $users = User::with(['roles'])->where('id',$sessionCounselorid)->where('status',2)->get();
+            $counselorassignments = User::with(['roles'])->where('id',$sessionCounselorid)->where('status',2)->get();
         }
         $categorys = Category::get();
-        return view('admin.counselors.index', compact('users','categorys'));
+        return view('admin.counselors.index', compact('users','categorys','counselorassignments'));
     }
 
     public function create()
