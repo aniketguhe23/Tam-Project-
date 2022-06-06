@@ -20,7 +20,11 @@ class CounselorController extends Controller
     {
         abort_if(Gate::denies('counselor_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $sessionCounselorid = Auth::user()->id;
-        $users = User::with(['roles'])->where('id',$sessionCounselorid)->where('status',2)->get();
+        if($sessionCounselorid==1){
+            $users = User::with(['roles'])->where('status',2)->get();
+        }else{
+            $users = User::with(['roles'])->where('id',$sessionCounselorid)->where('status',2)->get();
+        }
         $categorys = Category::get();
         return view('admin.counselors.index', compact('users','categorys'));
     }
@@ -35,7 +39,6 @@ class CounselorController extends Controller
 
     public function store(StoreCounselorRequest $request)
     {
-      //  dd($request->all());
         $counselorArr = array();
         $counselorArr['name'] = $request->name;
         $counselorArr['category_id'] = $request->category_id;

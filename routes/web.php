@@ -47,6 +47,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Counselor 
     Route::delete('counselors/destroy', 'CounselorController@massDestroy')->name('counselors.massDestroy');
     Route::resource('counselors', 'CounselorController');
+
+     // Counselor Assignments
+     Route::delete('counselorassignments/destroy', 'CounselorAssignmentController@massDestroy')->name('counselorassignments.massDestroy');
+     Route::resource('counselorassignments', 'CounselorAssignmentController');
     
     // Counselor Current cases
     Route::delete('counselorcurrentcases/destroy', 'CounselorCurrentCasesController@massDestroy')->name('counselor_current_cases.massDestroy');

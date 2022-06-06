@@ -158,3 +158,10 @@ color: #fff;
 .a:hover{
     color: #275642 !important;
 }
+.chat{
+    text-align: center;
+    text-decoration: solid;
+}
+.filter{
+margin-top: 30px;
+}

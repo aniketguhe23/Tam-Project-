@@ -7,11 +7,9 @@
         <img src="{{asset('public/assets/TAMlogo.jpg')}}" height="100px" width="100px" class="img-fluid img-thumbnail" alt="...">
         </picture>
     </a>
-
     <!-- Sidebar -->
     <div class="sidebar">
         <!-- Sidebar user (optional) -->
-
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
@@ -80,6 +78,18 @@
                                         </i>
                                         <p>
                                             {{ trans('cruds.counselor.title') }}
+                                        </p>
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('counselorassignment_accsess')
+                                <li class="nav-item">
+                                    <a href="{{ route("admin.counselorassignments.index") }}" class="nav-link {{ request()->is("admin/counselorassignments") || request()->is("admin/counselorassignments/*") ? "active" : "" }}">
+                                        <i class="fa-fw nav-icon fas fa-user-tie">
+
+                                        </i>
+                                        <p>
+                                            {{ trans('cruds.counselorassignment.title') }}
                                         </p>
                                     </a>
                                 </li>

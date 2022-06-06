@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('gender')->nullable();
             $table->string('location')->nullable();
             $table->string('category_id')->nullable();
-            $table->string('status')->nullable();
+            $table->enum('status', array('0','1','2'))->default('0');
             $table->string('employment_status')->nullable();
             $table->integer('age')->nullable();
             $table->string('social_login_type')->nullable();    
