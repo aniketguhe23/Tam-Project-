@@ -1,44 +1,96 @@
 @extends('layouts.admin')
 @section('content')
-@can('counselorassignment_create')
-    <div style="margin-bottom: 10px;" class="row">
-        <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route('admin.counselorassignments.create') }}">
-                {{ trans('global.add') }} {{ trans('cruds.counselorassignment.title_singular') }}
-            </a>
-        </div>
-    </div>
-@endcan
 <div class="card">
     <div class="card-header">
-        {{ trans('cruds.counselorassignment.title_singular') }} {{ trans('global.list') }}
+      Counselor Assignment Dashbord
     </div>
 
     <div class="card-body">
-        <table class=" table table-bordered table-striped table-hover ajaxTable datatable datatable-counselorassignment">
-            <thead>
-                <tr>
-                    <th width="10">
+        <div class="table-responsive">
+            <table class=" table table-bordered table-striped table-hover datatable datatable-User">
+                <thead>
+                    <tr>
+                        <th width="10">
 
-                    </th>
-                    <th>
-                        {{ trans('cruds.counselorassignment.fields.id') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.counselorassignment.fields.counselor_name') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.counselorassignment.fields.category') }}
-                    </th>    
-                    <th>
-                        {{ trans('cruds.counselorassignment.fields.user') }}
-                    </th>
-                    <th>
-                    &nbsp;
-                    </th>
-                </tr>
-            </thead>
-        </table>
+                        </th>
+                        <th>
+                            {{ trans('cruds.counselor.fields.id') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.counselor.fields.user_name') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.counselor.fields.age') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.counselor.fields.gender') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.counselor.fields.topic') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.counselor.fields.user_location') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.counselor.fields.queue_no') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.counselor.fields.chat_type') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.counselor.fields.counselor_assignment') }}
+                        </th>
+                        <th>
+                            Action
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($users as $key => $user)
+                        <tr data-entry-id="{{ $user->id }}">
+                            <td></td>
+                            <td>{{ $user->id }} </td>
+                            <td>{{ $user->name }} </td>
+                            <td>{{ $user->age }} </td>
+                            <td>{{ $user->gender }} </td>
+                            <td>{{ $user->topic }} </td>
+                            <td>{{ $user->location }} </td>
+                            <td> 0 </td>
+                            <td> live  </td>
+                            <td>     
+                                <select class="form-control select2 {{ $errors->has('category_name') ? 'is-invalid' : '' }}" name="category_id" id="category_id">
+                                   <option> Selecte Counselor </option>
+                                   @foreach($counselorassignments as $key => $counselorassignment)  
+                                   <option>{{ $counselorassignment->name }} </option>
+                                   @endforeach
+                                </select>
+                            </td>
+                            <td>
+                                @can('user_show')
+                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.counselors.show', $user->id) }}">
+                                        {{ trans('global.view') }}
+                                    </a>
+                                @endcan
+
+                                @can('user_edit')
+                                    <a class="btn btn-xs btn-info" href="{{ route('admin.counselors.edit', $user->id) }}">
+                                        {{ trans('global.edit') }}
+                                    </a>
+                                @endcan
+
+                                @can('user_delete')
+                                    <form action="{{ route('admin.counselors.destroy', $user->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                                        <input type="hidden" name="_method" value="DELETE">
+                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                        <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
+                                    </form>
+                                @endcan
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 @endsection
@@ -47,15 +99,15 @@
 <script>
     $(function () {
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
-@can('counselorassignment_delete')
-  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}';
+@can('counselor_delete')
+  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
   let deleteButton = {
     text: deleteButtonTrans,
-    url: "{{ route('admin.counselorassignments.massDestroy') }}",
+    url: "{{ route('admin.counselors.massDestroy') }}",
     className: 'btn-danger',
     action: function (e, dt, node, config) {
-      var ids = $.map(dt.rows({ selected: true }).data(), function (entry) {
-          return entry.id
+      var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
+          return $(entry).data('entry-id')
       });
 
       if (ids.length === 0) {
@@ -74,35 +126,21 @@
       }
     }
   }
-  dtButtons.push(deleteButton)
+  dtButtons.push(deleteButton)ssssss
 @endcan
 
-  let dtOverrideGlobals = {
-    buttons: dtButtons,
-    processing: true,
-    serverSide: true,
-    retrieve: true,
-    aaSorting: [],
-    ajax: "{{ route('admin.counselorassignments.index') }}",
-    columns: [
-      { data: 'placeholder', name: 'placeholder' },
-{ data: 'id', name: 'id' },
-{ data: 'counselor_id', name: 'counselor_id',sortable: false, searchable: false},
-{ data: 'category_id', name: 'category_id',sortable: false, searchable: false},
-{ data: 'user_id', name: 'user_id',sortable: false, searchable: false},
-{ data: 'actions', name: '{{ trans('global.actions') }}' }
-    ],
+  $.extend(true, $.fn.dataTable.defaults, {
     orderCellsTop: true,
     order: [[ 1, 'desc' ]],
     pageLength: 100,
-  };
-  let table = $('.datatable-counselorassignment').DataTable(dtOverrideGlobals);
+  });
+  let table = $('.datatable-counselor:not(.ajaxTable)').DataTable({ buttons: dtButtons })
   $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
   
-});
+})
 
 </script>
 @endsection

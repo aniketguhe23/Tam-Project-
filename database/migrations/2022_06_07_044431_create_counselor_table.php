@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCounselorAssignmentTable extends Migration
+class CreateCounselorTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,15 @@ class CreateCounselorAssignmentTable extends Migration
      */
     public function up()
     {
-        Schema::create('counselor_assignment', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('counselor_id');
-            $table->unsignedBigInteger('user_id');
+        Schema::create('counselor', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('counselor_name');
             $table->unsignedBigInteger('category_id');
-            $table->string('chat_type');
-            $table->enum('availability',array(0,1))->default(0);
-            $table->foreign('user_id',)->references('id')->on('users')->onDelete('cascade');
+            $table->string('email')->unique();
+            $table->string('password');      
+            $table->string('phone_no');
+            $table->string('topic');
+            $table->integer('feedback_id');
             $table->foreign('category_id',)->references('id')->on('category')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
@@ -34,6 +35,6 @@ class CreateCounselorAssignmentTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('counselor_assignment');
+        Schema::dropIfExists('counselor');
     }
 }

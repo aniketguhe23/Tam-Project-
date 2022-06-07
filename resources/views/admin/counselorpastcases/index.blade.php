@@ -1,20 +1,46 @@
 @extends('layouts.admin')
 @section('content')
-@can('counselor_create')
-    <div style="margin-bottom: 10px;" class="row">
-        <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route('admin.counselor-past-cases.create') }}">
-                {{ trans('global.add') }} {{ trans('cruds.past_cases.title_singular') }}
-            </a>
-        </div>
-    </div>
-@endcan
 <div class="card">
     <div class="card-header">
-        {{ trans('cruds.past_cases.title_singular') }} {{ trans('global.list') }}
+      Counselor past cases
     </div>
-
     <div class="card-body">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="m-form__section m-form__section--first">
+                        <div class="form-group">
+                            <label class="form-control-label">From Date</label>
+                            <input class="form-control date" type="text" name="fromdate" id="m_datepicker_2" placeholder="Start Date" required>
+                        </div>
+                    </div>
+            </div>
+            <div class="col-md-3">
+                <div class="m-form__section m-form__section--first">
+                        <div class="form-group">
+                            <label class="form-control-label">To Date </label>
+                            <input class="form-control date" type="text" name="todate" id="m_datepicker_3" placeholder="End Date" required>
+                        </div>
+                    </div>
+            </div>
+            <div class="col-md-3">
+                <label class="required" for="category_name">Feedback</label>    
+                    <select class="form-control select2 {{ $errors->has('category_name') ? 'is-invalid' : '' }}" name="category_id" id="category_id">
+                        <option> Feedback(1-6) </option>
+                        <option>1 </option>
+                        <option>2 </option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group filter">
+                    <button class="btn btn-primary" type="submit">
+                        Chat Filter
+                    </button>
+                </div>
+            </div>
+        </div>
         <div class="table-responsive">
             <table class=" table table-bordered table-striped table-hover datatable datatable-User">
                 <thead>
@@ -23,31 +49,31 @@
 
                         </th>
                         <th>
-                            {{ trans('cruds.past_cases.fields.id') }}
+                            {{ trans('cruds.counselor.fields.id') }}
                         </th>
                         <th>
-                            {{ trans('cruds.past_cases.fields.past_cases_name') }}
+                            {{ trans('cruds.counselor.fields.date') }}
                         </th>
                         <th>
-                            {{ trans('cruds.past_cases.fields.past_cases_age') }}
+                            {{ trans('cruds.counselor.fields.user_name') }}
                         </th>
                         <th>
-                            {{ trans('cruds.past_cases.fields.past_cases_gender') }}
+                            {{ trans('cruds.counselor.fields.age') }}
                         </th>
                         <th>
-                            {{ trans('cruds.past_cases.fields.past_cases_topic') }}
+                            {{ trans('cruds.counselor.fields.gender') }}
                         </th>
                         <th>
-                            {{ trans('cruds.past_cases.fields.past_cases_chat_type') }}
+                            {{ trans('cruds.counselor.fields.topic') }}
                         </th>
                         <th>
-                            {{ trans('cruds.past_cases.fields.past_cases_feedback') }}
+                            {{ trans('cruds.counselor.fields.queue_no') }}
                         </th>
                         <th>
-                            {{ trans('cruds.past_cases.fields.past_cases_assigment') }}
+                            {{ trans('cruds.counselor.fields.chat_type') }}
                         </th>
                         <th>
-                            {{ trans('cruds.past_cases.fields.past_cases_categories') }}
+                            {{ trans('cruds.counselor.fields.feedback') }}
                         </th>
                         <th>
                             Action
@@ -55,8 +81,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                  
-                        <tr>
+                    @foreach($users as $key => $user)
+                        <tr data-entry-id="{{ $user->id }}">
                             <td> </td>
                             <td> </td>
                             <td> </td>
@@ -67,22 +93,22 @@
                             <td> </td>
                             <td> </td>
                             <td> </td>
-                         
+                           
                             <td>
-                                @can('counselor_past_cases_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.counselor-past-cases.show', 1) }}">
+                                @can('user_show')
+                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.counselors.show', $user->id) }}">
                                         {{ trans('global.view') }}
                                     </a>
                                 @endcan
 
-                                @can('counselor_past_cases_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.counselor-past-cases.edit', 1) }}">
+                                @can('user_edit')
+                                    <a class="btn btn-xs btn-info" href="{{ route('admin.counselors.edit', $user->id) }}">
                                         {{ trans('global.edit') }}
                                     </a>
                                 @endcan
 
-                                @can('counselor_past_cases_delete')
-                                    <form action="{{ route('admin.counselor-past-cases.destroy', 1) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                                @can('user_delete')
+                                    <form action="{{ route('admin.counselors.destroy', $user->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                         <input type="hidden" name="_method" value="DELETE">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                         <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
@@ -92,6 +118,7 @@
                             </td>
 
                         </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>

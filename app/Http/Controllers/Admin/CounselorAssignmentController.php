@@ -11,6 +11,7 @@ use App\Models\CounselorAssignment;
 use App\Models\Category;
 use App\Models\User;
 use Gate;
+use Auth;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -19,54 +20,17 @@ class CounselorAssignmentController extends Controller
     public function index(Request $request)
     {
         abort_if(Gate::denies('counselorassignment_accsess'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        if ($request->ajax()) {
-
-            $query = CounselorAssignment::with(['getCounselor','getUser','getCategory'])->get();
-           // dd($query);
-            $query = CounselorAssignment::with(['getCounselor','getUser','getCategory'])->select(sprintf('%s.*', (new CounselorAssignment)->table));
-            $table = Datatables::of($query);
-            $table->addColumn('placeholder', '&nbsp;');
-            $table->addColumn('actions', '&nbsp;');
-
-            $table->editColumn('actions', function ($row) {
-                $viewGate      = 'counselorassignment_show';
-                $editGate      = 'counselorassignment_edit';
-                $deleteGate    = 'counselorassignment_delete';
-                $crudRoutePart = 'counselorassignments';
-
-                return view('partials.datatablesActions', compact(
-                    'viewGate',
-                    'editGate',
-                    'deleteGate',
-                    'crudRoutePart',
-                    'row'
-                ));
-            });
-
-            
-            $table->editColumn('id', function ($row) {
-                return $row->id ? $row->id : "";
-            });
-
-            $table->editColumn('counselor_id', function ($row) {
-                return $row->counselor_id ? $row->getCounselor->name : "";
-            });
-
-            $table->editColumn('category_id', function ($row) {
-                return $row->category_id ? $row->getCategory->category_name : "";
-            });
-
-            $table->editColumn('user_id', function ($row) {
-                return $row->getUser->id ? $row->getUser->name : "";
-            });
-
-            $table->rawColumns(['actions', 'placeholder']);
-
-            return $table->make(true);
+        $users = User::with(['roles'])->get();
+        $sessionCounselorid = Auth::user()->id;
+        if($sessionCounselorid == 1){
+            $users = User::with(['roles'])->where('status','0')->get();
+            $counselorassignments = User::with(['roles'])->where('status','2')->get();
+        }else{
+            $users = User::with(['roles'])->where('id',$sessionCounselorid)->where('status','2')->get();
+            $counselorassignments = User::with(['roles'])->where('id',$sessionCounselorid)->where('status','2')->get();
         }
-
-        return view('admin.counselorassignments.index');
+        $categorys = Category::get();
+        return view('admin.counselorassignments.index', compact('users','categorys','counselorassignments'));
     }
 
     public function create()

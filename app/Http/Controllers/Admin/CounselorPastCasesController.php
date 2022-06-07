@@ -11,6 +11,7 @@ use App\Models\CounselorPastCases;
 use App\Models\User;
 use App\Models\Category;
 use Gate;
+use Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class CounselorPastCasesController extends Controller
@@ -19,10 +20,17 @@ class CounselorPastCasesController extends Controller
     public function index()
     {
         abort_if(Gate::denies('counselor_past_cases_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $users = CounselorPastCases::get();
+        $users = User::with(['roles'])->get();
+        $sessionCounselorid = Auth::user()->id;
+        if($sessionCounselorid == 1){
+            $users = User::with(['roles'])->where('status','0')->get();
+            $counselorassignments = User::with(['roles'])->where('status','2')->get();
+        }else{
+            $users = User::with(['roles'])->where('id',$sessionCounselorid)->where('status','2')->get();
+            $counselorassignments = User::with(['roles'])->where('id',$sessionCounselorid)->where('status','2')->get();
+        }
         $categorys = Category::get();
-        return view('admin.counselorpastcases.index');
+        return view('admin.counselorpastcases.index', compact('users','categorys','counselorassignments'));
     }
 
     public function create()

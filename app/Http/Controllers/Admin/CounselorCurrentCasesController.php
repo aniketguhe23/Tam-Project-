@@ -11,6 +11,7 @@ use App\Models\CounselorCurrentCases;
 use App\Models\User;
 use App\Models\Category;
 use Gate;
+use Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class CounselorCurrentCasesController extends Controller
@@ -19,9 +20,8 @@ class CounselorCurrentCasesController extends Controller
         public function index()
         {
             abort_if(Gate::denies('counselor_current_cases_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-    
             $counselorcurrentcases = CounselorCurrentCases::get();
-            return view('admin.counselorcurrentcases.index');
+            return view('admin.counselorcurrentcases.index', compact('counselorcurrentcases'));
         }
     
         public function create()

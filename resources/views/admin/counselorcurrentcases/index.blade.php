@@ -1,20 +1,48 @@
 @extends('layouts.admin')
 @section('content')
 @can('counselor_current_cases_create')
-    <!-- <div style="margin-bottom: 10px;" class="row">
-        <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route('admin.counselorcurrentcases.create') }}">
-                {{ trans('global.add') }} {{ trans('cruds.current_cases.title_singular') }}
-            </a>
-        </div>
-    </div> -->
 @endcan
 <div class="card">
     <div class="card-header">
         {{ trans('cruds.current_cases.title_singular') }} {{ trans('global.list') }}
     </div>
-
     <div class="card-body">
+    <div class="row">
+            <div class="col-md-3">
+                <div class="m-form__section m-form__section--first">
+                        <div class="form-group">
+                            <label class="form-control-label">From Date</label>
+                            <input class="form-control date" type="text" name="fromdate" id="m_datepicker_2" placeholder="Start Date" required>
+                        </div>
+                    </div>
+            </div>
+            <div class="col-md-3">
+                <div class="m-form__section m-form__section--first">
+                        <div class="form-group">
+                            <label class="form-control-label">To Date </label>
+                            <input class="form-control date" type="text" name="todate" id="m_datepicker_3" placeholder="End Date" required>
+                        </div>
+                    </div>
+            </div>
+            <div class="col-md-3">
+                <label class="required" for="category_name">Feedback</label>    
+                    <select class="form-control select2 {{ $errors->has('category_name') ? 'is-invalid' : '' }}" name="category_id" id="category_id">
+                        <option> Feedback(1-6) </option>
+                        <option>1 </option>
+                        <option>2 </option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group filter">
+                    <button class="btn btn-primary" type="submit">
+                        Chat Filter
+                    </button>
+                </div>
+            </div>
+        </div>
         <div class="table-responsive">
             <table class=" table table-bordered table-striped table-hover datatable datatable-User">
                 <thead>
