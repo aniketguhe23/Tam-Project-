@@ -4,7 +4,7 @@
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
             <a class="btn btn-success" href="{{ route('admin.bookappointments.create') }}">
-                {{ trans('global.add') }} {{ trans('cruds.bookappointment.title_singular') }}
+               Url
             </a>
         </div>
     </div>
