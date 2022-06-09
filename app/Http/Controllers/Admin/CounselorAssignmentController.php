@@ -30,7 +30,7 @@ class CounselorAssignmentController extends Controller
             $counselorassignments = User::with(['roles'])->where('id',$sessionCounselorid)->where('status','2')->get();
         }
         $categorys = Category::get();
-        return view('admin.counselorassignments.index', compact('users','categorys','counselorassignments'));
+        return view('admin.counselorassignments.index', compact('users','categorys','counselorassignments','sessionCounselorid'));
     }
 
     public function create()
@@ -84,5 +84,22 @@ class CounselorAssignmentController extends Controller
         CounselorAssignment::whereIn('id', request('ids'))->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
+    }
+
+
+    public function counselorAssignUser(Request $request)
+    {
+        echo $counselorid = $request->input('thisCouslorId');  
+        die();
+        $counselorid = $counselorId;
+        $userid = $userId;
+        $counselorAssign = array();
+        $counselorAssign['counselor_id'] = $counselorid;
+        $counselorAssign['user_id'] = $userid;
+        $counselorAssign['category_id'] = 1;
+        $counselorAssign['chat_type'] = "live";
+        $counselorAssign['availability'] = 1;
+        $counselorAssign = CounselorAssignment::create($counselorAssign);
+        return response($counselorAssign, Response::HTTP_NO_CONTENT);
     }
 }

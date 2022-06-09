@@ -3,7 +3,7 @@
 
 <div class="card">
     <div class="card-header">
-        {{ trans('global.create') }} {{ trans('cruds.tamhub.title_singular') }}
+      Add Data
     </div>
 
     <div class="card-body">

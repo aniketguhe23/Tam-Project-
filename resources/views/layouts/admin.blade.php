@@ -21,7 +21,10 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.css" rel="stylesheet" />
     <link href="{{ asset('public/assets/css/custom.css') }}" rel="stylesheet" />
     <link href="{{ asset('public/assets/css/style.css') }}" rel="stylesheet" />
-
+    <link rel="shortcut icon" href="{{ asset('public/assets/images/favicon.ico') }}" />
+    <link rel="stylesheet" href="{{ asset('public/assets/vendors/mdi/css/materialdesignicons.min.css') }} ">
+    <link rel="stylesheet" href="{{ asset('public/assets/vendors/css/vendor.bundle.base.css') }} ">
+    <link rel="stylesheet" href="{{ asset('public/assets/css/style.css') }} ">
     
     @yield('styles')
 </head>
@@ -109,6 +112,20 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.js"></script>
     <script src="{{ asset('public/assets/js/main.js') }}"></script>
+    
+
+
+
+  <script src="{{ asset('public/assets/vendors/js/vendor.bundle.base.js') }} "></script>
+  <script src="{{ asset('public/assets/vendors/chart.js/Chart.min.js') }} "></script>
+  <script src="{{ asset('public/assets/js/jquery.cookie.js') }} " type="text/javascript"></script>
+  <script src="{{ asset('public/assets/js/off-canvas.js') }} "></script>
+  <script src="{{ asset('public/assets/js/hoverable-collapse.js') }} "></script>
+  <script src="{{ asset('public/assets/js/misc.js') }} "></script>
+  <script src="{{ asset('public/assets/js/dashboard.js') }} "></script>
+  <script src="{{ asset('public/assets/js/todolist.js') }} "></script>
+
+
     <script>
         $(function() {
   let copyButtonTrans = '{{ trans('global.datatables.copy') }}'

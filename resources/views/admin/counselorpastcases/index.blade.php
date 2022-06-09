@@ -2,45 +2,57 @@
 @section('content')
 <div class="card">
     <div class="card-header">
-      Counselor past cases
+      Past Chats
     </div>
     <div class="card-body">
-        <div class="row">
-            <div class="col-md-3">
-                <div class="m-form__section m-form__section--first">
-                        <div class="form-group">
-                            <label class="form-control-label">From Date</label>
-                            <input class="form-control date" type="text" name="fromdate" id="m_datepicker_2" placeholder="Start Date" required>
+    <div class="row">
+                <div class="col-md-2">
+                    <div class="m-form__section m-form__section--first">
+                            <div class="form-group">
+                                <label class="form-control-label">Start Date</label>
+                                <input class="form-control date" type="text" name="fromdate" id="m_datepicker_2" placeholder="Start Date" required>
+                            </div>
                         </div>
-                    </div>
-            </div>
-            <div class="col-md-3">
-                <div class="m-form__section m-form__section--first">
-                        <div class="form-group">
-                            <label class="form-control-label">To Date </label>
-                            <input class="form-control date" type="text" name="todate" id="m_datepicker_3" placeholder="End Date" required>
+                </div>
+                <div class="col-md-2">
+                    <div class="m-form__section m-form__section--first">
+                            <div class="form-group">
+                                <label class="form-control-label">End Date </label>
+                                <input class="form-control date" type="text" name="todate" id="m_datepicker_3" placeholder="End Date" required>
+                            </div>
                         </div>
+                </div>
+                <div class="col-md-2">
+                    <label class="required" for="counselor_name">Counselor Name</label>    
+                        <select class="form-control select2 {{ $errors->has('counselor_name') ? 'is-invalid' : '' }}" name="counselor_name" id="counselor_name">
+                            @foreach($counselors as $counselor) 
+                            <option> {{ $counselor->name}}  </option>
+                            @endforeach
+                        </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="required" for="category_id">Category</label>    
+                        <select class="form-control select2 {{ $errors->has('category_id') ? 'is-invalid' : '' }}" name="category_id" id="category_id">
+                        @foreach($categorys as $categorys) 
+                            <option> {{ $categorys->category_name}} </option>
+                        @endforeach
+                        </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="required" for="chat_type">Chat Type</label>    
+                        <select class="form-control select2 {{ $errors->has('chat_type') ? 'is-invalid' : '' }}" name="chat_type" id="chat_type">
+                            <option> Live chats </option>
+                            <option> Async Chats  </option>
+                        </select>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group filter">
+                        <button class="btn btn-primary" type="submit">
+                            Chats Filter
+                        </button>
                     </div>
-            </div>
-            <div class="col-md-3">
-                <label class="required" for="category_name">Feedback</label>    
-                    <select class="form-control select2 {{ $errors->has('category_name') ? 'is-invalid' : '' }}" name="category_id" id="category_id">
-                        <option> Feedback(1-6) </option>
-                        <option>1 </option>
-                        <option>2 </option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                    </select>
-            </div>
-            <div class="col-md-3">
-                <div class="form-group filter">
-                    <button class="btn btn-primary" type="submit">
-                        Chat Filter
-                    </button>
                 </div>
             </div>
-        </div>
         <div class="table-responsive">
             <table class=" table table-bordered table-striped table-hover datatable datatable-User">
                 <thead>
@@ -67,9 +79,6 @@
                             {{ trans('cruds.counselor.fields.topic') }}
                         </th>
                         <th>
-                            {{ trans('cruds.counselor.fields.queue_no') }}
-                        </th>
-                        <th>
                             {{ trans('cruds.counselor.fields.chat_type') }}
                         </th>
                         <th>
@@ -81,9 +90,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($users as $key => $user)
-                        <tr data-entry-id="{{ $user->id }}">
-                            <td> </td>
+                 
+                        <tr>
                             <td> </td>
                             <td> </td>
                             <td> </td>
@@ -96,19 +104,19 @@
                            
                             <td>
                                 @can('user_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.counselors.show', $user->id) }}">
+                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.counselors.show', 1) }}">
                                         {{ trans('global.view') }}
                                     </a>
                                 @endcan
 
                                 @can('user_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.counselors.edit', $user->id) }}">
+                                    <a class="btn btn-xs btn-info" href="{{ route('admin.counselors.edit', 1) }}">
                                         {{ trans('global.edit') }}
                                     </a>
                                 @endcan
 
                                 @can('user_delete')
-                                    <form action="{{ route('admin.counselors.destroy', $user->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                                    <form action="{{ route('admin.counselors.destroy', 1) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                         <input type="hidden" name="_method" value="DELETE">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                         <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
@@ -118,7 +126,6 @@
                             </td>
 
                         </tr>
-                    @endforeach
                 </tbody>
             </table>
         </div>

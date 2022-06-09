@@ -3,9 +3,13 @@
 @can('tamhub_create')
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route('admin.tamhubs.create') }}">
-                {{ trans('global.add') }} {{ trans('cruds.tamhub.title_singular') }}
+        <a class="btn btn-success" href="{{ route('admin.tamhubs.create') }}">
+               Add Categories
             </a>
+            <a class="btn btn-success" href="{{ route('admin.tamhubs.create') }}">
+               Add Data
+            </a>
+           
         </div>
     </div>
 @endcan

@@ -25,9 +25,9 @@
                 @can('chat_access')
                     <li class="nav-item has-treeview {{ request()->is("admin/counselorassignment_accsess*") ? "menu-open" : "" }} {{ request()->is("admin/counselorcurrentcases*") ? "menu-open" : "" }} {{ request()->is("admin/counselor-past-cases*") ? "menu-open" : "" }}">
                         <a class="nav-link nav-dropdown-toggle" href="#">
-                            <i class="fa-fw nav-icon fas fa-users"></i>
+                        <i class="fa fa-envelope" aria-hidden="true"></i>
                             <p>
-                               Chat
+                               Chats
                                 <i class="right fa fa-fw fa-angle-left nav-icon"></i>
                             </p>
                         </a>
@@ -35,32 +35,32 @@
                             @can('counselorassignment_accsess')
                                 <li class="nav-item">
                                     <a href="{{ route("admin.counselorassignments.index") }}" class="nav-link {{ request()->is("admin/counselorassignments") || request()->is("admin/counselorassignments/*") ? "active" : "" }}">
-                                        <i class="fa-fw nav-icon fas fa-user-tie"></i>
-                                        <p> Pendding Chat </p>
+                                       <i class='far fa-comment-dots' style='font-size:20px'></i>
+                                        <p> Pending Chats </p>
                                     </a>
                                 </li>
                             @endcan
                             @can('counselor_current_cases_access')
                                 <li class="nav-item">
                                     <a href="{{ route("admin.counselorcurrentcases.index") }}" class="nav-link {{ request()->is("admin/counselorcurrentcases") || request()->is("admin/counselorcurrentcases/*") ? "active" : "" }}">
-                                        <i class="fa-fw nav-icon fas fa-user-tie"></i>
-                                        <p> Current Chat </p>
+                                       <i class='far fa-comment-dots' style='font-size:20px'></i>
+                                        <p> Current Chats </p>
                                     </a>
                                 </li>
                             @endcan
                             @can('counselor_past_cases_access')
                                 <li class="nav-item">
                                     <a href="{{ route("admin.counselor-past-cases.index") }}" class="nav-link {{ request()->is("admin/counselor-past-cases") || request()->is("admin/counselor-past-cases/*") ? "active" : "" }}">
-                                        <i class="fa-fw nav-icon fas fa-user-tie"></i>
-                                        <p> Past Chat </p>
+                                       <i class='far fa-comment-dots' style='font-size:20px'></i>
+                                        <p> Past Chats </p>
                                     </a>
                                 </li>
                             @endcan
                             @can('my_chat_access')
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="fa-fw nav-icon fas fa-user-tie"></i>
-                                        <p> My Chat </p>
+                                    <a href="{{ route("admin.counselors.mychatAdmin") }}" class="nav-link {{ request()->is("admin/counselors") || request()->is("admin/counselors/mychatAdmin") ? "active" : "" }}">
+                                    <i class='far fa-comment-dots' style='font-size:20px'></i>
+                                        <p> My Chats </p>
                                     </a>
                                 </li>
                             @endcan
@@ -70,9 +70,10 @@
                 @can('configration_access')
                 <li class="nav-item has-treeview">
                         <a class="nav-link nav-dropdown-toggle" href="#">
-                            <i class="fa-fw nav-icon fas fa-users"></i>
+                        <i class="fa fa-cog fa-fw" aria-hidden="true"></i>
+
                             <p>
-                               Configration
+                                 Configuration
                                 <i class="right fa fa-fw fa-angle-left nav-icon"></i>
                             </p>
                         </a>
@@ -88,7 +89,7 @@
                             </a>
                         </li>
                         @endcan
-                        @can('tamhub_access')
+                        <!-- @can('tamhub_access')
                         <li class="nav-item">
                             <a href="{{ route("admin.tamhubs.index") }}" class="nav-link {{ request()->is("admin/tamhubs") || request()->is("admin/tamhubs/*") ? "active" : "" }}">
                                 <i class="fa-fw nav-icon fas fa-user-tie"></i>
@@ -97,6 +98,49 @@
                                 </p>
                             </a>
                         </li>
+                        @endcan -->
+                        @can('tamhub_access')
+                       <!--  <li class="nav-item">
+                            <a href="{{ route("admin.tamhubs.index") }}" class="nav-link {{ request()->is("admin/tamhubs") || request()->is("admin/tamhubs/*") ? "active" : "" }}">
+                                <i class="fa-fw nav-icon fas fa-user-tie"></i>
+                                <p>
+                                    {{ trans('cruds.tamhub.title') }}
+                                </p>
+                            </a>
+                        </li> -->
+                        <li class="nav-item has-treeview">
+                        <a class="nav-link nav-dropdown-toggle" href="{{ route("admin.tamhubs.index") }}">
+                            <i class="fa-fw nav-icon fas fa-users"></i>
+                            <p>
+                               {{ trans('cruds.tamhub.title') }}
+                                <i class="right fa fa-fw fa-angle-left nav-icon"></i>
+                            </p>
+                        </a>
+                    <ul class="nav nav-treeview">
+                        @can('counselor_access')
+                        <li class="nav-item">
+                            <a href="#" class="nav-link {{ request()->is("admin/counselors") || request()->is("admin/counselors/*") ? "active" : "" }}">
+                            <i class="fa fa-book fa-fw" aria-hidden="true"></i>
+
+                                <p>
+                                    Library
+                                </p>
+                            </a>
+                        </li>
+                        @endcan
+                        @can('tamhub_access')
+                        <li class="nav-item">
+                            <a href="{{ route("admin.tamhubs.index") }}" class="nav-link {{ request()->is("admin/tamhubs") || request()->is("admin/tamhubs/*") ? "active" : "" }}">
+                                <i class="fa-fw nav-icon fas fa-user-tie"></i>
+                                <p>
+                                    Resource Center
+                                </p>
+                            </a>
+                        </li>
+                        @endcan
+                       
+                    </ul>
+                    </li>
                         @endcan
                         @can('bookappointment_access')
                             <li class="nav-item">

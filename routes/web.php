@@ -38,6 +38,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('tamhubs/destroy', 'TamHubController@massDestroy')->name('tamhubs.massDestroy');
     Route::post('tamhubs/media', 'TamHubController@storeMedia')->name('tamhubs.storeMedia');
     Route::resource('tamhubs', 'TamHubController');
+    Route::get('tamhubs-libraray-category', 'TamHubController@librarayCategory')->name('tamhubs.librarayCategory');
+    Route::get('tamhubs-resource-category', 'TamHubController@resourceCategory')->name('tamhubs.resourceCategory');
 
     // Category
     Route::delete('categorys/destroy', 'CategoryController@massDestroy')->name('categorys.massDestroy');
@@ -47,11 +49,15 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Counselor 
     Route::delete('counselors/destroy', 'CounselorController@massDestroy')->name('counselors.massDestroy');
     Route::resource('counselors', 'CounselorController');
+    Route::get('mychat/{id}', 'CounselorController@mychat')->name('counselors.mychat');
+    Route::get('mychatAdmin', 'CounselorController@mychatAdmin')->name('counselors.mychatAdmin');
 
      // Counselor Assignments
      Route::delete('counselorassignments/destroy', 'CounselorAssignmentController@massDestroy')->name('counselorassignments.massDestroy');
      Route::resource('counselorassignments', 'CounselorAssignmentController');
-    
+     Route::get('counselor-assignment/{counselorId}/{userId}', 'CounselorAssignmentController@counselorAssignUser');
+
+
     // Counselor Current cases
     Route::delete('counselorcurrentcases/destroy', 'CounselorCurrentCasesController@massDestroy')->name('counselor_current_cases.massDestroy');
     Route::resource('counselorcurrentcases', 'CounselorCurrentCasesController');
@@ -59,7 +65,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Counselor Past Cases
     Route::delete('counselor-past-cases/destroy', 'CounselorPastCasesController@massDestroy')->name('counselor-past-cases.massDestroy');
     Route::resource('counselor-past-cases', 'CounselorPastCasesController');
-  
 
    
     // Task Statuses

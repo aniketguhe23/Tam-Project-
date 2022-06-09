@@ -8,6 +8,8 @@ use App\Http\Requests\MassDestroyTamHubRequest;
 use App\Http\Requests\StoreTamHubRequest;
 use App\Http\Requests\UpdateTamHubRequest;
 use App\Models\TamHub;
+use App\Models\TamhubLibraryCategory;
+use App\Models\TamhubResourceCategory;
 use Gate;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
@@ -126,5 +128,19 @@ class TamHubController extends Controller
 
         return response(null, Response::HTTP_NO_CONTENT);
     }
+
+
+    public function librarayCategory(Request $request)
+    {
+        $tamhub = TamhubLibraryCategory::create($request->all());
+        return redirect()->route('admin.tamhubs.index');
+    }
+
+    public function resourceCategory(Request $request)
+    {
+        $tamhub = TamhubResourceCategory::create($request->all());
+        return redirect()->route('admin.tamhubs.index');
+    }
+
 }
 

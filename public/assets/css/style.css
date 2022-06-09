@@ -165,3 +165,19 @@ color: #fff;
 .filter{
 margin-top: 30px;
 }
+
+.text-active{
+    color: #275642;
+}
+
+.text-inactive{
+    color: hwb(0 21% 9%);
+}
+
+.text-abvaility{
+    color: #275642;
+}
+
+.text-unabvaility{
+    color: hwb(0 21% 9%);
+}

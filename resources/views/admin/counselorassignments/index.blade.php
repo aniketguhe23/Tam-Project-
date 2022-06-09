@@ -2,7 +2,7 @@
 @section('content')
 <div class="card">
     <div class="card-header">
-      Counselor Assignment Dashbord
+        Pending Chats
     </div>
 
     <div class="card-body">
@@ -58,32 +58,24 @@
                             <td> 0 </td>
                             <td> live  </td>
                             <td>     
-                                <select class="form-control select2 {{ $errors->has('category_name') ? 'is-invalid' : '' }}" name="category_id" id="category_id">
+                                <select class="form-control select2 {{ $errors->has('counselor') ? 'is-invalid' : '' }}" name="counselor" id="counselor">
                                    <option> Selecte Counselor </option>
                                    @foreach($counselorassignments as $key => $counselorassignment)  
-                                   <option>{{ $counselorassignment->name }} </option>
+                                   <option value="{{$counselorassignment->id}}"}>{{ $counselorassignment->name }} </option>
                                    @endforeach
                                 </select>
+                                <input type="hidden" name="user_id" id="user_id" value="{{ $user->id }}">
                             </td>
                             <td>
-                                @can('user_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.counselors.show', $user->id) }}">
-                                        {{ trans('global.view') }}
+                                @can('user_counselor_assignment')
+                                    <a class="btn btn-xs btn-info" onclick="CounselorAssign();">
+                                         Submit
                                     </a>
                                 @endcan
-
-                                @can('user_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.counselors.edit', $user->id) }}">
-                                        {{ trans('global.edit') }}
+                                @can('my_chat_accses')
+                                    <a class="btn btn-xs btn-info" href="{{ route('admin.counselors.mychat', $sessionCounselorid) }}">
+                                        My Chats
                                     </a>
-                                @endcan
-
-                                @can('user_delete')
-                                    <form action="{{ route('admin.counselors.destroy', $user->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
-                                    </form>
                                 @endcan
                             </td>
                         </tr>
@@ -126,7 +118,7 @@
       }
     }
   }
-  dtButtons.push(deleteButton)ssssss
+  dtButtons.push(deleteButton)
 @endcan
 
   $.extend(true, $.fn.dataTable.defaults, {
@@ -141,6 +133,26 @@
   });
   
 })
+
+
+
+function CounselorAssign()
+{
+    var thisCouslorId = $("select[name=counselor]").val();
+    var thisUserId = $("input[name=user_id]").val();
+    if (thisCouslorId == "") {
+        alert("Please selecte counselor");
+        return false;
+        }
+        $.ajax({
+            url: "{{url('admin/counselor-assignment')}}/thisCouslorId:" + thisCouslorId + "/thisUserId:" + thisUserId,
+            method: 'GET',
+            success: function(data) {
+                alert("get value ");
+               // $('#employee_district_id').html(data.html);
+            }
+        });
+}
 
 </script>
 @endsection

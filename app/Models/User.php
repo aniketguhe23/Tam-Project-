@@ -31,13 +31,22 @@ class User extends Authenticatable
     ];
 
     protected $fillable = [
-        'name',
-        'email',
-        'phone_no',
-        'email_verified_at',
-        'password',
-        'remember_token',
-        'status',
+         'name',
+         'email',
+         'email_verified_at',
+         'remember_token',
+         'password',
+         'phone_no',
+         'gender',
+         'location',
+         'category_id',
+         'status',
+         'employment_status',
+         'counselor_status',
+         'counselor_availability',
+         'age',
+         'social_login_type',
+         'social_login_id',
     ];
 
     protected function serializeDate(DateTimeInterface $date)
@@ -75,5 +84,10 @@ class User extends Authenticatable
     public function roles()
     {
         return $this->belongsToMany(Role::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class,'id');
     }
 }

@@ -1,7 +1,5 @@
 @extends('layouts.admin')
 @section('content')
-
-@can('user_create')
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
             <a class="btn btn-success" href="{{ route('admin.categorys.create') }}">
@@ -12,15 +10,14 @@
             </a>
         </div>
     </div>
-@endcan
 <div class="card">
     <div class="card-header">
-      Counselor List
+    {{ trans('cruds.counselor.title_singular') }} List
     </div>
 
     <div class="card-body">
         <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-User">
+            <table class=" table table-bordered table-striped table-hover datatable datatable-counselors">
                 <thead>
                     <tr>
                         <th width="10">
@@ -30,13 +27,10 @@
                             {{ trans('cruds.counselor.fields.id') }}
                         </th>
                         <th>
-                            {{ trans('cruds.counselor.fields.user_name') }}
+                            {{ trans('cruds.counselor.fields.counselor_name') }}
                         </th>
                         <th>
                             {{ trans('cruds.counselor.fields.email') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.counselor.fields.password') }}
                         </th>
                         <th>
                             {{ trans('cruds.counselor.fields.phone_no') }}
@@ -45,45 +39,64 @@
                             {{ trans('cruds.counselor.fields.category') }}
                         </th>
                         <th>
+                            Active
+                        </th>
+                        @if($sessionCounselorid == 1)
+                        <th>
+                            Status
+                        </th>
+                        <th>
                             Action
                         </th>
+                        @endif
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($users as $key => $user)
-                        <tr data-entry-id="{{ $user->id }}">
+                    @foreach($counselors as $key => $counselor)
+                        <tr data-entry-id="{{ $counselor->id }}">
                             <td></td>
-                            <td>{{ $user->id }} </td>
-                            <td>{{ $user->name }} </td>
-                            <td>{{ $user->email }} </td>
-                            <td>{{ $user->password }} </td>
-                            <td>{{ $user->phone_no }} </td>
+                            <td>{{ $counselor->id }} </td>
+                            <td>{{ $counselor->name }} </td>
+                            <td>{{ $counselor->email }} </td>
+                            <td>{{ $counselor->phone_no }} </td>
                             <td>     
-                               @foreach($categorys as $category)
-                               {{ $category->category_name }}
-                               @endforeach
+                               {{ $counselor->category->category_name }}
                             </td>
                             <td>
-                                @can('user_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.counselors.show', $user->id) }}">
+                                @if($counselor->counselor_status==1)
+                                  <p class="text-active"> Active </p>
+                                @else  
+                                    <p class="text-inactive"> InActive </p>
+                                @endif
+                            </td>
+                            @if($sessionCounselorid == 1)
+                            <td>
+                                @if($counselor->counselor_availability==4) 
+                                    <i class="fa fa-flag text-abvaility" aria-hidden="true"></i>
+                                @else
+                                    <i class="fa fa-flag text-unabvaility" aria-hidden="true"></i>
+                                @endif
+                            </td>
+                            <td> 
+                                @can('counselor_show')
+                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.counselors.show', $counselor->id) }}">
                                         {{ trans('global.view') }}
                                     </a>
                                 @endcan
-
-                                @can('user_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.counselors.edit', $user->id) }}">
+                                @can('counselor_edit')
+                                    <a class="btn btn-xs btn-info" href="{{ route('admin.counselors.edit', $counselor->id) }}">
                                         {{ trans('global.edit') }}
                                     </a>
                                 @endcan
-
-                                @can('user_delete')
-                                    <form action="{{ route('admin.counselors.destroy', $user->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                                @can('counselor_delete')
+                                    <form action="{{ route('admin.counselors.destroy', $counselor->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                         <input type="hidden" name="_method" value="DELETE">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                         <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
                                     </form>
                                 @endcan
                             </td>
+                            @endif
                         </tr>
                     @endforeach
                 </tbody>

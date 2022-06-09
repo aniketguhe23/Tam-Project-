@@ -20,17 +20,14 @@ class CounselorController extends Controller
     {
         abort_if(Gate::denies('counselor_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $users = User::with(['roles'])->get();
+        $users = User::with(['roles','category'])->get();
         $sessionCounselorid = Auth::user()->id;
         if($sessionCounselorid == 1){
-            $users = User::with(['roles'])->where('status','0')->get();
-            $counselorassignments = User::with(['roles'])->where('status','2')->get();
+            $counselors = User::with(['roles','category'])->where('status','2')->get();
         }else{
-            $users = User::with(['roles'])->where('id',$sessionCounselorid)->where('status','2')->get();
-            $counselorassignments = User::with(['roles'])->where('id',$sessionCounselorid)->where('status','2')->get();
+            $counselors = User::with(['roles','category'])->where('id',$sessionCounselorid)->where('status','2')->get();
         }
-        $categorys = Category::get();
-        return view('admin.counselors.index', compact('users','categorys','counselorassignments'));
+        return view('admin.counselors.index', compact('counselors','sessionCounselorid'));
     }
 
     public function create()
@@ -99,5 +96,33 @@ class CounselorController extends Controller
         User::whereIn('id', request('ids'))->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
+    }
+
+    public function mychatAdmin()
+    {
+        $users = User::with(['roles','category'])->get();
+        $sessionCounselorid = Auth::user()->id;
+        if($sessionCounselorid == 1){
+            $counselors = User::with(['roles','category'])->where('status','2')->get();
+        }else{
+            $counselors = User::with(['roles','category'])->where('id',$sessionCounselorid)->where('status','2')->get();
+        }
+        $categorys = Category::get();
+        return view('admin.counselors.mychat', compact('counselors','sessionCounselorid','categorys'));
+
+    }
+
+    public function mychat($id)
+    {
+        $users = User::with(['roles','category'])->get();
+        $sessionCounselorid = Auth::user()->id;
+        if($sessionCounselorid == 1){
+            $counselors = User::with(['roles','category'])->where('status','2')->get();
+        }else{
+            $counselors = User::with(['roles','category'])->where('id',$sessionCounselorid)->where('status','2')->get();
+        }
+        $categorys = Category::get();
+        return view('admin.counselors.mychat', compact('counselors','sessionCounselorid','categorys'));
+
     }
 }

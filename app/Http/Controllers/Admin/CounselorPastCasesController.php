@@ -20,17 +20,20 @@ class CounselorPastCasesController extends Controller
     public function index()
     {
         abort_if(Gate::denies('counselor_past_cases_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        $users = User::with(['roles'])->get();
-        $sessionCounselorid = Auth::user()->id;
-        if($sessionCounselorid == 1){
-            $users = User::with(['roles'])->where('status','0')->get();
-            $counselorassignments = User::with(['roles'])->where('status','2')->get();
-        }else{
-            $users = User::with(['roles'])->where('id',$sessionCounselorid)->where('status','2')->get();
-            $counselorassignments = User::with(['roles'])->where('id',$sessionCounselorid)->where('status','2')->get();
-        }
-        $categorys = Category::get();
-        return view('admin.counselorpastcases.index', compact('users','categorys','counselorassignments'));
+        // $users = User::with(['roles'])->get();
+        // $sessionCounselorid = Auth::user()->id;
+        // if($sessionCounselorid == 1){
+        //     $users = User::with(['roles'])->where('status','0')->get();
+        //     $counselorassignments = User::with(['roles'])->where('status','2')->get();
+        // }else{
+        //     $users = User::with(['roles'])->where('id',$sessionCounselorid)->where('status','2')->get();
+        //     $counselorassignments = User::with(['roles'])->where('id',$sessionCounselorid)->where('status','2')->get();
+        // }
+        // $categorys = Category::get();
+            $counselorpastcases = CounselorPastCases::get();
+            $counselors = User::with(['roles'])->where('status','2')->get();
+            $categorys = Category::get();
+        return view('admin.counselorpastcases.index', compact('counselorpastcases','counselors','categorys'));
     }
 
     public function create()

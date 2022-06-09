@@ -21,7 +21,9 @@ class CounselorCurrentCasesController extends Controller
         {
             abort_if(Gate::denies('counselor_current_cases_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
             $counselorcurrentcases = CounselorCurrentCases::get();
-            return view('admin.counselorcurrentcases.index', compact('counselorcurrentcases'));
+            $counselors = User::with(['roles'])->where('status','2')->get();
+            $categorys = Category::get();
+            return view('admin.counselorcurrentcases.index', compact('counselorcurrentcases','categorys','counselors'));
         }
     
         public function create()
