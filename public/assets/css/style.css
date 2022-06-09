@@ -181,3 +181,10 @@ margin-top: 30px;
 .text-unabvaility{
     color: hwb(0 21% 9%);
 }
+
+.tab1-dashbord{
+        width: 326px;
+        vertical-align: middle;
+        border-style: none;
+        height: 186px;
+}

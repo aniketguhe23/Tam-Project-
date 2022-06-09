@@ -22,7 +22,7 @@
                         </p>
                     </a>
                 </li>
-                @can('chat_access')
+                   @can('chat_access')
                     <li class="nav-item has-treeview {{ request()->is("admin/counselorassignment_accsess*") ? "menu-open" : "" }} {{ request()->is("admin/counselorcurrentcases*") ? "menu-open" : "" }} {{ request()->is("admin/counselor-past-cases*") ? "menu-open" : "" }}">
                         <a class="nav-link nav-dropdown-toggle" href="#">
                         <i class="fa fa-envelope" aria-hidden="true"></i>
