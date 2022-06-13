@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Models\Category;
 use Gate;
 use Auth;
+use Session;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -27,7 +28,8 @@ class CounselorController extends Controller
         }else{
             $counselors = User::with(['roles','category'])->where('id',$sessionCounselorid)->where('status','2')->get();
         }
-        return view('admin.counselors.index', compact('counselors','sessionCounselorid'));
+        $categorys = Category::get();
+        return view('admin.counselors.index', compact('categorys','counselors','sessionCounselorid'));
     }
 
     public function create()
@@ -46,11 +48,12 @@ class CounselorController extends Controller
         $counselorArr['email'] = $request->email;
         $counselorArr['phone_no'] = $request->phone_no;
         $counselorArr['password'] = $request->password;
-        $counselorArr['status'] = 2;
+        $counselorArr['status'] = '2';
         $user = User::create($counselorArr);
-        $user->roles()->sync($request->input('roles', []));
-
+        $user->roles()->sync($request->input('roles', ['3']));
+        Session::flash('message', 'Counselor Add Succsesfully...!'); 
         return redirect()->route('admin.counselors.index');
+        
     }
 
     public function edit(User $counselor)
@@ -70,6 +73,7 @@ class CounselorController extends Controller
         $counselorArr['password'] = $request->password;  
         $counselorArr['status'] = 2;
         $counselor->update($counselorArr);
+        Session::flash('message', 'Counselor Updated Succsesfully...!'); 
         return redirect()->route('admin.counselors.index');
     }
 
@@ -78,8 +82,8 @@ class CounselorController extends Controller
         abort_if(Gate::denies('counselor_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $counselor->load('roles');
-
-        return view('admin.counselors.show', compact('counselor'));
+        $categorys = Category::get();
+        return view('admin.counselors.show', compact('counselor','categorys'));
     }
 
     public function destroy(User $counselor)
@@ -103,9 +107,9 @@ class CounselorController extends Controller
         $users = User::with(['roles','category'])->get();
         $sessionCounselorid = Auth::user()->id;
         if($sessionCounselorid == 1){
-            $counselors = User::with(['roles','category'])->where('status','2')->get();
+            $counselors = User::with(['roles','category'])->where('status','4')->get();
         }else{
-            $counselors = User::with(['roles','category'])->where('id',$sessionCounselorid)->where('status','2')->get();
+            $counselors = User::with(['roles','category'])->where('id',$sessionCounselorid)->where('status','4')->get();
         }
         $categorys = Category::get();
         return view('admin.counselors.mychat', compact('counselors','sessionCounselorid','categorys'));
@@ -117,9 +121,9 @@ class CounselorController extends Controller
         $users = User::with(['roles','category'])->get();
         $sessionCounselorid = Auth::user()->id;
         if($sessionCounselorid == 1){
-            $counselors = User::with(['roles','category'])->where('status','2')->get();
+            $counselors = User::with(['roles','category'])->where('status','4')->get();
         }else{
-            $counselors = User::with(['roles','category'])->where('id',$sessionCounselorid)->where('status','2')->get();
+            $counselors = User::with(['roles','category'])->where('id',$sessionCounselorid)->where('status','4')->get();
         }
         $categorys = Category::get();
         return view('admin.counselors.mychat', compact('counselors','sessionCounselorid','categorys'));

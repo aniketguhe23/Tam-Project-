@@ -188,3 +188,7 @@ margin-top: 30px;
         border-style: none;
         height: 186px;
 }
+
+.submit{
+    color: hsl(160, 30%, 96%) !important;
+}

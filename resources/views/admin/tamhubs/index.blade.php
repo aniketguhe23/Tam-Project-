@@ -3,7 +3,7 @@
 @can('tamhub_create')
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
-        <a class="btn btn-success" href="{{ route('admin.tamhubs.create') }}">
+        <a class="btn btn-success" href="{{ route('admin.resourcecategorys.create') }}">
                Add Categories
             </a>
             <a class="btn btn-success" href="{{ route('admin.tamhubs.create') }}">

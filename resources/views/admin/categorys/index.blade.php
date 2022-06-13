@@ -39,6 +39,14 @@
 @section('scripts')
 @parent
 <script>
+  $("document").ready(function(){
+    setTimeout(function(){
+       $("div.alert").remove();
+    }, 5000 ); // 5 secs
+
+});
+</script>
+<script>
     $(function () {
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
 @can('category_delete')
@@ -85,7 +93,7 @@
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: true,
-    order: [[ 1, 'desc' ]],
+    order: [[ 1, 'Asc' ]],
     pageLength: 100,
   };
   let table = $('.datatable-category').DataTable(dtOverrideGlobals);

@@ -19,10 +19,13 @@ class StoreCounselorRequest extends FormRequest
         return [
             'name'     => [
                 'string',
+                'min:3',
+                'max:50',
                 'required',
             ],
             'category_id'    => [
                 'required',
+                'integer',
             ],
             'email'    => [
                 'required',
@@ -30,6 +33,9 @@ class StoreCounselorRequest extends FormRequest
             ],
             'phone_no'    => [
                 'required',
+                'integer',
+                'min:6000000000',
+                'max:9999999999',
             ],
             'password' => [
                 'required',

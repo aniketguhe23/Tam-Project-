@@ -2,25 +2,23 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Category;
+use App\Http\Models\ResourceCategory;
 use Gate;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Response;
 
-class UpdateCategoryRequest extends FormRequest
+class StoreResourceCategoryRequest extends FormRequest
 {
     public function authorize()
     {
-        return Gate::allows('category_edit');
+        return Gate::allows('resource_category_create');
     }
 
     public function rules()
     {
         return [
-            'category_name' => [
+            'resource_category'       => [
                 'string',
-                'min:3',
-                'max:50',
                 'required',
             ],
         ];

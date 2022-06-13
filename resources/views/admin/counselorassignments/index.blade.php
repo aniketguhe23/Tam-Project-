@@ -46,10 +46,11 @@
                     </tr>
                 </thead>
                 <tbody>
+                <?php  $i = 1;?>
                     @foreach($users as $key => $user)
                         <tr data-entry-id="{{ $user->id }}">
                             <td></td>
-                            <td>{{ $user->id }} </td>
+                            <td> <?php echo $i; $i++ ;?></td>
                             <td>{{ $user->name }} </td>
                             <td>{{ $user->age }} </td>
                             <td>{{ $user->gender }} </td>
@@ -59,7 +60,7 @@
                             <td> live  </td>
                             <td>     
                                 <select class="form-control select2 {{ $errors->has('counselor') ? 'is-invalid' : '' }}" name="counselor" id="counselor">
-                                   <option> Selecte Counselor </option>
+                                   <option> Select Counsellor </option>
                                    @foreach($counselorassignments as $key => $counselorassignment)  
                                    <option value="{{$counselorassignment->id}}"}>{{ $counselorassignment->name }} </option>
                                    @endforeach
@@ -68,13 +69,13 @@
                             </td>
                             <td>
                                 @can('user_counselor_assignment')
-                                    <a class="btn btn-xs btn-info" onclick="CounselorAssign();">
-                                         Submit
+                                    <a class="btn btn-xs btn-info submit" onclick="CounselorAssign();">
+                                         Assign Counsellor
                                     </a>
                                 @endcan
                                 @can('my_chat_accses')
                                     <a class="btn btn-xs btn-info" href="{{ route('admin.counselors.mychat', $sessionCounselorid) }}">
-                                        My Chats
+                                    Assign Myself
                                     </a>
                                 @endcan
                             </td>

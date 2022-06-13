@@ -17,7 +17,9 @@
                 <tbody>
                 <tr>
                     <th>{{ trans('cruds.user.fields.id') }}</th>
-                    <td>{{ $counselor->id }}</td>
+                    <td>
+                    {{ $counselor->id }}
+                    </td>
                 </tr>
                 <tr>
                     <th>{{ trans('cruds.counselor.fields.counselor_name') }}</th>
@@ -25,7 +27,15 @@
                 </tr>
                 <tr>
                     <th>{{ trans('cruds.counselor.fields.category') }}</th>
-                    <td>       </td>
+                    <td> 
+                    @if(!empty($categorys))    
+                        @foreach($categorys as $category)
+                        @if($counselor->category_id == $category->id)
+                            {{ $category->category_name }}
+                        @endif
+                        @endforeach     
+                    @endif
+                    </td>
                 </tr>
                 <tr>
                     <th>{{ trans('cruds.counselor.fields.email') }}</th>

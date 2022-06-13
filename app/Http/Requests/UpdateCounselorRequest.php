@@ -18,18 +18,22 @@ class UpdateCounselorRequest extends FormRequest
     {
         return [
             'name'     => [
-                'string',
+                'min:3',
+                'max:50',
                 'required',
             ],
             'category_id'    => [
                 'required',
+                'integer',
             ],
             'email'    => [
                 'required',
-                'unique:users',
             ],
             'phone_no'    => [
                 'required',
+                'integer',
+                'min:6000000000',
+                'max:9999999999',
             ],
             'password' => [
                 'required',

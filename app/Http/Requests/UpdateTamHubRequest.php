@@ -25,8 +25,8 @@ class UpdateTamhubRequest extends FormRequest
             'contact_no'           => [
                 'required',
                 'integer',
-                'min:6666666666',
-                'max:9999999999',  
+                'min:6000000000',
+                'max:9999999999',
             ],
         ];
     }

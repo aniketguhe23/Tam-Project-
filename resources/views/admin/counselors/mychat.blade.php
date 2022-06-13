@@ -52,10 +52,11 @@
                     </tr>
                 </thead>
                 <tbody>
+                <?php  $i = 1;?>
                     @foreach($counselors as $key => $counselor)
                         <tr data-entry-id="{{ $counselor->id }}">
                             <td></td>
-                            <td>{{ $counselor->id }} </td>
+                            <td><?php echo $i; $i++ ;?> </td>
                             <td>{{ $counselor->name }} </td>
                             <td>46 </td>
                             <td>{{ $counselor->gender }} </td>
@@ -98,7 +99,7 @@
                         </div>
                 </div>
                 <div class="col-md-2">
-                    <label class="required" for="counselor_name">Counselor Name</label>    
+                    <label class="required" for="counselor_name">Counsellor Name</label>    
                         <select class="form-control select2 {{ $errors->has('counselor_name') ? 'is-invalid' : '' }}" name="counselor_name" id="counselor_name">
                             @foreach($counselors as $counselor) 
                             <option> {{ $counselor->name}}  </option>
@@ -123,7 +124,7 @@
                 <div class="col-md-2">
                     <div class="form-group filter">
                         <button class="btn btn-primary" type="submit">
-                            Chats Filter
+                        Apply Filter
                         </button>
                     </div>
                 </div>
@@ -164,10 +165,11 @@
                     </tr>
                 </thead>
                 <tbody>
+                <?php  $i = 1;?>
                     @foreach($counselors as $key => $counselor)
                         <tr data-entry-id="{{ $counselor->id }}">
                             <td></td>
-                            <td>{{ $counselor->id }} </td>
+                            <td> <?php echo $i; $i++ ;?></td>
                             <td> 08/08/2022</td>
                             <td>{{ $counselor->name }} </td>
                             <td>46 </td>

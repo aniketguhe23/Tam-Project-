@@ -130,17 +130,7 @@ class TamHubController extends Controller
     }
 
 
-    public function librarayCategory(Request $request)
-    {
-        $tamhub = TamhubLibraryCategory::create($request->all());
-        return redirect()->route('admin.tamhubs.index');
-    }
-
-    public function resourceCategory(Request $request)
-    {
-        $tamhub = TamhubResourceCategory::create($request->all());
-        return redirect()->route('admin.tamhubs.index');
-    }
+  
 
 }
 

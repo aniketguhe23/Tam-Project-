@@ -38,10 +38,18 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('tamhubs/destroy', 'TamHubController@massDestroy')->name('tamhubs.massDestroy');
     Route::post('tamhubs/media', 'TamHubController@storeMedia')->name('tamhubs.storeMedia');
     Route::resource('tamhubs', 'TamHubController');
-    Route::get('tamhubs-libraray-category', 'TamHubController@librarayCategory')->name('tamhubs.librarayCategory');
-    Route::get('tamhubs-resource-category', 'TamHubController@resourceCategory')->name('tamhubs.resourceCategory');
 
-    // Category
+    // Resource Category
+    Route::delete('librarycategorys/destroy', 'LibraryCategoryController@massDestroy')->name('librarycategorys.massDestroy');
+    Route::post('librarycategorys/media', 'LibraryCategoryController@storeMedia')->name('librarycategorys.storeMedia');
+    Route::resource('librarycategorys', 'LibraryCategoryController');
+    
+    // Resource Category
+    Route::delete('resourcecategorys/destroy', 'ResourceCategoryController@massDestroy')->name('resourcecategorys.massDestroy');
+    Route::post('resourcecategorys/media', 'ResourceCategoryController@storeMedia')->name('resourcecategorys.storeMedia');
+    Route::resource('resourcecategorys', 'ResourceCategoryController');
+
+    //Category 
     Route::delete('categorys/destroy', 'CategoryController@massDestroy')->name('categorys.massDestroy');
     Route::post('categorys/media', 'CategoryController@storeMedia')->name('categorys.storeMedia');
     Route::resource('categorys', 'CategoryController');

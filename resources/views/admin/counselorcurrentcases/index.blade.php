@@ -25,7 +25,7 @@
                         </div>
                 </div>
                 <div class="col-md-2">
-                    <label class="required" for="counselor_name">Counselor Name</label>    
+                    <label class="required" for="counselor_name">Counsellor Name</label>    
                         <select class="form-control select2 {{ $errors->has('counselor_name') ? 'is-invalid' : '' }}" name="counselor_name" id="counselor_name">
                             @foreach($counselors as $counselor) 
                             <option> {{ $counselor->name}}  </option>
@@ -50,7 +50,7 @@
                 <div class="col-md-2">
                     <div class="form-group filter">
                         <button class="btn btn-primary" type="submit">
-                            Chats Filter
+                        Apply Filter
                         </button>
                     </div>
                 </div>

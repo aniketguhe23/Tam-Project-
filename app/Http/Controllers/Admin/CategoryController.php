@@ -8,6 +8,7 @@ use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Models\Category;
 use Gate;
+use Session;
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
@@ -65,7 +66,7 @@ class CategoryController extends Controller
     public function store(StoreCategoryRequest $request)
     {
         $categorys = Category::create($request->all());
-
+        Session::flash('message', 'Category Add Succsesfully...!'); 
         return redirect()->route('admin.categorys.index');
     }
 
@@ -79,7 +80,7 @@ class CategoryController extends Controller
     public function update(UpdateCategoryRequest $request, Category $category)
     {
         $category->update($request->all());
-
+        Session::flash('message', 'Category Updated Succsesfully...!'); 
         return redirect()->route('admin.categorys.index');
     }
 

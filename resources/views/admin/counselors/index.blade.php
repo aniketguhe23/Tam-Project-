@@ -52,15 +52,23 @@
                     </tr>
                 </thead>
                 <tbody>
+                <?php  $i = 1;?>
                     @foreach($counselors as $key => $counselor)
                         <tr data-entry-id="{{ $counselor->id }}">
                             <td></td>
-                            <td>{{ $counselor->id }} </td>
+                            <td>
+                                <?php echo $i; $i++ ;?>
+                            </td>
                             <td>{{ $counselor->name }} </td>
                             <td>{{ $counselor->email }} </td>
                             <td>{{ $counselor->phone_no }} </td>
-                            <td>     
-                               {{ $counselor->category->category_name }}
+                            <td> 
+                                @foreach($categorys as $category)
+                                @if($category->id == $counselor->category_id)
+                                {{ $category->category_name }}
+                                @endif
+                                @endforeach
+                             
                             </td>
                             <td>
                                 @if($counselor->counselor_status==1)
