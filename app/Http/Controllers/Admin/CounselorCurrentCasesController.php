@@ -21,9 +21,24 @@ class CounselorCurrentCasesController extends Controller
         {
             abort_if(Gate::denies('counselor_current_cases_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
             $counselorcurrentcases = CounselorCurrentCases::get();
+            $sessionCounselorid = Auth::user()->id;
             $counselors = User::with(['roles'])->where('status','2')->get();
             $categorys = Category::get();
-            return view('admin.counselorcurrentcases.index', compact('counselorcurrentcases','categorys','counselors'));
+            if($sessionCounselorid == 1)
+            {
+                return view('admin.counselorcurrentcases.index', compact('counselorcurrentcases','categorys','counselors'));
+            }else
+            {
+                $users = User::with(['roles','category'])->get();
+                $sessionCounselorid = Auth::user()->id;
+                if($sessionCounselorid == 1){
+                    $counselors = User::with(['roles','category'])->where('status','4')->get();
+                }else{
+                    $counselors = User::with(['roles','category'])->where('id',$sessionCounselorid)->where('status','4')->get();
+                }
+                $categorys = Category::get();
+                return view('admin.counselorcurrentcases.counselorcurrentlist', compact('counselors','sessionCounselorid','categorys'));
+            }
         }
     
         public function create()
@@ -95,5 +110,5 @@ class CounselorCurrentCasesController extends Controller
             return response(null, Response::HTTP_NO_CONTENT);
         }
     
-    
+       
 }

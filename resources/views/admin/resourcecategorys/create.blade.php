@@ -21,9 +21,9 @@
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>
-                @can('category_access')
-                    <a class="btn btn-primary" href="{{ route('admin.categorys.index') }}">
-                        Resource Categories
+                @can('resource_category_access')
+                    <a class="btn btn-primary" href="{{ route('admin.resourcecategorys.index') }}">
+                        Resource Categories 
                     </a>
                 @endcan
             </div>

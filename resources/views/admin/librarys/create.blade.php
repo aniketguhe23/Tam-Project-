@@ -10,6 +10,19 @@
         <form method="POST" action="{{ route("admin.librarys.store") }}" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
+                <label class="required" for="library_category_id">Category</label>
+                <select class="form-control select2 {{ $errors->has('library_category_id') ? 'is-invalid' : '' }}" name="library_category_id" id="library_category_id">
+                @if(!empty($librarycategorys))   
+                @foreach($librarycategorys as $id => $librarycategorys)
+                        <option value="{{ $id }}" {{ old('library_category_id') == $id ? 'selected' : '' }}>{{ $librarycategorys->library_category }}</option>
+                    @endforeach
+                @endif
+                </select>
+                @if($errors->has('library_category_id'))
+                    <span class="text-danger">{{ $errors->first('library_category_id') }}</span>
+                @endif
+            </div>
+            <div class="form-group">
                 <label class="required" for="link">{{ trans('cruds.library.fields.link') }}</label>
                 <input class="form-control {{ $errors->has('link') ? 'is-invalid' : '' }}" type="text" name="link" id="link" value="{{ old('link', '') }}" required>
                 @if($errors->has('link'))
@@ -36,7 +49,7 @@
 
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">
-                    {{ trans('global.save') }}vv
+                    {{ trans('global.save') }}
                 </button>
                 @can('library_access')
                     <a class="btn btn-primary" href="{{ route('admin.librarys.index') }}">

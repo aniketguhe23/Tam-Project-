@@ -1,13 +1,13 @@
 @extends('layouts.admin')
 @section('content')
-@can('resource_category_create')
-    <a class="btn btn-primary" href="{{ route('admin.resourcecategorys.create') }}">
-    {{ trans('global.create') }} {{ trans('cruds.resourcecategory.title_singular') }}
+@can('library_category_create')
+    <a class="btn btn-primary" href="{{ route('admin.librarycategorys.create') }}">
+     Add Library Categories
     </a>
 @endcan
 <div class="card">
     <div class="card-header">
-       TamHub Resource Categories
+       TamHub Library Categories
     </div>
     <div class="card-body">
             <div class="table-responsive">
@@ -18,10 +18,10 @@
 
                             </th>
                             <th>
-                                {{ trans('cruds.resourcecategory.fields.id') }}
+                                {{ trans('cruds.librarycategory.fields.id') }}
                             </th>
                             <th>
-                                {{ trans('cruds.resourcecategory.fields.resource_category') }}
+                                {{ trans('cruds.librarycategory.fields.library_category') }}
                             </th>
                             <th>
                                 Action
@@ -30,35 +30,33 @@
                     </thead>
                     <tbody>
                     <?php  $i = 1;?>
-                    @foreach($resourcecategorys as $key => $resourcecategory)
-                        <tr data-entry-id="{{ $resourcecategory->id }}">
+                    @foreach($librarycategorys as $key => $librarycategory)
+                        <tr data-entry-id="{{ $librarycategory->id }}">
                             <td></td>
                             <td> <?php echo $i; $i++ ;?></td>
-                            <td> {{$resourcecategory->resource_category}}</td>
+                            <td> {{$librarycategory->library_category}}</td>
                             
                                 <td>
-                                    @can('resource_category_show')
-                                        <a class="btn btn-xs btn-primary" href="{{ route('admin.resourcecategorys.show', $resourcecategory->id) }}">
+                                    @can('library_category_show')
+                                        <a class="btn btn-xs btn-primary" href="{{ route('admin.librarycategorys.show', $librarycategory->id) }}">
                                             {{ trans('global.view') }}
                                         </a>
                                     @endcan
 
-                                    @can('resource_category_edit')
-                                        <a class="btn btn-xs btn-info" href="{{ route('admin.resourcecategorys.edit', $resourcecategory->id) }}">
+                                    @can('library_category_edit')
+                                        <a class="btn btn-xs btn-info" href="{{ route('admin.librarycategorys.edit', $librarycategory->id) }}">
                                             {{ trans('global.edit') }}
                                         </a>
                                     @endcan
 
-                                    @can('resource_category_delete')
-                                        <form action="{{ route('admin.resourcecategorys.destroy', $resourcecategory->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                                    @can('library_category_delete')
+                                        <form action="{{ route('admin.librarycategorys.destroy', $librarycategory->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                             <input type="hidden" name="_method" value="DELETE">
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                             <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
                                         </form>
                                     @endcan
-
                                 </td>
-
                             </tr>
                             @endforeach
                     </tbody>

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\MassDestroyTamHubRequest;
 use App\Http\Requests\StoreTamHubRequest;
 use App\Http\Requests\UpdateTamHubRequest;
+use App\Models\ResourceCategory;
 use App\Models\TamHub;
 use App\Models\TamhubLibraryCategory;
 use App\Models\TamhubResourceCategory;
@@ -86,7 +87,8 @@ class TamHubController extends Controller
     public function create()
     {
         abort_if(Gate::denies('tamhub_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        return view('admin.tamhubs.create');
+        $resourcecategores = ResourceCategory::get();
+        return view('admin.tamhubs.create',compact('resourcecategores'));
     }
 
     public function store(StoreTamHubRequest $request)

@@ -2,10 +2,7 @@
     <!-- Brand Logo -->
     <a href="#" class="brand-link">
        <!-- <img src="{{asset('public/assets/TAMlogo.jpg')}}" height="100px" class="rounded" width="100px" alt="Italian Trulli"> -->
-       <picture>
-        <source srcset="{{asset('public/assets/TAMlogo.png')}}" type="image">
-        <img src="{{asset('public/assets/TAMlogo.png')}}" height="150px" width="150px">
-        </picture>
+        <img src="{{asset('public/assets/TAMlogo.png')}}" class="img-fluid" alt="Responsive image"  height="150px" class="rounded" width="150px">
     </a>
     <!-- Sidebar -->
     <div class="sidebar">
@@ -120,11 +117,10 @@
                             </p>
                         </a>
                     <ul class="nav nav-treeview">
-                        @can('counselor_access')
+                        @can('library_accses')
                         <li class="nav-item">
-                            <a href="#" class="nav-link {{ request()->is("admin/counselors") || request()->is("admin/counselors/*") ? "active" : "" }}">
-                            <i class="fa fa-book fa-fw" aria-hidden="true"></i>
-
+                            <a href="{{ route("admin.librarys.index") }}" class="nav-link {{ request()->is("admin/librarys") || request()->is("admin/librarys/*") ? "active" : "" }}">
+                                <i class="fa-fw nav-icon fas fa-user-tie"></i>
                                 <p>
                                     Library
                                 </p>

@@ -18,7 +18,7 @@ class ResourceCategoryController extends Controller
 
     public function index()
     {
-        abort_if(Gate::denies('resource_category_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('resource_category_accses'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $resourcecategorys = ResourceCategory::get();
         return view('admin.resourcecategorys.index',compact('resourcecategorys'));
     }
@@ -37,31 +37,31 @@ class ResourceCategoryController extends Controller
         return redirect()->route('admin.resourcecategorys.index');
     }
 
-    public function edit(Category $category)
+    public function edit(ResourceCategory $resourcecategory)
     {
         abort_if(Gate::denies('resource_category_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.resourcecategory.edit', compact('category'));
+        return view('admin.resourcecategorys.edit', compact('resourcecategory'));
     }
 
-    public function update(UpdateResourceCategoryRequest $request, Category $category)
+    public function update(Request $request, ResourceCategory $resourcecategory)
     {
-        $category->update($request->all());
-        Session::flash('message', 'Category Updated Succsesfully...!'); 
+        $resourcecategory->update($request->all());
+        Session::flash('message', 'Resource Category Updated Succsesfully...!'); 
         return redirect()->route('admin.resourcecategorys.index');
     }
 
-    public function show(Category $category)
+    public function show(ResourceCategory $resourcecategory)
     {
-        abort_if(Gate::denies('category_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        return view('admin.resourcecategory.show', compact('category'));
+        abort_if(Gate::denies('resource_category_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        return view('admin.resourcecategorys.show', compact('resourcecategory'));
     }
 
-    public function destroy(Category $category)
+    public function destroy(ResourceCategory $resourcecategory)
     {
-        abort_if(Gate::denies('category_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('resource_category_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $category->delete();
+        $resourcecategory->delete();
 
         return back();
     }

@@ -3,13 +3,13 @@
 
 <div class="card">
     <div class="card-header">
-        {{ trans('global.show') }} {{ trans('cruds.resourcecategory.title') }}
+        {{ trans('global.show') }} {{ trans('cruds.librarycategory.title') }}
     </div>
 
     <div class="card-body">
         <div class="form-group">
             <div class="form-group">
-                <a class="btn btn-default" href="{{ route('admin.resourcecategorys.index') }}">
+                <a class="btn btn-default" href="{{ route('admin.librarycategorys.index') }}">
                     {{ trans('global.back_to_list') }}
                 </a>
             </div>
@@ -17,24 +17,24 @@
                 <tbody>
                     <tr>
                         <th>
-                            {{ trans('cruds.resourcecategory.fields.id') }}
+                            {{ trans('cruds.librarycategory.fields.id') }}
                         </th>
                         <td>
-                            {{ $resourcecategory->id }}
+                            {{ $librarycategory->id }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.resourcecategory.fields.resource_category') }}
+                            {{ trans('cruds.librarycategory.fields.library_category') }}
                         </th>
                         <td>
-                            {{ $resourcecategory->resource_category }}
+                            {{ $librarycategory->library_category }}
                         </td>
                     </tr>
                 </tbody>
             </table>
             <div class="form-group">
-                <a class="btn btn-default" href="{{ route('admin.resourcecategorys.index') }}">
+                <a class="btn btn-default" href="{{ route('admin.librarycategorys.index') }}">
                     {{ trans('global.back_to_list') }}
                 </a>
             </div>

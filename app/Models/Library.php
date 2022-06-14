@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Models;
-
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use \DateTimeInterface;
 
 class Library extends Model
 {
@@ -23,9 +24,6 @@ class Library extends Model
         'link',
         'source',
         'description',
-        'created_at',
-        'updated_at',
-        'deleted_at'
     ];
 
     protected function serializeDate(DateTimeInterface $date)

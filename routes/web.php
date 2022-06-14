@@ -39,6 +39,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('tamhubs/media', 'TamHubController@storeMedia')->name('tamhubs.storeMedia');
     Route::resource('tamhubs', 'TamHubController');
 
+     //Library 
+     Route::delete('librarys/destroy', 'LibraryController@massDestroy')->name('librarys.massDestroy');
+     Route::post('librarys/media', 'LibraryController@storeMedia')->name('librarys.storeMedia');
+     Route::resource('librarys', 'LibraryController');
+    
+     
     // Resource Category
     Route::delete('librarycategorys/destroy', 'LibraryCategoryController@massDestroy')->name('librarycategorys.massDestroy');
     Route::post('librarycategorys/media', 'LibraryCategoryController@storeMedia')->name('librarycategorys.storeMedia');
@@ -69,6 +75,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Counselor Current cases
     Route::delete('counselorcurrentcases/destroy', 'CounselorCurrentCasesController@massDestroy')->name('counselor_current_cases.massDestroy');
     Route::resource('counselorcurrentcases', 'CounselorCurrentCasesController');
+    Route::get('counselor-current-cases', 'CounselorCurrentCasesController@currentCounselor')->name('counselor-current-cases.currentCounselor');
   
     // Counselor Past Cases
     Route::delete('counselor-past-cases/destroy', 'CounselorPastCasesController@massDestroy')->name('counselor-past-cases.massDestroy');

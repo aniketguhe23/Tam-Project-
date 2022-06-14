@@ -18,33 +18,32 @@ class LibraryCategoryController extends Controller
 
     public function index()
     {
-        abort_if(Gate::denies('library_category_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        $librarycategorys = ResourceCategory::get();
+        abort_if(Gate::denies('library_category_accses'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $librarycategorys = LibraryCategory::get();
         return view('admin.librarycategorys.index',compact('librarycategorys'));
     }
 
     public function create()
     {
         abort_if(Gate::denies('library_category_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         return view('admin.librarycategorys.create');
     }
 
-    public function store(StoreLibraryCategoryRequest $request)
+    public function store(Request $request)
     {
-        $librarycategorys = ResourceCategory::create($request->all());
+        $librarycategorys = LibraryCategory::create($request->all());
         Session::flash('message', 'Resource Category Add Succsesfully...!'); 
         return redirect()->route('admin.librarycategorys.index');
     }
 
-    public function edit(LibraryCategory $LibraryCategory)
+    public function edit(LibraryCategory $librarycategory)
     {
         abort_if(Gate::denies('library_category_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.librarycategory.edit', compact('LibraryCategory'));
+        return view('admin.librarycategorys.edit', compact('librarycategory'));
     }
 
-    public function update(UpdateLibraryCategoryRequest $request, LibraryCategory $librarycategory)
+    public function update(Request $request, LibraryCategory $librarycategory)
     {
         $librarycategory->update($request->all());
         Session::flash('message', 'Library Category Updated Succsesfully...!'); 
@@ -54,7 +53,7 @@ class LibraryCategoryController extends Controller
     public function show(LibraryCategory $librarycategory)
     {
         abort_if(Gate::denies('library_category_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        return view('admin.librarycategory.show', compact('librarycategory'));
+        return view('admin.librarycategorys.show', compact('librarycategory'));
     }
 
     public function destroy(LibraryCategory $librarycategory)

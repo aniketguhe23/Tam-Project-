@@ -129,4 +129,6 @@ class CounselorController extends Controller
         return view('admin.counselors.mychat', compact('counselors','sessionCounselorid','categorys'));
 
     }
+
+    
 }
