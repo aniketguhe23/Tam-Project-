@@ -50,6 +50,9 @@ class TamHubController extends Controller
                 return $row->organisation_name ? $row->organisation_name : "";
             });
 
+            $table->editColumn('resource_category_id', function ($row) {
+                return $row->resource_category_id ? $row->resource_category_id : "";
+            });
             $table->editColumn('city', function ($row) {
                 return $row->city ? $row->city : "";
             });

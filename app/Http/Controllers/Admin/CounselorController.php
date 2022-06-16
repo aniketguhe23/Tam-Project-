@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MassDestroyCounselorRequest;
 use App\Http\Requests\StoreCounselorRequest;
@@ -127,8 +126,32 @@ class CounselorController extends Controller
         }
         $categorys = Category::get();
         return view('admin.counselors.mychat', compact('counselors','sessionCounselorid','categorys'));
-
     }
 
+
+    public function counselorAvailability($status)
+    {
+        $sessionCounselorid = Auth::user()->id;
+        $counselorStatus = $status;
+        if($sessionCounselorid != 1)
+        {
+            if($status==1)
+            {
+                $counselorActive = User::where('id', $sessionCounselorid)
+                                        ->where('status','2')
+                                        ->update(['counselor_availability'=>1]);
+                                        
+                Session::flash('message', 'Counselor Activate');                    
+            }else
+            {
+                $counselorActive = User::where('id', $sessionCounselorid)
+                                        ->where('status','2')
+                                        ->update(['counselor_availability'=>0]);
+                Session::flash('message', 'Counselor InActivate');                  
+            }
+            return $counselorActive; 
+        }
+        
+    }
     
 }

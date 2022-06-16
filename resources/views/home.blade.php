@@ -11,6 +11,20 @@
                 <li class="breadcrumb-item active" aria-current="page">
                   <span></span>Overview <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle" width="200px" height="340px" ></i>
                 </li>
+                <li>
+                @if($getCounselorActive->counselor_availability == 0)
+                   <p style="float:right;"><input type="button" class="btn btn-danger" name="availability" onclick="myFunction();" value="InActivate" id="inactive"></p>
+                @else
+                   <p style="float:right;"><input type="button" class="btn btn-primary" name="availability" onclick="myFunction();" value="Activate" id="active"></p>
+                @endif 
+                <?php   
+                $sessionCounselorid = Auth::user()->id;
+                if($sessionCounselorid != 1)
+                {?>
+                     <label class="switch"><input type="hidden" class="tuggle"></label>
+               <?php }
+                  ?>
+                </li>
               </ul>
             </nav>
           </div>
@@ -30,6 +44,31 @@
 </div>
 @endsection
 @section('scripts')
-@parent
+<script>
+  $("document").ready(function(){
+  setTimeout(function(){
+      $("div.alert").remove();
+  }, 5000 ); // 5 secs
 
+});
+</script>
+<script>
+function myFunction()
+  {
+    var thisUserId = $("input[name=availability]").val();
+    if(thisUserId == "Activate")
+    {
+      var  thisStatus = 2;
+    }else{
+      var  thisStatus = 1;
+    }
+    $.ajax({
+            url: "{{url('admin/counselor-availability')}}/"+ thisStatus,
+            method: 'GET',
+            success: function(data) {
+              location.reload();
+            }
+        });
+  }
+</script>
 @endsection

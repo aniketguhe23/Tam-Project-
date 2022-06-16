@@ -6,7 +6,7 @@
     </div>
     <div class="card-body">
     <div class="row">
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <div class="m-form__section m-form__section--first">
                             <div class="form-group">
                                 <label class="form-control-label">Start Date</label>
@@ -14,7 +14,7 @@
                             </div>
                         </div>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <div class="m-form__section m-form__section--first">
                             <div class="form-group">
                                 <label class="form-control-label">End Date </label>
@@ -22,30 +22,19 @@
                             </div>
                         </div>
                 </div>
-                <div class="col-md-2">
-                    <label class="required" for="counselor_name">Counsellor Name</label>    
-                        <select class="form-control select2 {{ $errors->has('counselor_name') ? 'is-invalid' : '' }}" name="counselor_name" id="counselor_name">
-                            @foreach($counselors as $counselor) 
-                            <option> {{ $counselor->name}}  </option>
-                            @endforeach
-                        </select>
-                </div>
-                <div class="col-md-2">
-                    <label class="required" for="category_id">Category</label>    
-                        <select class="form-control select2 {{ $errors->has('category_id') ? 'is-invalid' : '' }}" name="category_id" id="category_id">
-                        @foreach($categorys as $categorys) 
-                            <option> {{ $categorys->category_name}} </option>
-                        @endforeach
-                        </select>
-                </div>
-                <div class="col-md-2">
-                    <label class="required" for="chat_type">Chat Type</label>    
+                <div class="col-md-3">
+                    <label class="required" for="chat_type">FeedBack</label>    
                         <select class="form-control select2 {{ $errors->has('chat_type') ? 'is-invalid' : '' }}" name="chat_type" id="chat_type">
-                            <option> Live chats </option>
-                            <option> Async Chats  </option>
+                            <option> FeedBack(1-6) </option>
+                            <option> 1 </option>
+                            <option> 2 </option>
+                            <option> 3 </option>
+                            <option> 4 </option>
+                            <option> 5 </option>
+                            <option> 6 </option>
                         </select>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <div class="form-group filter">
                         <button class="btn btn-primary" type="submit">
                         Apply Filter

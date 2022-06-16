@@ -19,7 +19,7 @@ class LibraryController extends Controller
     public function index()
     {
         abort_if(Gate::denies('library_accses'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        $librarys = Library::get();
+        $librarys = Library::with('LibraryCategory')->get();
         $librarycategorys = LibraryCategory::get();
         return view('admin.librarys.index',compact('librarys','librarycategorys'));
     }

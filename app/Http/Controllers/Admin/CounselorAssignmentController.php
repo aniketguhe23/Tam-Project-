@@ -8,6 +8,7 @@ use App\Http\Requests\MassDestroyCounselorAssignmentRequest;
 use App\Http\Requests\StoreCounselorAssignmentRequest;
 use App\Http\Requests\UpdateCounselorAssignmentRequest;
 use App\Models\CounselorAssignment;
+use App\Models\WaitingAssignments;
 use App\Models\Category;
 use App\Models\User;
 use Gate;
@@ -20,17 +21,21 @@ class CounselorAssignmentController extends Controller
     public function index(Request $request)
     {
         abort_if(Gate::denies('counselorassignment_accsess'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        $users = User::with(['roles'])->get();
         $sessionCounselorid = Auth::user()->id;
         if($sessionCounselorid == 1){
-            $users = User::with(['roles'])->where('status','0')->get();
-            $counselorassignments = User::with(['roles'])->where('status','2')->get();
+            $waitingUsers = WaitingAssignments::with('getUser','getCategory')->get();
+            $counselorassignments =User::where('category_id',$request->category_id)
+                                        ->where('status','2')
+                                        ->where('counselor_availability','1')
+                                        ->where('chat_availability','0')
+                                        ->get();
+        
         }else{
             $users = User::with(['roles'])->where('id',$sessionCounselorid)->where('status','2')->get();
             $counselorassignments = User::with(['roles'])->where('id',$sessionCounselorid)->where('status','2')->get();
         }
         $categorys = Category::get();
-        return view('admin.counselorassignments.index', compact('users','categorys','counselorassignments','sessionCounselorid'));
+        return view('admin.counselorassignments.index', compact('waitingUsers','categorys','counselorassignments','sessionCounselorid'));
     }
 
     public function create()

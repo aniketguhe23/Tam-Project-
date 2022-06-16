@@ -64,6 +64,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('counselors/destroy', 'CounselorController@massDestroy')->name('counselors.massDestroy');
     Route::resource('counselors', 'CounselorController');
     Route::get('mychat/{id}', 'CounselorController@mychat')->name('counselors.mychat');
+    Route::get('counselor-availability/{status}', 'CounselorController@counselorAvailability');
     Route::get('mychatAdmin', 'CounselorController@mychatAdmin')->name('counselors.mychatAdmin');
 
      // Counselor Assignments
@@ -95,6 +96,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('tasks/media', 'TaskController@storeMedia')->name('tasks.storeMedia');
     Route::post('tasks/ckmedia', 'TaskController@storeCKEditorImages')->name('tasks.storeCKEditorImages');
     Route::resource('tasks', 'TaskController');
+
+  
 
     // Tasks Calendars
     Route::resource('tasks-calendars', 'TasksCalendarController', ['except' => ['create', 'store', 'edit', 'update', 'show', 'destroy']]);

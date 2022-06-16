@@ -88,6 +88,19 @@
                             @endif
                             <span class="help-block">{{ trans('cruds.tamhub.fields.website_link_helper') }}</span>
                     </div>
+                    <div class="form-group">
+                        <label class="required" for="resource_category_id">Category</label>
+                        <select class="form-control select2 {{ $errors->has('resource_category_id') ? 'is-invalid' : '' }}" name="resource_category_id" id="resource_category_id">
+                        @if(!empty($resourcecategores))   
+                        @foreach($resourcecategores as $id => $resourcecategore)
+                                <option value="{{ $id }}" {{ old('resource_category_id') == $id ? 'selected' : '' }}>{{ $resourcecategore->resource_category_id }}</option>
+                            @endforeach
+                        @endif
+                        </select>
+                        @if($errors->has('resource_category_id'))
+                            <span class="text-danger">{{ $errors->first('resource_category_id') }}</span>
+                        @endif
+                    </div>
                 </div>
             </div>
             

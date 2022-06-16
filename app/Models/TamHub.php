@@ -22,6 +22,7 @@ class TamHub extends Model
     protected $fillable = [
         'id',
         'organisation_name',
+        'resource_category_id',
         'city',
         'areas',
         'services',

@@ -10,7 +10,7 @@ class Library extends Model
 {
     use SoftDeletes, HasFactory;
 
-    public $table = 'library';
+    public $table = 'librery';
 
     protected $dates = [
         'created_at',
@@ -30,4 +30,10 @@ class Library extends Model
     {
         return $date->format('Y-m-d H:i:s');
     }
+
+    public function LibraryCategory()
+    {
+        return $this->belongsTo(LibraryCategory::class, 'library_category_id');
+    }
+
 }

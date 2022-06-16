@@ -8,6 +8,7 @@ use App\Http\Requests\MassDestroyCurrentCasesRequest;
 use App\Http\Requests\StoreCurrentCasesRequest;
 use App\Http\Requests\UpdateCurrentCasesRequest;
 use App\Models\CounselorCurrentCases;
+use App\Models\CounselorAssignment;
 use App\Models\User;
 use App\Models\Category;
 use Gate;
@@ -20,13 +21,14 @@ class CounselorCurrentCasesController extends Controller
         public function index()
         {
             abort_if(Gate::denies('counselor_current_cases_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-            $counselorcurrentcases = CounselorCurrentCases::get();
+            $counselorcurrentcasess = CounselorAssignment::with('getUser','getCategory','getCounselor')->get();
             $sessionCounselorid = Auth::user()->id;
             $counselors = User::with(['roles'])->where('status','2')->get();
             $categorys = Category::get();
+
             if($sessionCounselorid == 1)
             {
-                return view('admin.counselorcurrentcases.index', compact('counselorcurrentcases','categorys','counselors'));
+                return view('admin.counselorcurrentcases.index', compact('counselorcurrentcasess','categorys','counselors'));
             }else
             {
                 $users = User::with(['roles','category'])->get();

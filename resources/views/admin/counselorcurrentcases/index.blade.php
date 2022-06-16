@@ -92,42 +92,41 @@
                         </tr>
                     </thead>
                     <tbody>
-                    
-                            <tr>
-                                <td> </td>
-                                <td> </td>
-                                <td> </td>
-                                <td> </td>
-                                <td> </td>
-                                <td> </td>
-                                <td> </td>
-                                <td> </td>
-                                <td> </td>
-                            
+                    <?php  $i = 1;?>
+                    @foreach($counselorcurrentcasess as $key => $counselorcurrentcases)
+                            <tr data-entry-id="{{ $counselorcurrentcases->id }}">
+                                <td></td>
+                                <td>{{ $counselorcurrentcases->id }}</td>
+                                <td>{{ $counselorcurrentcases->getUser->name }} </td>
+                                <td>{{ $counselorcurrentcases->getUser->age }} </td>
+                                <td>{{ $counselorcurrentcases->getUser->gender }} </td>
+                                <td>{{ $counselorcurrentcases->getUser->topic }} </td>
+                                <td>{{ $counselorcurrentcases->chat_type }} </td>
+                                <td>{{ $counselorcurrentcases->getCounselor->name }} </td>
+                                <td>{{ $counselorcurrentcases->getCategory->category_name }} </td>
                                 <td>
                                     @can('counselor_current_cases_show')
-                                        <a class="btn btn-xs btn-primary" href="{{ route('admin.counselorcurrentcases.show', 1) }}">
+                                        <a class="btn btn-xs btn-primary" href="{{ route('admin.counselorcurrentcases.show', $counselorcurrentcases->id) }}">
                                             {{ trans('global.view') }}
                                         </a>
                                     @endcan
 
                                     @can('counselor_current_cases_edit')
-                                        <a class="btn btn-xs btn-info" href="{{ route('admin.counselorcurrentcases.edit', 1) }}">
+                                        <a class="btn btn-xs btn-info" href="{{ route('admin.counselorcurrentcases.edit', $counselorcurrentcases->id) }}">
                                             {{ trans('global.edit') }}
                                         </a>
                                     @endcan
 
                                     @can('counselor_current_cases_delete')
-                                        <form action="{{ route('admin.counselorcurrentcases.destroy', 1) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                                        <form action="{{ route('admin.counselorcurrentcases.destroy', $counselorcurrentcases->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                             <input type="hidden" name="_method" value="DELETE">
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                             <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
                                         </form>
                                     @endcan
-
                                 </td>
-
                             </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

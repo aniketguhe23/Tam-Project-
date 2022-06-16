@@ -21,7 +21,7 @@
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>
-                @can('resource_category_access')
+                @can('resource_category_accses')
                     <a class="btn btn-primary" href="{{ route('admin.resourcecategorys.index') }}">
                         Resource Categories 
                     </a>

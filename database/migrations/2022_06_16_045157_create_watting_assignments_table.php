@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFeedbackTable extends Migration
+class CreateWattingAssignmentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,15 @@ class CreateFeedbackTable extends Migration
      */
     public function up()
     {
-        Schema::create('feedback', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->text('feedback');
-            $table->longText('comment');
-            $table->integer('counselor_id');
+        Schema::create('watting_assignments', function (Blueprint $table) {
+            $table->increments('id');
             $table->unsignedBigInteger('user_id');
-            $table->integer('star_reviews');
-            $table->integer('status');
+            $table->unsignedBigInteger('category_id');
+            $table->enum('waiting_status', array('0','1'))->default('0');
             $table->foreign('user_id',)->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('category_id',)->references('id')->on('category')->onDelete('cascade');
             $table->timestamps();
-            $table->softDeletes();
+            $table->softDeletes();           
         });
     }
 
@@ -34,6 +32,6 @@ class CreateFeedbackTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('feedback');
+        Schema::dropIfExists('watting_assignments');
     }
 }

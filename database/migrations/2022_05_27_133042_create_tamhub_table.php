@@ -16,6 +16,7 @@ class CreateTamhubTable extends Migration
         Schema::create('tamhub', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('organisation_name');
+            $table->integer('resource_category_id');
             $table->string('city');
             $table->longText('areas');
             $table->string('services');

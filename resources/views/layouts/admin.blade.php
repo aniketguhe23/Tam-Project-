@@ -33,16 +33,6 @@
                 <li class="nav-item">
                     <a class="nav-link" data-widget="pushmenu" href="#"><i class="fa fa-bars"></i></a>
                 </li>
-                <li>
-            <?php 
-              
-                $sessionCounselorid = Auth::user()->id;
-                if($sessionCounselorid != 1)
-                {?>
-                     <label class="switch"><input type="checkbox"><span class="slider round"></span></label>
-               <?php }
-                  ?>
-                </li>
             </ul>
 
             <!-- Right navbar links -->

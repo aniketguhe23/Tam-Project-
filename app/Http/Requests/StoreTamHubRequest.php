@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Requests;
-
 use App\Models\Tamhub;
 use Gate;
 use Illuminate\Foundation\Http\FormRequest;

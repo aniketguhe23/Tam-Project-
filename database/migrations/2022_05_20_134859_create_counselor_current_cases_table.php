@@ -15,12 +15,14 @@ class CreateCounselorCurrentCasesTable extends Migration
     {
         Schema::create('counselor_current_cases', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('category_id');
+            $table->unsignedBigInteger('category_id');
             $table->integer('task_assignment_id');
-            $table->integer('user_id');
+            $table->unsignedBigInteger('user_id');
             $table->integer('task_no');
             $table->longText('topic');
             $table->longText('feedback');
+            $table->foreign('category_id',)->references('id')->on('category')->onDelete('cascade');
+            $table->foreign('user_id',)->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });

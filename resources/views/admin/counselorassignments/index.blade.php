@@ -47,17 +47,17 @@
                 </thead>
                 <tbody>
                 <?php  $i = 1;?>
-                    @foreach($users as $key => $user)
-                        <tr data-entry-id="{{ $user->id }}">
+                    @foreach($waitingUsers as $key => $waitingUser)
+                        <tr data-entry-id="{{ $waitingUser->id }}">
                             <td></td>
                             <td> <?php echo $i; $i++ ;?></td>
-                            <td>{{ $user->name }} </td>
-                            <td>{{ $user->age }} </td>
-                            <td>{{ $user->gender }} </td>
-                            <td>{{ $user->topic }} </td>
-                            <td>{{ $user->location }} </td>
-                            <td> 0 </td>
-                            <td> live  </td>
+                            <td>{{ $waitingUser->getUser->name }} </td>
+                            <td>{{ $waitingUser->getUser->age }} </td>
+                            <td>{{ $waitingUser->getUser->gender }} </td>
+                            <td>{{ $waitingUser->getUser->topic }} </td>
+                            <td>{{ $waitingUser->getUser->location }} </td>
+                            <td>{{ $waitingUser->id }} </td>
+                            <td> Waiting </td>
                             <td>     
                                 <select class="form-control select2 {{ $errors->has('counselor') ? 'is-invalid' : '' }}" name="counselor" id="counselor">
                                    <option> Select Counsellor </option>
@@ -65,7 +65,7 @@
                                    <option value="{{$counselorassignment->id}}"}>{{ $counselorassignment->name }} </option>
                                    @endforeach
                                 </select>
-                                <input type="hidden" name="user_id" id="user_id" value="{{ $user->id }}">
+                                <input type="hidden" name="user_id" id="user_id" value="{{ $waitingUser->id }}">
                             </td>
                             <td>
                                 @can('user_counselor_assignment')

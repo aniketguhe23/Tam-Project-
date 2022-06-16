@@ -91,12 +91,12 @@
                         <select class="form-control select2 {{ $errors->has('resource_category_id') ? 'is-invalid' : '' }}" name="resource_category_id" id="resource_category_id">
                         @if(!empty($resourcecategores))   
                         @foreach($resourcecategores as $id => $resourcecategore)
-                                <option value="{{ $id }}" {{ old('resource_category_id') == $id ? 'selected' : '' }}>{{ $resourcecategore->resource_category }}</option>
+                                <option value="{{ $id }}" {{ old('resource_category_id') == $id ? 'selected' : '' }}>{{ $resourcecategore->resource_category}}</option>
                             @endforeach
                         @endif
                         </select>
-                        @if($errors->has('resource_category'))
-                            <span class="text-danger">{{ $errors->first('resource_category') }}</span>
+                        @if($errors->has('resource_category_id'))
+                            <span class="text-danger">{{ $errors->first('resource_category_id') }}</span>
                         @endif
                     </div>
                 </div>

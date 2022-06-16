@@ -9,11 +9,11 @@ use \DateTimeInterface;
 use App\Models\User;
 use App\Models\Category;
 
-class CounselorAssignment extends Model
+class WaitingAssignments extends Model
 {
     use SoftDeletes, HasFactory;
 
-    public $table = 'counselor_assignment';
+    public $table = 'watting_assignments';
 
     protected $dates = [
         'created_at',
@@ -23,11 +23,9 @@ class CounselorAssignment extends Model
 
     protected $fillable = [
         'id',
-        'counselor_id',
-        'category_id',
         'user_id',
-        'chat_type', 
-        'availability'
+        'category_id',
+        'waiting_status',
     ];
 
     protected function serializeDate(DateTimeInterface $date)
@@ -49,4 +47,5 @@ class CounselorAssignment extends Model
     {
         return $this->belongsTo(User::class, 'counselor_id');
     }
+
 }

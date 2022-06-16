@@ -4,7 +4,7 @@
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
         <a class="btn btn-success" href="{{ route('admin.resourcecategorys.create') }}">
-               Add Categories
+               Add Resource Categories
             </a>
             <a class="btn btn-success" href="{{ route('admin.tamhubs.create') }}">
                Add Data
@@ -32,6 +32,9 @@
                         {{ trans('cruds.tamhub.fields.organisation_name') }}
                     </th>
                     <th>
+                        Resource Categories
+                    </th>
+                    <th>
                         {{ trans('cruds.tamhub.fields.city') }}
                     </th>
                     <th>
@@ -56,7 +59,7 @@
                         {{ trans('cruds.tamhub.fields.address') }}
                     </th>
                     <th>
-                        &nbsp;
+                        Actions
                     </th>
                 </tr>
             </thead>
@@ -109,6 +112,7 @@
       { data: 'placeholder', name: 'placeholder' },
 { data: 'id', name: 'id' },
 { data: 'organisation_name', name: 'organisation_name',sortable: false, searchable: false},
+{ data: 'resource_category_id', name: 'resource_category_id',sortable: false, searchable: false},
 { data: 'city', name: 'city',sortable: false, searchable: false},
 { data: 'areas', name: 'areas',sortable: false, searchable: false},
 { data: 'services', name: 'services',sortable: false, searchable: false},

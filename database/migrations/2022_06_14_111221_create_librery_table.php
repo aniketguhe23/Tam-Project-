@@ -15,9 +15,11 @@ class CreateLibreryTable extends Migration
     {
         Schema::create('librery', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('link');
+            $table->unsignedBigInteger('library_category_id');
+            $table->string('link');
             $table->string('source');
             $table->string('description');
+            $table->foreign('library_category_id',)->references('id')->on('library_category')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();           
         });

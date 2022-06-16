@@ -10,11 +10,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Passport\HasApiTokens;
 use \DateTimeInterface;
 
 class User extends Authenticatable
 {
-    use SoftDeletes, Notifiable, HasFactory;
+    use SoftDeletes, Notifiable, HasFactory, HasApiTokens;
 
     public $table = 'users';
 
@@ -89,5 +90,10 @@ class User extends Authenticatable
     public function category()
     {
         return $this->belongsTo(Category::class,'category_id','id');
+    }
+
+    public function validateForPassportPasswordGrant($password)
+    {
+        return Hash::check($password, $this->password);
     }
 }

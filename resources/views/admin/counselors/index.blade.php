@@ -71,7 +71,7 @@
                              
                             </td>
                             <td>
-                                @if($counselor->counselor_status==1)
+                                @if($counselor->counselor_availability==1)
                                   <p class="text-active"> Active </p>
                                 @else  
                                     <p class="text-inactive"> InActive </p>
@@ -79,7 +79,7 @@
                             </td>
                             @if($sessionCounselorid == 1)
                             <td>
-                                @if($counselor->counselor_availability==4) 
+                                @if($counselor->chat_availability==0) 
                                     <i class="fa fa-flag text-abvaility" aria-hidden="true"></i>
                                 @else
                                     <i class="fa fa-flag text-unabvaility" aria-hidden="true"></i>
