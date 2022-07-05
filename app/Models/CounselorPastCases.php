@@ -21,17 +21,37 @@ class CounselorPastCases extends Model
 
     protected $fillable = [
         'id',
+        'date',
         'category_id',
         'user_id',
-        'topic',
-        'content',
-        'created_at',
-        'updated_at',
-        'deleted_at'
+        'counselor_id',
+        'chat_type',
+        'feedback_id',
+       
     ];
 
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
+    }
+
+    public function getCategory()
+    {
+        return $this->belongsTo(Category::class,'category_id','id');
+    }
+
+    public function getCounselor()
+    {
+        return $this->belongsTo(User::class,'user_id','id');
+    }
+
+    public function getUser()
+    {
+        return $this->belongsTo(User::class,'user_id','id');
+    }
+
+    public function getFeedback()
+    {
+        return $this->belongsTo(Feedback::class,'feedback_id','id');
     }
 }

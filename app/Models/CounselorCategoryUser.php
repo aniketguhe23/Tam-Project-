@@ -48,5 +48,10 @@ class CounselorCategoryUser extends Model
         return $this->belongsTo(User::class,'user_id','id');
     }
 
+    public function getAsync()
+    {
+        return $this->belongsTo(AsyncChat::class,'id','counselor_category_by_user_id');
+    }
+
 
 }

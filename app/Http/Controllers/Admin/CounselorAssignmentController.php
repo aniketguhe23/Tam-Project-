@@ -24,10 +24,11 @@ class CounselorAssignmentController extends Controller
         $sessionCounselorid = Auth::user()->id;
         if($sessionCounselorid == 1){
             $waitingUsers = WaitingAssignments::with('getUser','getCategory')->get();
-            $counselorassignments =User::where('category_id',$request->category_id)
-                                        ->where('status','2')
+
+            $counselorassignment = CounselorAssignment::with('getUser','getCategory')->get();
+
+            $counselorassignments = User::where('status','2')
                                         ->where('counselor_availability','1')
-                                        ->where('chat_availability','0')
                                         ->get();
         
         }else{

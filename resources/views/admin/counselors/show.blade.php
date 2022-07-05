@@ -13,7 +13,7 @@
                     {{ trans('global.back_to_list') }}
                 </a>
             </div>
-            <table class="table table-bordered table-striped">
+            <table class="table   table-striped">
                 <tbody>
                 <tr>
                     <th>{{ trans('cruds.user.fields.id') }}</th>

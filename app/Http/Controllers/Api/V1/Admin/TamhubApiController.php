@@ -6,40 +6,46 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTamhubRequest;
 use App\Http\Requests\UpdateTamhubRequest;
 use App\Http\Resources\Admin\TamhubResource;
-use App\Models\Tamhub;
+use App\Models\TamHub;
+use App\Models\ResourceCategory;
+use App\Models\State;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class TamhubApiController extends Controller
 {
-    public function index()
+    public function stateResourceCategorys(Request $request)
     {
-        abort_if(Gate::denies('tamhub_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return new TamhubResource(Tamhub::get());
+        $getStates = State::where('id',$request->state_id)->first();
+        if(!empty($getStates))
+        {
+            $tamResourceCategorys = TamHub::where('state',$getStates->state_name)->where('resource_category_id',$request->category_id)->get();
+            $response = ['response' => $tamResourceCategorys,'message'=> 'Tamhub Resource Category Record Successfully.....!','status'=>true];
+            return response($response, 200);
+            die();
+        }else
+        {
+            $response = ['response' => [],'message'=> 'Record not found','status'=>false];
+            return response($response, 200);
+            die();   
+        }
     }
 
-    public function store(StoreTamhubRequest $request)
-    {
-        $Tamhubs = Tamhub::create($request->all());
-        return (new TamhubResource($Tamhubs))
-            ->response()
-            ->setStatusCode(Response::HTTP_CREATED);
+    public function store(Request $request) {
+        $tamResourceCategorys = ResourceCategory::where('id',$request->resource_category_id)->first();
+        if(!empty($tamResourceCategorys))
+        {
+                $response = TamHub::where('resource_category_id',$tamResourceCategorys->id,)->get();
+                $response = ['response' => $response,'message'=> 'Tamhub Resource Category Record Successfully.....!','status'=>true];
+                return response($response, 200);
+                die();
+        }else{
+            $response = ["message" => "Resource Category does not exit",'status'=>FALSE];
+            return response($response, 422);
+            die();
+        }
     }
 
-    public function update(UpdateTamhubRequest $request, Tamhub $tamhub)
-    {
-        $tamhub->update($request->all());
-        return (new TamhubResource($tamhub))
-            ->response()
-            ->setStatusCode(Response::HTTP_ACCEPTED);
-    }
-
-    public function destroy(Tamhub $tamhub)
-    {
-        abort_if(Gate::denies('tamhub_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        $tamhub->delete();
-        return response(null, Response::HTTP_NO_CONTENT);
-    }
+  
 }

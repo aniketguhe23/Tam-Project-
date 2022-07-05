@@ -61,25 +61,25 @@
               </form>
             </div>
             <div class="chat_footer">
-             <a class="btn btn-xs btn-info" id="myBtn" href="{{ route('admin.user-assign-admin.userAssignAdmin', $counselorCategoryUsers->getUser->id) }}">
+             <a class="btn btn-gradient-primary btn-rounded btn-icon" id="myBtn" href="{{ route('admin.user-assign-admin.userAssignAdmin', $counselorCategoryUsers->getUser->id) }}">
                   Report chat
               </a>
-              <a class="btn btn-xs btn-info" id="myBtn" href="{{ route('admin.user-assign-admin.userAssignAdmin', $counselorCategoryUsers->getUser->id) }}">
+              <a class="btn btn-gradient-primary btn-rounded btn-icon" id="myBtn" href="{{ route('admin.user-assign-admin.userAssignAdmin', $counselorCategoryUsers->getUser->id) }}">
                   Inappropriate
               </a>
-              <a class="btn btn-xs btn-info" id="myBtn" href="{{ route('admin.user-assign-admin.userAssignAdmin', $counselorCategoryUsers->getUser->id) }}">
+              <a class="btn btn-gradient-primary btn-rounded btn-icon" id="myBtn" href="{{ route('admin.user-assign-admin.userAssignAdmin', $counselorCategoryUsers->getUser->id) }}">
                   User At Risk
               </a>
-              <a class="btn btn-xs btn-info" id="myBtn" href="{{ route('admin.user-assign-admin.userAssignAdmin', $counselorCategoryUsers->getUser->id) }}">
+              <a class="btn btn-gradient-primary btn-rounded btn-icon" id="myBtn" href="{{ route('admin.user-assign-admin.userAssignAdmin', $counselorCategoryUsers->getUser->id) }}">
                   Reassign User
               </a>
-             <a class="btn btn-xs btn-info" href="{{ route('admin.chat-closed.closeChat', $counselorCategoryUsers->getUser->id) }}">
+             <a class="btn btn-gradient-primary btn-rounded btn-icon" href="{{ route('admin.chat-closed.closeChat', $counselorCategoryUsers->getUser->id) }}">
                   Close
                 </a>
-              <a class="btn btn-xs btn-info" id="myBtn" href="{{ route('admin.user-assign-admin.userAssignAdmin', $counselorCategoryUsers->getUser->id) }}">
+              <a class="btn btn-gradient-primary btn-rounded btn-icon" id="myBtn" href="{{ route('admin.user-assign-admin.userAssignAdmin', $counselorCategoryUsers->getUser->id) }}">
                   User InActive
               </a>
-              <a class="btn btn-xs btn-info" id="myBtn" href="{{ route('admin.user-assign-admin.userAssignAdmin', $counselorCategoryUsers->getUser->id) }}">
+              <a class="btn btn-gradient-primary btn-rounded btn-icon" id="myBtn" href="{{ route('admin.user-assign-admin.userAssignAdmin', $counselorCategoryUsers->getUser->id) }}">
                   Chat Report 
               </a>
             </div>

@@ -13,7 +13,7 @@
 
     <div class="card-body">
         <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-counselors">
+            <table class=" table   table-striped   datatable datatable-counselors">
                 <thead>
                     <tr>
                         <th width="10">
@@ -53,21 +53,22 @@
                 </thead>
                 <tbody>
                 <?php  $i = 1;?>
-                    @foreach($counselors as $key => $counselor)
-                        <tr data-entry-id="{{ $counselor->id }}">
+                    @foreach($getCurrentCounselorByUsers as $key => $getCurrentCounselorByUsers)
+                        <tr data-entry-id="{{ $getCurrentCounselorByUsers->id }}">
                             <td></td>
                             <td><?php echo $i; $i++ ;?> </td>
-                            <td>{{ $counselor->name }} </td>
-                            <td>46 </td>
-                            <td>{{ $counselor->gender }} </td>
-                            <td>{{ $counselor->topic }} </td>
-                            <td>{{ $counselor->location }} </td>
-                            <td> </td>
-                            <td>Live </td>
-                            <th> Admin </th>
-                             <td><a class="btn btn-xs btn-primary" href="#">
+                            <td>{{ $getCurrentCounselorByUsers->getUser->name }} </td>
+                            <td>{{ $getCurrentCounselorByUsers->getUser->age }}</td>
+                            <td>{{ $getCurrentCounselorByUsers->getUser->gender }} </td>
+                            <td>{{ $getCurrentCounselorByUsers->getCategory->category_name }} </td>
+                            <td>{{ $getCurrentCounselorByUsers->getUser->location }} </td>
+                            <td> 0999 </td>
+                            <td> @if($getCurrentCounselorByUsers->chat_type == 0) Async @else Live @endif  </td>
+                            <th> @if($getCurrentCounselorByUsers->counselor_id == 1) Admin @else @endif  </th>
+                             <td>
+                                <a class=" btn btn-gradient-primary btn-rounded btn-icon" href="#">
                                         Activate 
-                                    </a>
+                                </a>
                             </td>
                         </tr>
                     @endforeach
@@ -130,7 +131,7 @@
                 </div>
             </div>
         <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-counselors">
+            <table class=" table   table-striped   datatable datatable-counselors">
                 <thead>
                     <tr>
                         <th width="10">
@@ -165,28 +166,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                <?php  $i = 1;?>
-                    @foreach($counselors as $key => $counselor)
-                        <tr data-entry-id="{{ $counselor->id }}">
-                            <td></td>
-                            <td> <?php echo $i; $i++ ;?></td>
-                            <td> 08/08/2022</td>
-                            <td>{{ $counselor->name }} </td>
-                            <td>46 </td>
-                            <td>{{ $counselor->gender }} </td>
-                            <td>Work </td>
-                            <td> Live</td>
-                            <th> Admin </th>
-                            <td> 3 </td>
-                            <td> 
-                                @can('counselor_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.counselors.show', $counselor->id) }}">
-                                        View Chat
-                                </a>
-                                @endcan
-                            </td>
-                        </tr>
-                    @endforeach
+                
+                  
                 </tbody>
             </table>
         </div>

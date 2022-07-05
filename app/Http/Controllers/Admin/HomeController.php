@@ -12,6 +12,6 @@ class HomeController
     {
         $sessionCounselorid = Auth::user()->id;
         $getCounselorActive = User::where('id',$sessionCounselorid)->first();
-        return view('home', compact('getCounselorActive'));
+        return view('home', compact('getCounselorActive','sessionCounselorid'));
     }
 }

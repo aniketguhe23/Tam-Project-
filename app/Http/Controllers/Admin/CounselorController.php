@@ -8,7 +8,10 @@ use App\Http\Requests\UpdateCounselorRequest;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Category;
+use App\Models\AsyncChat;
+use App\Models\CounselorCategoryUser;
 use Gate;
+use DB;
 use Auth;
 use Session;
 use Illuminate\Http\Request;
@@ -103,16 +106,11 @@ class CounselorController extends Controller
 
     public function mychatAdmin()
     {
-        $users = User::with(['roles','category'])->get();
         $sessionCounselorid = Auth::user()->id;
-        if($sessionCounselorid == 1){
-            $counselors = User::with(['roles','category'])->where('status','4')->get();
-        }else{
-            $counselors = User::with(['roles','category'])->where('id',$sessionCounselorid)->where('status','4')->get();
-        }
         $categorys = Category::get();
-        return view('admin.counselors.mychat', compact('counselors','sessionCounselorid','categorys'));
-
+        $counselors = User::with(['roles','category'])->where('status','2')->get();
+        $getCurrentCounselorByUsers = CounselorCategoryUser::with('getUser','getCategory')->where('counselor_id',$sessionCounselorid)->get();
+        return view('admin.counselors.mychat', compact('getCurrentCounselorByUsers','counselors','sessionCounselorid','categorys'));
     }
 
     public function mychat($id)

@@ -71,7 +71,6 @@
                 <li class="nav-item has-treeview">
                         <a class="nav-link nav-dropdown-toggle" href="#">
                         <i class="fa-fw nav-icon fas fa-user-tie"></i>
-
                             <p>
                                  Configuration
                                 <i class="right fa fa-fw fa-angle-left nav-icon"></i>
@@ -89,25 +88,7 @@
                             </a>
                         </li>
                         @endcan
-                        <!-- @can('tamhub_access')
-                        <li class="nav-item">
-                            <a href="{{ route("admin.tamhubs.index") }}" class="nav-link {{ request()->is("admin/tamhubs") || request()->is("admin/tamhubs/*") ? "active" : "" }}">
-                                <i class="fa-fw nav-icon fas fa-user-tie"></i>
-                                <p>
-                                    {{ trans('cruds.tamhub.title') }}
-                                </p>
-                            </a>
-                        </li>
-                        @endcan -->
                         @can('tamhub_access')
-                       <!--  <li class="nav-item">
-                            <a href="{{ route("admin.tamhubs.index") }}" class="nav-link {{ request()->is("admin/tamhubs") || request()->is("admin/tamhubs/*") ? "active" : "" }}">
-                                <i class="fa-fw nav-icon fas fa-user-tie"></i>
-                                <p>
-                                    {{ trans('cruds.tamhub.title') }}
-                                </p>
-                            </a>
-                        </li> -->
                         <li class="nav-item has-treeview">
                         <a class="nav-link nav-dropdown-toggle" href="{{ route("admin.tamhubs.index") }}">
                             <i class="fa-fw nav-icon fas fa-users"></i>
@@ -147,6 +128,16 @@
                                     <i class="fa-fw nav-icon fas fa-user-tie"></i>
                                     <p>
                                         {{ trans('cruds.bookappointment.title') }}
+                                    </p>
+                                </a>
+                            </li>
+                        @endcan
+                        @can('privacy_policy_accses')
+                            <li class="nav-item">
+                                <a href="{{ route("admin.privacypolicys.index") }}" class="nav-link {{ request()->is("admin/privacypolicys") || request()->is("admin/privacypolicys/*") ? "active" : "" }}">
+                                    <i class="fa-fw nav-icon fas fa-user-tie"></i>
+                                    <p>
+                                        {{ trans('cruds.privacypolicy.title') }}
                                     </p>
                                 </a>
                             </li>
@@ -220,7 +211,7 @@
                     @endcan
                 @endif
                 <li class="nav-item">
-                    <a href="#" class="nav-link" onclick="event.preventDefault(); document.getElementById('logoutform').submit();">
+                    <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault(); document.getElementById('logoutform').submit();">
                         <p>
                             <i class="fas fa-fw fa-sign-out-alt nav-icon">
 

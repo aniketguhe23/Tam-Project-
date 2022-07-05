@@ -38,5 +38,10 @@ class TamHub extends Model
         return $date->format('Y-m-d H:i:s');
     }
 
+
+    public function resourceCategory()
+    {
+        return $this->hasMany(ResourceCategory::class,'resource_category_id');
+    }
    
 }

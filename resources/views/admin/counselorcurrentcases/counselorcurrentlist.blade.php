@@ -11,45 +11,8 @@
     </div>
 
     <div class="card-body">
-    <!-- <div class="row">
-                <div class="col-md-3">
-                    <div class="m-form__section m-form__section--first">
-                            <div class="form-group">
-                                <label class="form-control-label">Start Date</label>
-                                <input class="form-control date" type="text" name="fromdate" id="m_datepicker_2" placeholder="Start Date" required>
-                            </div>
-                        </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="m-form__section m-form__section--first">
-                            <div class="form-group">
-                                <label class="form-control-label">End Date </label>
-                                <input class="form-control date" type="text" name="todate" id="m_datepicker_3" placeholder="End Date" required>
-                            </div>
-                        </div>
-                </div>
-                <div class="col-md-3">
-                    <label class="required" for="chat_type">FeedBack</label>    
-                        <select class="form-control select2 {{ $errors->has('chat_type') ? 'is-invalid' : '' }}" name="chat_type" id="chat_type">
-                            <option> FeedBack(1-6) </option>
-                            <option> 1 </option>
-                            <option> 2 </option>
-                            <option> 3 </option>
-                            <option> 4 </option>
-                            <option> 5 </option>
-                            <option> 6 </option>
-                        </select>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group filter">
-                        <button class="btn btn-primary" type="submit">
-                        Apply Filter
-                        </button>
-                    </div>
-                </div>
-            </div> -->
         <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-counselors">
+            <table class=" table   table-striped   datatable datatable-counselors">
                 <thead>
                     <tr>
                         <th width="10">
@@ -71,6 +34,9 @@
                         User {{ trans('cruds.counselor.fields.topic') }}
                         </th>
                         <th>
+                        Time Left
+                        </th>
+                        <th>
                         User Location
                         </th>
                         <th>
@@ -82,20 +48,22 @@
                     </tr>
                 </thead>
                 <tbody>
-                <?php  $i = 1;?>
-                    @foreach($counselors as $key => $counselor)
-                        <tr data-entry-id="{{ $counselor->id }}">
+                <?php   $i = 1; ?>
+                    @foreach($counselorCurrentChats as $key => $counselorCurrentChat)
+                        <tr data-entry-id="{{ $counselorCurrentChat->id }}">
                             <td></td>
                             <td><?php echo $i; $i++ ;?> </td>
-                            <td>{{ $counselor->name }} </td>
+                            <td>{{ $counselorCurrentChat->getUser->name }} </td>
                             <td>46 </td>
-                            <td>{{ $counselor->gender }} </td>
-                            <td>{{ $counselor->topic }} </td>
-                            <td>{{ $counselor->location }} </td>
-                            <td>Live </td>
-                             <td><a class="btn btn-xs btn-primary" href="#">
-                                        Activate 
-                                    </a>
+                            <td>{{ $counselorCurrentChat->getUser->gender }} </td>
+                            <td>{{ $counselorCurrentChat->getCategory->category_name }} </td>
+                            <td>{{ $counselorCurrentChat->created_at }}</td>
+                            <td>{{ $counselorCurrentChat->getUser->location }} </td>
+                            <td>Async</td>
+                             <td>
+                                <a class="btn btn-gradient-primary btn-rounded btn-icon" href="{{ route('admin.counselor-assign-user.counselorAssignUser', $counselorCurrentChat->getUser->id) }}">
+                                    Activate
+                                </a>
                             </td>
                         </tr>
                     @endforeach

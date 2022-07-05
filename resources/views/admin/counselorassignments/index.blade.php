@@ -7,7 +7,7 @@
 
     <div class="card-body">
         <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-User">
+            <table class=" table   table-striped   datatable datatable-User">
                 <thead>
                     <tr>
                         <th width="10">
@@ -47,6 +47,7 @@
                 </thead>
                 <tbody>
                 <?php  $i = 1;?>
+                @if(!empty($waitingUsers))
                     @foreach($waitingUsers as $key => $waitingUser)
                         <tr data-entry-id="{{ $waitingUser->id }}">
                             <td></td>
@@ -69,18 +70,19 @@
                             </td>
                             <td>
                                 @can('user_counselor_assignment')
-                                    <a class="btn btn-xs btn-info submit" onclick="CounselorAssign();">
+                                    <a class="btn btn-gradient-primary btn-rounded btn-icon submit" onclick="CounselorAssign();">
                                          Assign Counsellor
                                     </a>
                                 @endcan
                                 @can('my_chat_accses')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.counselors.mychat', $sessionCounselorid) }}">
+                                    <a class="btn btn-gradient-primary btn-rounded btn-icon" href="{{ route('admin.counselors.mychat', $sessionCounselorid) }}">
                                     Assign Myself
                                     </a>
                                 @endcan
                             </td>
                         </tr>
                     @endforeach
+                @endif
                 </tbody>
             </table>
         </div>

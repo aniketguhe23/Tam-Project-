@@ -20,6 +20,7 @@ class AsyncChat extends Model
 
     protected $fillable = [
         'id',
+        'counselor_category_by_user_id',
         'category_id',
         'sender_id',
         'reciver_id',
@@ -32,10 +33,16 @@ class AsyncChat extends Model
         'updated_at',
         'deleted_at'
     ];
-
+    
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
     }
 
+    public function getCounselorByUser()
+    {
+        return $this->belongsTo(CounselorCategoryUser::class,'counselor_category_by_user_id','id');
+    }
+
+   
 }

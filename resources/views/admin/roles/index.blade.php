@@ -16,7 +16,7 @@
 
     <div class="card-body">
         <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-Role">
+            <table class=" table   table-striped   datatable datatable-Role">
                 <thead>
                     <tr>
                         <th width="10">
@@ -55,14 +55,14 @@
                             </td>
                             <td>
                                 @can('role_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.roles.show', $role->id) }}">
-                                        {{ trans('global.view') }}
+                                    <a class=" btn btn-gradient-primary btn-rounded btn-icon" href="{{ route('admin.roles.show', $role->id) }}">
+                                       <i class="fa fa-eye" aria-hidden="true"></i>
                                     </a>
                                 @endcan
 
                                 @can('role_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.roles.edit', $role->id) }}">
-                                        {{ trans('global.edit') }}
+                                    <a class="btn btn-gradient-primary btn-rounded btn-icon" href="{{ route('admin.roles.edit', $role->id) }}">
+                                       <i class="fas fa-edit"></i>
                                     </a>
                                 @endcan
 
@@ -70,7 +70,7 @@
                                     <form action="{{ route('admin.roles.destroy', $role->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                         <input type="hidden" name="_method" value="DELETE">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
+                                         <button type="submit" class="btn btn-gradient-primary btn-rounded btn-icon"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                     </form>
                                 @endcan
 

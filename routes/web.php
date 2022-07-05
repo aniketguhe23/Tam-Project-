@@ -12,6 +12,8 @@ Route::get('/home', function () {
 
     return redirect()->route('admin.home');
 });
+Route::redirect('/', '/login');
+Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
 
 Auth::routes(['register' => false]);
 
@@ -77,30 +79,28 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('counselorcurrentcases/destroy', 'CounselorCurrentCasesController@massDestroy')->name('counselor_current_cases.massDestroy');
     Route::resource('counselorcurrentcases', 'CounselorCurrentCasesController');
     Route::get('counselor-current-cases', 'CounselorCurrentCasesController@currentCounselor')->name('counselor-current-cases.currentCounselor');
-  
+    Route::get('counselor-assign-user/{userId}', 'CounselorCurrentCasesController@counselorAssignUser')->name('counselor-assign-user.counselorAssignUser');
+    Route::get('user-assign-admin/{userId}', 'CounselorCurrentCasesController@userAssignAdmin')->name('user-assign-admin.userAssignAdmin');
+
+    Route::get('close-chat/{userId}', 'CounselorCurrentCasesController@closeChat')->name('chat-closed.closeChat');
+
+    Route::post('counselor-chat', 'CounselorCurrentCasesController@chat')->name('counselor-chat.chat');
+
     // Counselor Past Cases
     Route::delete('counselor-past-cases/destroy', 'CounselorPastCasesController@massDestroy')->name('counselor-past-cases.massDestroy');
+    Route::get('past-chat-history/{userId}', 'CounselorPastCasesController@show')->name('past-chat-history.show');
     Route::resource('counselor-past-cases', 'CounselorPastCasesController');
 
    
-    // Task Statuses
-    Route::delete('task-statuses/destroy', 'TaskStatusController@massDestroy')->name('task-statuses.massDestroy');
-    Route::resource('task-statuses', 'TaskStatusController');
-
-    // Task Tags
-    Route::delete('task-tags/destroy', 'TaskTagController@massDestroy')->name('task-tags.massDestroy');
-    Route::resource('task-tags', 'TaskTagController');
-
-    // Tasks
-    Route::delete('tasks/destroy', 'TaskController@massDestroy')->name('tasks.massDestroy');
-    Route::post('tasks/media', 'TaskController@storeMedia')->name('tasks.storeMedia');
-    Route::post('tasks/ckmedia', 'TaskController@storeCKEditorImages')->name('tasks.storeCKEditorImages');
-    Route::resource('tasks', 'TaskController');
-
+    //privacy policy
+    Route::delete('privacypolicys/destroy', 'PrivacyPolicyController@massDestroy')->name('privacypolicys.massDestroy');
+    Route::post('privacypolicys/media', 'PrivacyPolicyController@storeMedia')->name('privacypolicys.storeMedia');
+    Route::resource('privacypolicys', 'PrivacyPolicyController');
   
-
-    // Tasks Calendars
-    Route::resource('tasks-calendars', 'TasksCalendarController', ['except' => ['create', 'store', 'edit', 'update', 'show', 'destroy']]);
+    // Notification web
+    Route::get('/push-notificaiton', 'NotificationController@index')->name('push-notificaiton');
+    Route::post('/store-token', 'NotificationController@storeToken')->name('store.token');
+    Route::post('/send-notification', 'NotificationController@sendNotification')->name('send.notification');
 });
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {
 // Change password
@@ -111,3 +111,4 @@ Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 
         Route::post('profile/destroy', 'ChangePasswordController@destroy')->name('password.destroyProfile');
     }
 });
+

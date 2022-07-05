@@ -16,7 +16,7 @@
 
     <div class="card-body">
         <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-bookappointment">
+            <table class=" table   table-striped   datatable datatable-bookappointment">
                 <thead>
                     <tr>
                         <th width="10">
@@ -47,14 +47,14 @@
                             </td>
                             <td>
                                 @can('bookappointment_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.bookappointments.show', $bookappointment->id) }}">
-                                        {{ trans('global.view') }}
+                                    <a class=" btn btn-gradient-primary btn-rounded btn-icon" href="{{ route('admin.bookappointments.show', $bookappointment->id) }}">
+                                       <i class="fa fa-eye" aria-hidden="true"></i>
                                     </a>
                                 @endcan
 
                                 @can('bookappointment_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.bookappointments.edit', $bookappointment->id) }}">
-                                        {{ trans('global.edit') }}
+                                    <a class="btn btn-gradient-primary btn-rounded btn-icon" href="{{ route('admin.bookappointments.edit', $bookappointment->id) }}">
+                                       <i class="fas fa-edit"></i>
                                     </a>
                                 @endcan
 
@@ -62,7 +62,7 @@
                                     <form action="{{ route('admin.bookappointments.destroy', $bookappointment->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                         <input type="hidden" name="_method" value="DELETE">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
+                                         <button type="submit" class="btn btn-gradient-primary btn-rounded btn-icon"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                     </form>
                                 @endcan
 

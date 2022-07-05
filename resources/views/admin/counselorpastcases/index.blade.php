@@ -43,12 +43,9 @@
                 </div>
             </div>
         <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-User">
+            <table class=" table   table-striped   datatable datatable-User">
                 <thead>
                     <tr>
-                        <th width="10">
-
-                        </th>
                         <th>
                             {{ trans('cruds.counselor.fields.id') }}
                         </th>
@@ -79,26 +76,26 @@
                     </tr>
                 </thead>
                 <tbody>
-                 
-                        <tr>
-                            <td> </td>
-                            <td> </td>
-                            <td> </td>
-                            <td> </td>
-                            <td> </td>
-                            <td> </td>
-                            <td> </td>
-                            <td> </td>
-                            <td> </td>
-                           
-                            <td>
-                                @can('user_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.counselors.show', 1) }}">
-                                        {{ trans('global.view') }}
-                                    </a>
-                                @endcan
-                            </td>
-                    </tr>
+                        <?php  $i = 1;?>
+                         @foreach($counselorpastcases as $key => $counselorpastcase)
+                            <tr data-entry-id="{{ $counselorpastcase->id }}">
+                                <td>{{ $counselorpastcase->id }}</td>   
+                                <td>{{ $counselorpastcase->date }}</td>
+                                <td> @if($counselorpastcase->getUser != " " ){{ $counselorpastcase->getUser->name }} @endif  </td>
+                                <td> @if($counselorpastcase->getUser != " " ){{ $counselorpastcase->getUser->age }} @endif  </td>
+                                <td> @if($counselorpastcase->getUser != " " ){{ $counselorpastcase->getUser->gender }} @endif  </td>
+                                <td> @if($counselorpastcase->getCategory != " " ){{ $counselorpastcase->getCategory->category_name }} @endif  </td>
+                                <td>{{ $counselorpastcase->chat_type }} </td>
+                                <td> @if($counselorpastcase->getFeedback != " ") {{ $counselorpastcase->getFeedback->feedback }} @endif </td>
+                                <td>
+                                    @can('counselor_past_cases_show')
+                                        <a class=" btn btn-gradient-primary btn-rounded btn-icon" href="{{ route('admin.past-chat-history.show', $counselorpastcase->id) }}">
+                                           <i class="fa fa-eye" aria-hidden="true"></i>
+                                        </a>
+                                    @endcan
+                                </td>
+                            </tr>
+                        @endforeach
                 </tbody>
             </table>
         </div>

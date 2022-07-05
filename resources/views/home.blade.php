@@ -12,11 +12,13 @@
                   <span></span>Overview <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle" width="200px" height="340px" ></i>
                 </li>
                 <li>
-                @if($getCounselorActive->counselor_availability == 0)
-                   <p style="float:right;"><input type="button" class="btn btn-danger" name="availability" onclick="myFunction();" value="InActivate" id="inactive"></p>
-                @else
-                   <p style="float:right;"><input type="button" class="btn btn-primary" name="availability" onclick="myFunction();" value="Activate" id="active"></p>
-                @endif 
+                @if($sessionCounselorid != 1)
+                  @if($getCounselorActive->counselor_availability == 0)
+                    <p style="float:right;"><input type="button" class="btn btn-danger" name="availability" onclick="myFunction();" value="InActivate" id="inactive"></p>
+                  @else
+                    <p style="float:right;"><input type="button" class="btn btn-primary" name="availability" onclick="myFunction();" value="Activate" id="active"></p>
+                  @endif 
+                @endif
                 <?php   
                 $sessionCounselorid = Auth::user()->id;
                 if($sessionCounselorid != 1)

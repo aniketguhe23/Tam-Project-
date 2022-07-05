@@ -3,7 +3,7 @@
 
 <div class="card">
     <div class="card-header">
-        {{ trans('global.edit') }} {{ trans('cruds.tamhub.title_singular') }}
+       <i class="fas fa-edit"></i> {{ trans('cruds.tamhub.title_singular') }}
     </div>
 
     <div class="card-body">

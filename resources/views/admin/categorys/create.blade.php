@@ -23,7 +23,7 @@
                 </button>
                 @can('category_access')
                     <a class="btn btn-primary" href="{{ route('admin.categorys.index') }}">
-                        {{ trans('global.view') }} Categories
+                       <i class="fa fa-eye" aria-hidden="true"></i> Categories
                     </a>
                 @endcan
             </div>
