@@ -96,11 +96,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('privacypolicys/destroy', 'PrivacyPolicyController@massDestroy')->name('privacypolicys.massDestroy');
     Route::post('privacypolicys/media', 'PrivacyPolicyController@storeMedia')->name('privacypolicys.storeMedia');
     Route::resource('privacypolicys', 'PrivacyPolicyController');
-  
-    // Notification web
-    Route::get('/push-notificaiton', 'NotificationController@index')->name('push-notificaiton');
-    Route::post('/store-token', 'NotificationController@storeToken')->name('store.token');
-    Route::post('/send-notification', 'NotificationController@sendNotification')->name('send.notification');
+
+     // push notification 
+     Route::get('/push-notificaiton', 'NotificationController@index')->name('push-notificaiton');
+     Route::post('/store-token', 'NotificationController@storeToken')->name('store.token');
+     Route::post('/send-notification', 'NotificationController@sendNotification')->name('send.notification');
+
 });
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {
 // Change password

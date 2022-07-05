@@ -1,5 +1,5 @@
 .bg-white {
-    background: linear-gradient(90deg, rgb(39, 86, 66) 10%, rgba(39, 86, 66, 1) 100%) !important;
+    background: #fff !important;
 }
 .navbar-light .navbar-nav .nav-link {
     color:#fff;
@@ -12,20 +12,41 @@
 	margin-left: 1rem;
 }  
 [class*=sidebar-dark] .brand-link {
-    background: linear-gradient(90deg, rgb(39, 86, 66) 10%, rgba(39, 86, 66, 1) 100%);
+    background: #fff;
 	border-bottom: none !important;
 	    text-align: center;
 }
+.btn:not(:disabled):not(.disabled).active, .btn:not(:disabled):not(.disabled):active {
+    background: linear-gradient(to right, #30835f, #275642);
+    color: #fff;
+}
+.btn-gradient-primary {
+       background: linear-gradient(to right, #30835f, #275642);
+    border: 0;
+    -webkit-transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease;
+}
+.btn-gradient-primary:not(.btn-gradient-light) {
+    color: #ffffff;
+}
+.btn.btn-icon {
+    width: 42px;
+    height: 42px;
+    padding: 0;line-height: 2.6;
+}
 
+.btn.btn-rounded {
+    border-radius: 50px;
+}
 .brand-text img{
 	width: 100%;
 }
 .nav-link .fa-bars{
 	font-size: 26px;
-    color: #fff;
+    color: rgb(39 86 66);
 }
 .sidebar {
-	background: linear-gradient(90deg, rgb(39, 86, 66) 10%, rgba(39, 86, 66, 1) 100%);
+	background: #fff;
    
 }
 .elevation-4 {
@@ -39,24 +60,39 @@
 .nav-sidebar>.nav-item .nav-icon {
     font-size: 14px !important;
 }
+.sidebar-dark-primary .nav-treeview>.nav-item>.nav-link:hover {
+    color: rgb(39 86 66);
+    background-color: rgba(255,255,255,.1);
+}
 .sidebar-dark-primary .nav-sidebar>.nav-item.menu-open>.nav-link,
  .sidebar-dark-primary .nav-sidebar>.nav-item:hover>.nav-link {
-    color: #275642 !important;
+    color: rgb(39 86 66)!important;
     background-color: #fff!important;
 }
 .sidebar-dark-primary .nav-treeview.nav-item.nav-link.active, 
 .sidebar-dark-primary .nav-treeview.nav-item.nav-link.active:hover {
     background-color: #fff !important;
-    color: #275642 !important;
+    color: rgb(39 86 66) !important;
 }
 .sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link:active, 
 .sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link:focus {
    background-color: #fff !important;
-    color: #275642 !important;
+    color: rgb(39 86 66) !important;
+}
+.sidebar-dark-primary .nav-treeview>.nav-item>.nav-link {
+    color: #000;
+}
+.sidebar-dark-primary .nav-treeview>.nav-item>.nav-link.active,
+.sidebar-dark-primary .nav-treeview>.nav-item>.nav-link.active:hover {
+    color: rgb(39 86 66);
+    background-color: #fff;
 }
 .sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active {
-    color: #275642 !important;
-    background-color: #E5E5E5!important;
+    color: rgb(39 86 66) !important;
+    background-color: #fff!important;
+}
+.sidebar-dark-primary .sidebar a {
+     color: #000; 
 }
 .btn-primary:hover {
     color: #fff!important;
@@ -115,11 +151,13 @@ table.dataTable tbody td{
 padding: 5px 10px !important;
 }
 table thead{
-background: linear-gradient(90deg, rgb(39, 86, 66) 10%,rgba(39, 86, 66, 1) 100%);
+background: #f9e4c2ad;
 font-weight: 600;
-color: #fff;
+color: #000;
 }
-
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgb(0 0 0 / 3%);
+}
 .badge-info {
     color: #fff;
     background-color: #275642;
@@ -253,3 +291,7 @@ margin-top: 30px;
   .slider.round:before {
     border-radius: 50%;
   }
+  .callout, .elevation-1, .sidebar-dark-danger .nav-sidebar>.nav-item>.nav-link.active, 
+  .sidebar-dark-dark .nav-sidebar>.nav-item>.nav-link.active, .sidebar-dark-info .nav-sidebar>.nav-item>.nav-link.active, .sidebar-dark-light .nav-sidebar>.nav-item>.nav-link.active, .sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active, .sidebar-dark-secondary .nav-sidebar>.nav-item>.nav-link.active, .sidebar-dark-success .nav-sidebar>.nav-item>.nav-link.active, .sidebar-dark-warning .nav-sidebar>.nav-item>.nav-link.active, .sidebar-light-danger .nav-sidebar>.nav-item>.nav-link.active, .sidebar-light-dark .nav-sidebar>.nav-item>.nav-link.active, .sidebar-light-info .nav-sidebar>.nav-item>.nav-link.active, .sidebar-light-light .nav-sidebar>.nav-item>.nav-link.active, .sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active, .sidebar-light-secondary .nav-sidebar>.nav-item>.nav-link.active, .sidebar-light-success .nav-sidebar>.nav-item>.nav-link.active, .sidebar-light-warning .nav-sidebar>.nav-item>.nav-link.active {
+     box-shadow: 0 0px 0px rgb(0 0 0 / 12%), 0 0px 0px rgb(0 0 0 / 24%); 
+}

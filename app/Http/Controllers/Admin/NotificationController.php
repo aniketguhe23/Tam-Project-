@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
-
+namespace App\Http\Controllers\Admin;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\User;
+use App\Models\FcmToken;
+use Auth;
 
 class NotificationController extends Controller
 {
@@ -12,23 +13,30 @@ class NotificationController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return view('home');
+        $getFcmTokens = FcmToken::where('user_id', $request->user_id)->first();
+        return response()->json($getFcmTokens);
     }
   
     public function storeToken(Request $request)
-    {
-        auth()->user()->update(['fcm_token'=>$request->token]);
-        return response()->json(['Token successfully stored.']);
+    {        
+        $sessionCounselorid = Auth::user()->id;
+        $storeFcmToken = array();
+        $storeFcmToken['fcm_token'] = $request->token;
+        $storeFcmToken['user_id'] = $sessionCounselorid;
+        $storeData = FcmToken::create($storeFcmToken);
+        return response()->json($storeData);
     }
   
+    
     public function sendNotification(Request $request)
     {
+        $sessionCounselorid = Auth::user()->id;
         $url = 'https://fcm.googleapis.com/fcm/send';
-        $FcmToken = User::whereNotNull('fcm_token')->pluck('fcm_token')->all();
-          
-        $serverKey = env('FCM_SERVER_KEY');
+        $FcmToken = FcmToken::where('user_id',$sessionCounselorid)->whereNotNull('fcm_token')->pluck('fcm_token')->all();
+       
+        $serverKey = 'APA91bFCyy9PnsqRhJeFtftO6yVs0tm7b28jsAwmgND4QCM_jycKhIAZDyTACoZLjWHDc7a2rIX568KFAbGNBIr4wY8InLA9MBSd_gh0e6ixT7gKsyNOPmeBCeYTWI4cgJuXwdAXfZa7';
   
         $data = [
             "registration_ids" => $FcmToken,

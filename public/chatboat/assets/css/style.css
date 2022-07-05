@@ -4004,8 +4004,8 @@ progress {
   --bs-table-striped-bg: rgba(0, 0, 0, 0.05);
   --bs-table-active-color: #212529;
   --bs-table-active-bg: rgba(0, 0, 0, 0.1);
-  --bs-table-hover-color: #212529;
-  --bs-table-hover-bg: #f2edf3;
+  --bs- -color: #212529;
+  --bs- -bg: #f2edf3;
   width: 100%;
   margin-bottom: 1rem;
   color: #212529;
@@ -4030,9 +4030,9 @@ progress {
 .table-sm > :not(caption) > * > * {
   padding: 0.25rem 0.25rem; }
 
-.table-bordered > :not(caption) > * {
+.  > :not(caption) > * {
   border-width: 1px 0; }
-  .table-bordered > :not(caption) > * > * {
+  .  > :not(caption) > * > * {
     border-width: 0 1px; }
 
 .table-borderless > :not(caption) > * > * {
@@ -4049,9 +4049,9 @@ progress {
   --bs-table-accent-bg: var(--bs-table-active-bg);
   color: var(--bs-table-active-color); }
 
-.table-hover > tbody > tr:hover > * {
-  --bs-table-accent-bg: var(--bs-table-hover-bg);
-  color: var(--bs-table-hover-color); }
+.  > tbody > tr:hover > * {
+  --bs-table-accent-bg: var(--bs- -bg);
+  color: var(--bs- -color); }
 
 .table-primary {
   --bs-table-bg: #cfe2ff;
@@ -4059,8 +4059,8 @@ progress {
   --bs-table-striped-color: #000;
   --bs-table-active-bg: #bacbe6;
   --bs-table-active-color: #000;
-  --bs-table-hover-bg: #bfd1ec;
-  --bs-table-hover-color: #000;
+  --bs- -bg: #bfd1ec;
+  --bs- -color: #000;
   color: #000;
   border-color: #bacbe6; }
 
@@ -4070,8 +4070,8 @@ progress {
   --bs-table-striped-color: #000;
   --bs-table-active-bg: #cbccce;
   --bs-table-active-color: #000;
-  --bs-table-hover-bg: #d1d2d4;
-  --bs-table-hover-color: #000;
+  --bs- -bg: #d1d2d4;
+  --bs- -color: #000;
   color: #000;
   border-color: #cbccce; }
 
@@ -4081,8 +4081,8 @@ progress {
   --bs-table-striped-color: #000;
   --bs-table-active-bg: #bcd0c7;
   --bs-table-active-color: #000;
-  --bs-table-hover-bg: #c1d6cc;
-  --bs-table-hover-color: #000;
+  --bs- -bg: #c1d6cc;
+  --bs- -color: #000;
   color: #000;
   border-color: #bcd0c7; }
 
@@ -4092,8 +4092,8 @@ progress {
   --bs-table-striped-color: #000;
   --bs-table-active-bg: #badce3;
   --bs-table-active-color: #000;
-  --bs-table-hover-bg: #bfe2e9;
-  --bs-table-hover-color: #000;
+  --bs- -bg: #bfe2e9;
+  --bs- -color: #000;
   color: #000;
   border-color: #badce3; }
 
@@ -4103,8 +4103,8 @@ progress {
   --bs-table-striped-color: #000;
   --bs-table-active-bg: #e6dbb9;
   --bs-table-active-color: #000;
-  --bs-table-hover-bg: #ece1be;
-  --bs-table-hover-color: #000;
+  --bs- -bg: #ece1be;
+  --bs- -color: #000;
   color: #000;
   border-color: #e6dbb9; }
 
@@ -4114,8 +4114,8 @@ progress {
   --bs-table-striped-color: #000;
   --bs-table-active-bg: #dfc2c4;
   --bs-table-active-color: #000;
-  --bs-table-hover-bg: #e5c7ca;
-  --bs-table-hover-color: #000;
+  --bs- -bg: #e5c7ca;
+  --bs- -color: #000;
   color: #000;
   border-color: #dfc2c4; }
 
@@ -4125,8 +4125,8 @@ progress {
   --bs-table-striped-color: #000;
   --bs-table-active-bg: #dfe0e1;
   --bs-table-active-color: #000;
-  --bs-table-hover-bg: #e5e6e7;
-  --bs-table-hover-color: #000;
+  --bs- -bg: #e5e6e7;
+  --bs- -color: #000;
   color: #000;
   border-color: #dfe0e1; }
 
@@ -4136,8 +4136,8 @@ progress {
   --bs-table-striped-color: #fff;
   --bs-table-active-bg: #373b3e;
   --bs-table-active-color: #fff;
-  --bs-table-hover-bg: #323539;
-  --bs-table-hover-color: #fff;
+  --bs- -bg: #323539;
+  --bs- -color: #fff;
   color: #fff;
   border-color: #373b3e; }
 
