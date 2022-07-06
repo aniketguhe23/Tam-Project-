@@ -36,7 +36,7 @@ class NotificationController extends Controller
         $url = 'https://fcm.googleapis.com/fcm/send';
         $FcmToken = FcmToken::where('user_id',$sessionCounselorid)->whereNotNull('fcm_token')->pluck('fcm_token')->all();
        
-        $serverKey = 'APA91bFCyy9PnsqRhJeFtftO6yVs0tm7b28jsAwmgND4QCM_jycKhIAZDyTACoZLjWHDc7a2rIX568KFAbGNBIr4wY8InLA9MBSd_gh0e6ixT7gKsyNOPmeBCeYTWI4cgJuXwdAXfZa7';
+        $serverKey = 'AAAA0yAqXOY:APA91bFx-9he2tSBX8bwjlnBHik0i-f_NhgsgaElzQQ0xDbefryv9G2dwAj0J-6lBhcMt14PWhIb0AfHXvaaW-V2NkE2rgTeLXDf5pbpAqvmmvvoVpYo73GfPsk4tYQo26s0c6p1pjLY';
   
         $data = [
             "registration_ids" => $FcmToken,

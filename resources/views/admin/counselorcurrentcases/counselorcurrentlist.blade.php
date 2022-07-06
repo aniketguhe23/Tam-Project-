@@ -122,6 +122,41 @@
   });
   
 })
+</script>
+<script src="https://www.gstatic.com/firebasejs/8.3.2/firebase.js"></script>
+<script>
+    var firebaseConfig = {
+        apiKey: 'AIzaSyBVwfEvl5Gtmi1u6Tq5q0pCDbfPugenQYE',
+        authDomain: 'tam-app-dev.firebaseapp.com',
+        databaseURL: 'https://auth-db582.hstgr.io/index.php?db=u141015763_db_tam',
+        projectId: 'tam-app-dev',
+        storageBucket: 'tam-app-dev.appspot.com',
+        messagingSenderId: '906777746662',
+        appId: '1:906777746662:web:e4d6e511e2a1a4245d2f27',
+        measurementId: 'G-BEFLVMNWLB',
+    };
+    firebase.initializeApp(firebaseConfig);
+    const messaging = firebase.messaging();
+ 
+    messaging.onMessage(function (payload) {
 
+    var thisCouslorId = $('#user_id').val;
+
+      $.ajax({
+            url: "{{url('admin/counselor-assign-user.counselorAssignUser')}}/thisCouslorId:" + thisCouslorId,
+            method: 'GET',
+            success: function(data) {
+                alert("get value ");
+               // $('#employee_district_id').html(data.html);
+            }
+        });
+
+        const title = payload.notification.title;
+        const options = {
+            body: payload.notification.body,
+            icon: payload.notification.icon,
+        };
+        new Notification(title, options);
+    });
 </script>
 @endsection

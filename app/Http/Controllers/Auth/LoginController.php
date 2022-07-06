@@ -7,6 +7,8 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Auth; 
+use App\Models\FcmToken;
+
 class LoginController extends Controller
 {
     /*
@@ -42,6 +44,13 @@ class LoginController extends Controller
 
     /* added */
     public function logout(Request $request) {
+       
+        $sessionCounselorid = Auth::user()->id;
+        $getFcmTokens = FcmToken::where('user_id', $sessionCounselorid)->first();
+        if(!empty($getFcmTokens))
+        {
+            $removeFcmToken = FcmToken::where('user_id', $getFcmTokens->user_id)->delete();
+        }
         Auth::logout();
         return redirect('/login');
     }

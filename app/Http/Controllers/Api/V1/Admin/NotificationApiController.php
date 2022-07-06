@@ -15,17 +15,14 @@ class NotificationApiController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $sessionCounselorid = Auth::user()->id;
-        $getFcmTokens = FcmToken::where('user_id', $sessionCounselorid)->get();
+        $getFcmTokens = FcmToken::where('user_id', $request->user_id)->first();
         return response()->json($getFcmTokens);
     }
   
     public function storeToken(Request $request)
-    {
-        $sessionCounselorid = Auth::user()->id;
-        
+    {        
         $storeFcmTokens = FcmToken::where('user_id', $request->user_id)
                                  ->create(['fcm_token' => $request->fcm_token,
                                            'user_id' => $request->user_id
@@ -37,9 +34,9 @@ class NotificationApiController extends Controller
     public function sendNotification(Request $request)
     {
         $url = 'https://fcm.googleapis.com/fcm/send';
-        $FcmToken = User::whereNotNull('fcm_token')->pluck('fcm_token')->all();
+        $FcmToken = FcmToken::whereNotNull('fcm_token')->pluck('fcm_token')->all();
           
-        $serverKey = env('FCM_SERVER_KEY');
+        $serverKey = env('AAAA0yAqXOY:APA91bFx-9he2tSBX8bwjlnBHik0i-f_NhgsgaElzQQ0xDbefryv9G2dwAj0J-6lBhcMt14PWhIb0AfHXvaaW-V2NkE2rgTeLXDf5pbpAqvmmvvoVpYo73GfPsk4tYQo26s0c6p1pjLY');
   
         $data = [
             "registration_ids" => $FcmToken,

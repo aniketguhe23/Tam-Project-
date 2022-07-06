@@ -144,6 +144,23 @@ class CounselorCurrentCasesController extends Controller
             }
         }
 
+        public function counselorUserChat($userId, $categoryId)
+        {
+            $sessionCounselorid = Auth::user()->id;
+            $counselorCategoryUsers = CounselorCategoryUser::where('category_id',$categoryId)
+                                                          ->where('counselor_id',$sessionCounselorid)
+                                                          ->where('user_id',$userId)
+                                                          ->where('activate_chat',1)
+                                                          ->first();
+            if(!empty($counselorCategoryUsers))
+            {
+                $asyncChats = DB::select("SELECT * FROM `async_chat` WHERE `category_id` = ".$categoryId." AND (`sender_id` = $userId OR `reciver_id` = $userId) ORDER BY `date`,`time` ASC");
+                $response = ['response' => $asyncChats,'message'=> 'message send successfully.....!'];
+                return response($response, 200);
+            }
+            return response(400);
+        }
+
 
         
         public function chat(Request $request)

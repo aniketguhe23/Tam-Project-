@@ -8,7 +8,7 @@
 
   <!-- End layout styles -->
   <link rel="shortcut icon" href="{{asset('public/chatboat/assets/images/favicon.ico')}}" />
-  <meta http-equiv="refresh" content="10"/>
+  
 <div class="content-wrapper">
           <div id="chat-circle" class="btn btn-raised">
             <div id="chat-overlay"></div>
@@ -52,7 +52,7 @@
             @csrf
                 <input class="form-control" type="text" name="message" id="chat-input" placeholder="Send a message...">
                 <input class="form-control" type="hidden" name="counselor_id" value="{{ $counselorCategoryUsers->counselor_id }}">
-                <input class="form-control" type="hidden" name="user_id" value="{{ $counselorCategoryUsers->user_id }}">
+                <input class="form-control" type="hidden" id="user_id"  name="user_id" value="{{ $counselorCategoryUsers->user_id }}">
                 <input class="form-control" type="hidden" name="category_id" value="{{ $counselorCategoryUsers->category_id }}">
                 
                 <button class="btn attachment"><i class="mdi mdi-paperclip"></i></button>
@@ -84,8 +84,6 @@
               </a>
             </div>
         </div>
-
-    
   </div>
 <script src="{{asset('public/chatboat/assets/vendors/js/vendor.bundle.base.js')}}"></script>
   <!-- endinject -->
@@ -108,6 +106,42 @@
         $("#selectPeriodRangePanel").hide();
     }
 });
+</script>
+<script src="https://www.gstatic.com/firebasejs/8.3.2/firebase.js"></script>
+<script>
+    var firebaseConfig = {
+        apiKey: 'AIzaSyBVwfEvl5Gtmi1u6Tq5q0pCDbfPugenQYE',
+        authDomain: 'tam-app-dev.firebaseapp.com',
+        databaseURL: 'https://auth-db582.hstgr.io/index.php?db=u141015763_db_tam',
+        projectId: 'tam-app-dev',
+        storageBucket: 'tam-app-dev.appspot.com',
+        messagingSenderId: '906777746662',
+        appId: '1:906777746662:web:e4d6e511e2a1a4245d2f27',
+        measurementId: 'G-BEFLVMNWLB',
+    };
+    firebase.initializeApp(firebaseConfig);
+    const messaging = firebase.messaging();
+ 
+    messaging.onMessage(function (payload) {
+      var userId = parseFloat(payload.data.user_id);
+      var categoryId = parseFloat(payload.data.category_id);
+      var thisKey = payload.data.key;    
+      if(thisKey == "async_user_message")
+      {
+        $.ajax({
+            url: "{{url('admin/counselor-assign-user-chat')}}/"+ userId + "/" + categoryId,
+            method: 'GET',
+            success: function(data) {
+              console.log('result');
+               console.log(data);
+               // $('#employee_district_id').html(data.html);
+            }
+        });
+      } else
+      {
+        alert("not match");
+      }
+    });
 </script>
 
 

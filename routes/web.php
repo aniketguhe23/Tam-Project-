@@ -84,6 +84,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
     Route::get('close-chat/{userId}', 'CounselorCurrentCasesController@closeChat')->name('chat-closed.closeChat');
 
+    //counselor and user chat
+    Route::get('counselor-assign-user-chat/{userId}/{categoryId}', 'CounselorCurrentCasesController@counselorUserChat')->name('counselor-assign-user-chat.counselorUserChat');
+
+
     Route::post('counselor-chat', 'CounselorCurrentCasesController@chat')->name('counselor-chat.chat');
 
     // Counselor Past Cases

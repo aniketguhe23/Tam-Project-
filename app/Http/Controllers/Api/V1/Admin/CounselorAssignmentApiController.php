@@ -108,8 +108,70 @@ class CounselorAssignmentApiController extends Controller
 
             $chekUserCurrentMessage =  CurrentUserMessage::where('current_chat_id', $checkCounselor->id)->get();
         }
+        $categoryId = $request->category_id;
+        $userId  = $request->user_id;
+
+        $data = $this->sendNotification($categoryId, $userId);
+
         $response = ['response' => $chekUserCurrentMessage,'message'=> 'message send successfully.....!','status'=>true];
         return response($response, 200);
+    }
+
+    public function sendNotification($categoryId, $userId)
+    {
+       
+        $url = 'https://fcm.googleapis.com/fcm/send';
+
+        $getCounselor =  User::where('category_id',$categoryId)->where('status','2')->get();
+      
+         
+        $FcmToken = FcmToken::where('user_id',$sessionCounselorid)->whereNotNull('fcm_token')->pluck('fcm_token')->all();
+       
+        $serverKey = 'AAAA0yAqXOY:APA91bFx-9he2tSBX8bwjlnBHik0i-f_NhgsgaElzQQ0xDbefryv9G2dwAj0J-6lBhcMt14PWhIb0AfHXvaaW-V2NkE2rgTeLXDf5pbpAqvmmvvoVpYo73GfPsk4tYQo26s0c6p1pjLY';
+  
+        $data = [
+            "registration_ids" => ["cCwIM59JJe626IYb0Iq1PG:APA91bFDQBAGEkBsi_GwOWT5DetWmu8yg1rOIwAHC3LBN4dpfvriNeRD6jPEyLWG_OvGQPyqyVpV8YthC_hP_3Vk_nR4GloMz2fuMGeja0glWheI4HOURTpSIXMwyHmf823MVgdanhfn"],
+            "notification" => [
+                "title" =>"New Message",
+                "body" => "User has sent a message",  
+            ],
+            "data" => [
+                "key" =>"async_user_message",
+                "user_id" => $userId,  
+                "category_id" => $categoryId,
+            ]
+        ];
+        $encodedData = json_encode($data);
+    
+        $headers = [
+            'Authorization:key=' . $serverKey,
+            'Content-Type: application/json',
+        ];
+    
+        $ch = curl_init();
+      
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+        // Disabling SSL Certificate support temporarly
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);        
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $encodedData);
+
+        // Execute post
+        $result = curl_exec($ch);
+
+        if ($result === FALSE) {
+            die('Curl failed: ' . curl_error($ch));
+        }        
+
+        // Close connection
+        curl_close($ch);
+
+        // FCM response
+        dd($result);        
     }
 
 

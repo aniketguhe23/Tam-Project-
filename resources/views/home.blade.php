@@ -43,8 +43,8 @@
           </div>   
           </div>
       <!-- partial -->
-</div>
-<div class="container">
+ 
+<!-- <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
                 <button onclick="startFCM()"
@@ -57,7 +57,7 @@
                         {{ session('status') }}
                     </div>
                     @endif
-                    <form action="{{ route('admin.send.notification') }}" method="POST">
+                    <form action="{{ route('admin.send.notification') }}"  method="POST">
                         @csrf
                         <div class="form-group">
                             <label>Message Title</label>
@@ -74,14 +74,12 @@
         </div>
     </div>
 </div>
+</div> -->
 @endsection
 @section('scripts')
 <script>
   $("document").ready(function(){
-  setTimeout(function(){
-      $("div.alert").remove();
-  }, 5000 ); // 5 secs
-
+    startFCM();
 });
 </script>
 <script>
@@ -105,7 +103,7 @@ function myFunction()
 </script>
 <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase.js"></script>
 <script>
-    var firebaseConfig = {
+     var firebaseConfig = {
         apiKey: 'AIzaSyBVwfEvl5Gtmi1u6Tq5q0pCDbfPugenQYE',
         authDomain: 'tam-app-dev.firebaseapp.com',
         databaseURL: 'https://auth-db582.hstgr.io/index.php?db=u141015763_db_tam',
@@ -115,6 +113,7 @@ function myFunction()
         appId: '1:906777746662:web:e4d6e511e2a1a4245d2f27',
         measurementId: 'G-BEFLVMNWLB',
     };
+   
     firebase.initializeApp(firebaseConfig);
     const messaging = firebase.messaging();
     function startFCM() {
@@ -137,7 +136,7 @@ function myFunction()
                     },
                     dataType: 'JSON',
                     success: function (response) {
-                        alert('Token stored.');
+                       
                     },
                     error: function (error) {
                         alert(error);
@@ -147,13 +146,5 @@ function myFunction()
                 alert(error);
             });
     }
-    messaging.onMessage(function (payload) {
-        const title = payload.notification.title;
-        const options = {
-            body: payload.notification.body,
-            icon: payload.notification.icon,
-        };
-        new Notification(title, options);
-    });
 </script>
 @endsection
