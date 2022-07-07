@@ -111,13 +111,13 @@ class CounselorAssignmentApiController extends Controller
         $categoryId = $request->category_id;
         $userId  = $request->user_id;
 
-        $data = $this->sendNotification($categoryId, $userId);
+        $data = $this->sendNotificationToCounselor($categoryId, $userId);
 
         $response = ['response' => $chekUserCurrentMessage,'message'=> 'message send successfully.....!','status'=>true];
         return response($response, 200);
     }
 
-    public function sendNotification($categoryId, $userId)
+    public function sendNotificationToCounselor($categoryId, $userId)
     {
        
         $url = 'https://fcm.googleapis.com/fcm/send';
@@ -130,7 +130,7 @@ class CounselorAssignmentApiController extends Controller
         $serverKey = 'AAAA0yAqXOY:APA91bFx-9he2tSBX8bwjlnBHik0i-f_NhgsgaElzQQ0xDbefryv9G2dwAj0J-6lBhcMt14PWhIb0AfHXvaaW-V2NkE2rgTeLXDf5pbpAqvmmvvoVpYo73GfPsk4tYQo26s0c6p1pjLY';
   
         $data = [
-            "registration_ids" => ["cCwIM59JJe626IYb0Iq1PG:APA91bFDQBAGEkBsi_GwOWT5DetWmu8yg1rOIwAHC3LBN4dpfvriNeRD6jPEyLWG_OvGQPyqyVpV8YthC_hP_3Vk_nR4GloMz2fuMGeja0glWheI4HOURTpSIXMwyHmf823MVgdanhfn"],
+            "registration_ids" => $FcmToken,
             "notification" => [
                 "title" =>"New Message",
                 "body" => "User has sent a message",  
@@ -174,6 +174,7 @@ class CounselorAssignmentApiController extends Controller
         dd($result);        
     }
 
+    
 
     public function getChat(Request $request)
     {

@@ -22,12 +22,22 @@ class NotificationApiController extends Controller
     }
   
     public function storeToken(Request $request)
-    {        
-        $storeFcmTokens = FcmToken::where('user_id', $request->user_id)
-                                 ->create(['fcm_token' => $request->fcm_token,
-                                           'user_id' => $request->user_id
+    {   
+        $getFcmTokens = FcmToken::where('user_id', $request->user_id)->where('fcm_token',$request->fcm_token)->whereNull('deleted_at')->first();
+        if(empty($getFcmTokens->fcm_token))
+        {
+            $storeFcmTokens = FcmToken::where('user_id', $request->user_id)
+                                    ->create(['fcm_token' => $request->fcm_token,
+                                            'user_id' => $request->user_id
                                         ]);
-        return response()->json($storeFcmTokens);
+            $response = ['response' => $storeFcmTokens,'message'=> 'Fcm token add successfully.....!','status'=>true];
+        }
+        else
+        {
+            $response = ['response' =>$getFcmTokens->fcm_token, 'message'=> 'Fcm token sent Successfully.....!','status'=>true];
+
+        }
+        return response($response, 200);
     }
   
     
