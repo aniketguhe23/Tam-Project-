@@ -24,30 +24,28 @@
 
             </div>
             <div class="chat-box-body">
-              <div class="chat-logs chat-history" >
+              <div class="chat-logs chat-history">
                 <ul>
-                @if(!empty($asyncChats))
-
-                @foreach($asyncChats as $asyncChat)
-                
-                @if($asyncChat->status == 1)
+                @if(!empty($liveChats))
+                @foreach($liveChats as $liveChat)
+                @if($liveChat->status == 1)
                 <div id="cm-msg-2" class="chat-msg user" >          
                     <span class="msg-avatar">            
                         <img src="https://i.stack.imgur.com/l60Hf.png">          
                     </span>          
-                    <div class="cm-msg-text"><span>{{ $asyncChat->message }}</span></br><small>{{ $asyncChat->time }}</small></div>        
+                    <div class="cm-msg-text"><span>{{ $liveChat->message }}</span></br><small>{{ $liveChat->time }}</small></div>        
                 </div>
                 @else
                 <div id="cm-msg-1" class="chat-msg self" >
                     <span class="msg-avatar">
                         <img src="https://i.stack.imgur.com/l60Hf.png">
                     </span>          
-                    <div class="cm-msg-text"><span>{{ $asyncChat->message }}</span></br><small style="float:right;">{{ $asyncChat->time }}</small></div>        
+                    <div class="cm-msg-text"><span>{{ $liveChat->message }}</span></br><small style="float:right;">{{ $liveChat->time }}</small></div>        
                 </div>
                 @endif
                 @endforeach 
                 @endif
-                </ul>
+              </ul>
               </div>
               <!--chat-log -->
             </div>
@@ -55,38 +53,35 @@
             <form id="chatAjax_ids" method="POST" action="{{ route("admin.counselor-chat.chat") }}" enctype="multipart/form-data">
             @csrf
                 <input class="form-control" type="text" name="message" id="chat-input" placeholder="Send a message...">
-                <input class="form-control" type="hidden" name="counselor_id" id="counselor_id" value="{{ $counselorAssignToUsers->counselor_id }}">
-                <input class="form-control" type="hidden" id="user_id"  name="user_id" value="{{ $counselorAssignToUsers->user_id }}">
-                <input class="form-control" type="hidden" name="category_id" value="{{ $counselorAssignToUsers->category_id }}">
+                <input class="form-control" type="hidden" name="counselor_id" value="{{ $counselorCategoryUsers->counselor_id }}">
+                <input class="form-control" type="hidden" id="user_id"  name="user_id" value="{{ $counselorCategoryUsers->user_id }}">
+                <input class="form-control" type="hidden" name="category_id" value="{{ $counselorCategoryUsers->category_id }}">
                 
-                <input type="hidden" id="urlUpdatechat" value='{{ route("admin.counselor-chat-update-chat.update_chat_ajax",$counselorAssignToUsers->user_id ) }}'>
-
-
                 <button class="btn attachment"><i class="mdi mdi-paperclip"></i></button>
                 <button class="btn emoji"><i class="mdi mdi-emoticon"></i></button>
                 <button  type="submit" class="chat-submit"><i class="material-icons mdi mdi-send"></i></button>
               </form>
             </div>
             <div class="chat_footer">
-             <a class="btn btn-gradient-primary btn-rounded " id="myBtn" href="{{ route('admin.user-assign-admin.userAssignAdmin', $counselorAssignToUsers->getUser->id) }}">
+             <a class="btn btn-gradient-primary btn-rounded " id="myBtn" href="{{ route('admin.user-assign-admin.userAssignAdmin', $counselorCategoryUsers->getUser->id) }}">
                   Report chat 
               </a>
-              <a class="btn btn-gradient-primary btn-rounded " id="myBtn" href="{{ route('admin.user-assign-admin.userAssignAdmin', $counselorAssignToUsers->getUser->id) }}">
+              <a class="btn btn-gradient-primary btn-rounded " id="myBtn" href="{{ route('admin.user-assign-admin.userAssignAdmin', $counselorCategoryUsers->getUser->id) }}">
                   Inappropriate
               </a>
-              <a class="btn btn-gradient-primary btn-rounded " id="myBtn" href="{{ route('admin.user-assign-admin.userAssignAdmin', $counselorAssignToUsers->getUser->id) }}">
+              <a class="btn btn-gradient-primary btn-rounded " id="myBtn" href="{{ route('admin.user-assign-admin.userAssignAdmin', $counselorCategoryUsers->getUser->id) }}">
                   User At Risk
               </a>
-              <a class="btn btn-gradient-primary btn-rounded " id="myBtn" href="{{ route('admin.user-assign-admin.userAssignAdmin', $counselorAssignToUsers->getUser->id) }}">
+              <a class="btn btn-gradient-primary btn-rounded " id="myBtn" href="{{ route('admin.user-assign-admin.userAssignAdmin', $counselorCategoryUsers->getUser->id) }}">
                   Reassign User
               </a>
-             <a class="btn btn-gradient-primary btn-rounded " href="{{ route('admin.chat-closed.closeChat', $counselorAssignToUsers->getUser->id) }}">
+             <a class="btn btn-gradient-primary btn-rounded " href="{{ route('admin.chat-closed.closeChat', $counselorCategoryUsers->getUser->id) }}">
                   Close
                 </a>
-              <a class="btn btn-gradient-primary btn-rounded " id="myBtn" href="{{ route('admin.user-assign-admin.userAssignAdmin', $counselorAssignToUsers->getUser->id) }}">
+              <a class="btn btn-gradient-primary btn-rounded " id="myBtn" href="{{ route('admin.user-assign-admin.userAssignAdmin', $counselorCategoryUsers->getUser->id) }}">
                   User InActive
               </a>
-              <a class="btn btn-gradient-primary btn-rounded " id="myBtn" href="{{ route('admin.user-assign-admin.userAssignAdmin', $counselorAssignToUsers->getUser->id) }}">
+              <a class="btn btn-gradient-primary btn-rounded " id="myBtn" href="{{ route('admin.user-assign-admin.userAssignAdmin', $counselorCategoryUsers->getUser->id) }}">
                   Chat Report 
               </a>
             </div>
@@ -106,8 +101,8 @@
   <script src="{{asset('public/chatboat/assets/js/chart.js')}}"></script>
   <script src="{{asset('public/chatboat/assets/js/chat.js')}}"></script>
   <script>
-     $('.chat-history,ul,div').animate({scrollTop: 99999999});
   $(document).on("click", function(e){
+    $('.chat-history,ul,div').animate({scrollTop: 99999999});
     if($(e.target).is("#period_select_range_btn")){
       $("#selectPeriodRangePanel").show();
     }else{
@@ -151,14 +146,10 @@
       }
     });
 
-     $(document).on('submit', 'form#chatAjax_ids', function (e) {
 
+    $(document).on('submit', 'form#chatAjax_ids', function (e) {
       var msg = $('#chat-input').val();
-      console.log(msg);
-
         e.preventDefault();
-        // $(this).find('button[type="submit"]')
-        //     .attr('disabled', true);
         var data = $(this).serialize();
 
         $.ajax({
@@ -168,37 +159,14 @@
             data: data,
             success: function (result) {
                 if (result.success == true) {
-                  $('.chat-history,ul,div').animate({scrollTop: 99999999});
-                  $('.chat-logs').append(result.data);
-                  $('#chat-input').val(' ');
-                }              
+                   $('.chat-logs').append(result.data);
+                   $('#chat-input').val(' ');
+                   $('.chat-history,ul,div').animate({scrollTop: 99999999});
+                }
+              
             },
         });
     });
-
-      $(document).ready(function(){
-        
-        setInterval(function(){
-            update_chat_history_data();
-        }, 5000);
-    });
-
-     function update_chat_history_data(){
-        var counselor_id = $('#counselor_id').val();
-        var user_id = $('#user_id').val();
-        var urlUpdate = $('#urlUpdatechat').val();
-        console.log(counselor_id);
-        $.ajax({
-             url: urlUpdate,
-             method:"GET",
-             dataType:'json',        
-             success: function(dataResult){
-              // $('.chat-logs').append(result.data);
-             }
-         });
-
-       
-    }
 </script>
 
 

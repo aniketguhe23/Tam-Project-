@@ -20,7 +20,7 @@
                             {{ trans('cruds.category.fields.id') }}
                         </th>
                         <td>
-                            {{ $category->id }}
+                        
                         </td>
                     </tr>
                     <tr>
@@ -28,7 +28,7 @@
                             {{ trans('cruds.category.fields.category_name') }}
                         </th>
                         <td>
-                            {{ $category->category_name }}
+                     
                         </td>
                     </tr>
                 </tbody>

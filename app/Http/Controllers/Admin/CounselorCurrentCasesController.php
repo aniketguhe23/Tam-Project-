@@ -23,11 +23,12 @@ use Auth;
 use DB;
 use Session;
 use Symfony\Component\HttpFoundation\Response;
+use Yajra\DataTables\Facades\DataTables;
 
 class CounselorCurrentCasesController extends Controller
 {
     
-        public function index()
+        public function index(Request $request)
         {
             abort_if(Gate::denies('counselor_current_cases_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -37,8 +38,7 @@ class CounselorCurrentCasesController extends Controller
 
             if($sessionCounselorid == 1)
             {                
-                $counselorCurrentChats = CounselorCurrentCases::with('getCategory','getUser')
-                                                               ->get();
+                $counselorCurrentChats = CounselorCurrentCases::with('getCategory','getUser')->get();
                 return view('admin.counselorcurrentcases.index', compact('counselorCurrentChats','categorys','counselors'));
             }else
             {
@@ -84,19 +84,25 @@ class CounselorCurrentCasesController extends Controller
         
 
         public function counselorAssignUser($userId)
-        { 
+        {
             $sessionCounselorid = Auth::user()->id;
             $counselors = User::where('id',$sessionCounselorid)->where('status','2')->first();
+
+            
             $currentCounselors = CounselorCurrentCases::where('user_id',$userId)
                                                       ->where('category_id',$counselors->category_id)
+                                                      ->whereNull('deleted_at')
                                                       ->first();
+            
             if(!empty($currentCounselors))
             {
                 $counselorAssignToUsers = CounselorCategoryUser::where('category_id',$counselors->category_id)
-                                                                ->where('user_id',$currentCounselors->user_id)
-                                                                ->where('counselor_id',$counselors->id)
-                                                                ->first();   
-               
+                                                      ->where('user_id',$currentCounselors->user_id)
+                                                      ->where('counselor_id',$counselors->id)
+                                                      ->whereNull('deleted_at')
+                                                      ->first();
+                if(empty($counselorAssignToUsers))
+                {
                     $counselorAssigntoUser = array();
                     $counselorAssigntoUser['counselor_id'] = $counselors->id;
                     $counselorAssigntoUser['user_id'] = $currentCounselors->user_id;
@@ -104,12 +110,9 @@ class CounselorCurrentCasesController extends Controller
                     $counselorAssigntoUser['activate_chat'] = 1;
                     $counselorAssignToUsers = CounselorCategoryUser::create($counselorAssigntoUser);
 
-                    $currentCounselorChat = CounselorCurrentCases::where('user_id',$counselorAssignToUsers->user_id)
-                                                                 ->where('category_id',$counselorAssignToUsers->category_id)
-                                                                 ->first();
-                    
-                    $chekUserCurrentMessages =  CurrentUserMessage::where('current_chat_id', $currentCounselorChat->id)->get();
-                  
+                    $chekUserCurrentMessages =  CurrentUserMessage::where('current_chat_id', $currentCounselors->id)
+                                                                    ->get();
+                                               
                     foreach($chekUserCurrentMessages as $chekUserCurrentMessage)
                     {
                         $chat = array();
@@ -127,12 +130,27 @@ class CounselorCurrentCasesController extends Controller
                         $chats = AsyncChat::create($chat);
                     }
                 }
-            
-            $counselorCategoryUsers = CounselorCategoryUser::where('category_id',$counselors->category_id)
-                                                          ->where('counselor_id',$counselors->id)
-                                                          ->where('user_id',$userId)
-                                                          ->where('activate_chat',1)
-                                                          ->first();
+                else
+                {
+                    $asyncChats = DB::select("SELECT * FROM `async_chat` WHERE `category_id` = ".$currentCounselors->category_id." AND (`sender_id` = $currentCounselors->user_id OR `reciver_id` = $currentCounselors->user_id) ORDER BY `date`,`time` ASC");
+                    return view('admin.chatboat.asyncchat',compact('counselorAssignToUsers','asyncChats'));
+                }
+            }
+            else
+            {
+                $counselorAssignToUsers = CounselorCategoryUser::where('category_id',$counselors->category_id)
+                                                      ->where('user_id',$currentCounselors->user_id)
+                                                      ->where('counselor_id',$counselors->id)
+                                                      ->whereNull('deleted_at')
+                                                      ->first();
+
+                $asyncChats = DB::select("SELECT * FROM `async_chat` WHERE `category_id` = ".$currentCounselors->category_id." AND (`sender_id` = $currentCounselors->user_id OR `reciver_id` = $currentCounselors->user_id) ORDER BY `date`,`time` ASC");
+                return view('admin.chatboat.asyncchat',compact('counselorAssignToUsers','asyncChats'));
+            }
+
+
+
+
             if(!empty($counselorCategoryUsers))
             {
                 $asyncChats = DB::select("SELECT * FROM `async_chat` WHERE `category_id` = ".$counselors->category_id." AND (`sender_id` = $userId OR `reciver_id` = $userId) ORDER BY `date`,`time` ASC");
@@ -157,9 +175,39 @@ class CounselorCurrentCasesController extends Controller
             {
                 $asyncChats = DB::select("SELECT * FROM `async_chat` WHERE `category_id` = ".$categoryId." AND (`sender_id` = $userId OR `reciver_id` = $userId) ORDER BY `date`,`time` ASC");
                 $response = ['response' => $asyncChats,'message'=> 'message send successfully.....!'];
+
                 return response($response, 200);
             }
             return response(400);
+        }
+
+
+        public function counselorLiveChat($userId)
+        {
+            $sessionCounselorid = Auth::user()->id;
+            $counselors = User::where('id',$sessionCounselorid)->where('status','2')->first();
+            $currentCounselors = CounselorCurrentCases::where('user_id',$userId)
+                                                      ->where('category_id',$counselors->category_id)
+                                                      ->first();
+                                                        
+            $counselorCategoryUsers = CounselorAssignment::where('category_id',$currentCounselors->category_id)
+                                                          ->where('user_id',$currentCounselors->user_id)
+                                                          ->where('chat_availability',1)
+                                                          ->first();
+           
+            if(!empty($counselorCategoryUsers))
+            {
+                $liveChats = DB::select("SELECT * FROM `live_chat` WHERE `category_id` = ".$currentCounselors->category_id." AND (`sender_id` = $currentCounselors->user_id OR `reciver_id` = $currentCounselors->user_id) ORDER BY `date`,`time` ASC");
+                return view('admin.chatboat.livechat',compact('counselorCategoryUsers','liveChats'));       
+            }
+            else
+            { 
+                $liveChats = [];
+                return view('admin.chatboat.livechat',compact('counselorCategoryUsers','liveChats'));       
+            }
+
+
+
         }
 
 
@@ -168,10 +216,10 @@ class CounselorCurrentCasesController extends Controller
         {
                     
             $counselorCategoryUsers = CounselorCategoryUser::with('getCategory','getUser')
-                                                            ->where('category_id',$request->category_id)
-                                                            ->where('user_id',$request->user_id)
-                                                            ->where('activate_chat',1)
-                                                            ->first();
+                                ->where('category_id',$request->category_id)
+                                ->where('user_id',$request->user_id)
+                                ->where('activate_chat',1)
+                                ->first();
 
             
             if(!empty($counselorCategoryUsers))
@@ -187,19 +235,44 @@ class CounselorCurrentCasesController extends Controller
                 $chat['labels'] = '';
                 $chat['created_at'] = date("Y-m-d H:i:s");
                 $chat['updated_at'] = date("Y-m-d H:i:s");
+
                 $chats = AsyncChat::create($chat);
-             
+
                 $userId = $counselorCategoryUsers->user_id;
                 $categoryId = $counselorCategoryUsers->category_id;
               
                 $this->sendNotificationToUser($userId,$categoryId);
              
-                return redirect()->route('admin.counselor-assign-user.counselorAssignUser', $counselorCategoryUsers->user_id);
+                // return redirect()->route('admin.counselor-assign-user.counselorAssignUser', $counselorCategoryUsers->user_id);
+
+                $output = ['success' => true,
+                        'data' => '<div id="cm-msg-1" class="chat-msg self">
+                    <span class="msg-avatar"><img src="https://i.stack.imgur.com/l60Hf.png">
+                    </span><div class="cm-msg-text"><span>'.$request->message.'</span><br><small style="float:right;">'.$chat['time'].'</small></div></div>',
+                        'msg' => __("added_success")
+                    ];
+
+            } else {
+                $output = ['success' => false,
+                        'data' => '',
+                        'msg' => __("not sent")
+                    ];
             }
-            else
-            {
-                return redirect()->route('admin.counselorcurrentcases.index');
-            }
+
+            return $output;
+        }
+
+
+        public function update_chat_ajax(Request $request, $userId)
+        {
+            $counselor_id = request()->get('counselor_id');
+            $user_id = $userId;
+
+            $asyncChats = DB::select("SELECT * FROM `async_chat` WHERE `sender_id` = $userId AND `reciver_id` = $counselor_id AND `read_status` = '0' AND `status` = '1' ORDER BY `date`,`time` ASC LIMIT 1");
+            echo '<pre>';
+            print_r($asyncChats);
+
+            print_r(("SELECT * FROM `async_chat` WHERE `sender_id` = $userId AND `reciver_id` = $counselor_id AND `read_status` = '0' AND `status` = '1' ORDER BY `date`,`time` ASC LIMIT 1"));
         }
       
       
@@ -256,7 +329,8 @@ class CounselorCurrentCasesController extends Controller
             curl_close($ch);
     
             // FCM response
-            dd($result);        
+            // dd($result);  
+            return true;      
         }
     
 

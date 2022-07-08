@@ -54,17 +54,27 @@
                             <td></td>
                             <td><?php echo $i; $i++ ;?> </td>
                             <td>{{ $counselorCurrentChat->getUser->name }} </td>
-                            <td>46 </td>
+                            <td>{{ $counselorCurrentChat->getUser->age }}</td>
                             <td>{{ $counselorCurrentChat->getUser->gender }} </td>
                             <td>{{ $counselorCurrentChat->getCategory->category_name }} </td>
                             <td>{{ $counselorCurrentChat->created_at }}</td>
                             <td>{{ $counselorCurrentChat->getUser->location }} </td>
+                            @if($counselorCurrentChat->chat_type == 0)
                             <td>Async</td>
-                             <td>
+                            <td>
                                 <a class="btn btn-gradient-primary btn-rounded btn-icon" href="{{ route('admin.counselor-assign-user.counselorAssignUser', $counselorCurrentChat->getUser->id) }}">
                                     Activate
                                 </a>
                             </td>
+                            @else
+                            <td>Live</td>
+                            <td>
+                                <a class="btn btn-gradient-primary btn-rounded btn-icon" href="{{ route('admin.counselor-live-chat.counselorLiveChat', $counselorCurrentChat->getUser->id) }}">
+                                    Activate
+                                </a>
+                            </td>
+                            @endif
+                             
                         </tr>
                     @endforeach
                 </tbody>

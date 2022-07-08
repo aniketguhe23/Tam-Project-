@@ -87,8 +87,14 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     //counselor and user chat
     Route::get('counselor-assign-user-chat/{userId}/{categoryId}', 'CounselorCurrentCasesController@counselorUserChat')->name('counselor-assign-user-chat.counselorUserChat');
 
-
     Route::post('counselor-chat', 'CounselorCurrentCasesController@chat')->name('counselor-chat.chat');
+
+    Route::get('counselor-chat-update-chat/{userId}', 'CounselorCurrentCasesController@update_chat_ajax')->name('counselor-chat-update-chat.update_chat_ajax');
+
+
+    //Live chat 
+    Route::get('counselor-live-chat/{userId}', 'CounselorCurrentCasesController@counselorLiveChat')->name('counselor-live-chat.counselorLiveChat');
+
 
     // Counselor Past Cases
     Route::delete('counselor-past-cases/destroy', 'CounselorPastCasesController@massDestroy')->name('counselor-past-cases.massDestroy');

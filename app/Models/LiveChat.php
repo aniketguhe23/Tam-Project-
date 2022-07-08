@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use \DateTimeInterface;
 
-class AsyncChat extends Model
+class LiveChat extends Model
 {
     use SoftDeletes, HasFactory;
 
-    public $table = 'async_chat';
+    public $table = 'live_chat';
 
     protected $dates = [
         'created_at',
@@ -20,30 +20,20 @@ class AsyncChat extends Model
 
     protected $fillable = [
         'id',
-        'counselor_category_by_user_id',
-        'category_id',
+        'counselor_assignment_id',
         'sender_id',
         'reciver_id',
+        'category_id',
         'message',
         'status',
-        'read_status',
         'date',
         'time',
         'labels',
-        'created_at',
-        'updated_at',
-        'deleted_at'
     ];
     
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
     }
-
-    public function getCounselorByUser()
-    {
-        return $this->belongsTo(CounselorCategoryUser::class,'counselor_category_by_user_id','id');
-    }
-
    
 }
