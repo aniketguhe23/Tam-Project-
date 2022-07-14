@@ -27,6 +27,7 @@ class CounselorCategoryUser extends Model
         'user_id',
         'category_id',
         'activate_chat',
+        'report',
     ];
 
     protected function serializeDate(DateTimeInterface $date)

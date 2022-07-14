@@ -68,6 +68,12 @@
                             {{ trans('cruds.counselor.fields.chat_type') }}
                         </th>
                         <th>
+                             reason
+                        </th>
+                        <th>
+                            remark
+                        </th>
+                        <th>
                             {{ trans('cruds.counselor.fields.feedback') }}
                         </th>
                         <th>
@@ -85,7 +91,9 @@
                                 <td> @if($counselorpastcase->getUser != " " ){{ $counselorpastcase->getUser->age }} @endif  </td>
                                 <td> @if($counselorpastcase->getUser != " " ){{ $counselorpastcase->getUser->gender }} @endif  </td>
                                 <td> @if($counselorpastcase->getCategory != " " ){{ $counselorpastcase->getCategory->category_name }} @endif  </td>
-                                <td>{{ $counselorpastcase->chat_type }} </td>
+                                <td>@if($counselorpastcase->chat_type == 0) Async @else Live @endif </td>
+                                <td>{{ $counselorpastcase->reason }}</td>
+                                <td>{{ $counselorpastcase->remark }}</td>
                                 <td> @if($counselorpastcase->getFeedback != " ") {{ $counselorpastcase->getFeedback->feedback }} @endif </td>
                                 <td>
                                     @can('counselor_past_cases_show')

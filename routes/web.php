@@ -80,16 +80,25 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::resource('counselorcurrentcases', 'CounselorCurrentCasesController');
     Route::get('counselor-current-cases', 'CounselorCurrentCasesController@currentCounselor')->name('counselor-current-cases.currentCounselor');
     Route::get('counselor-assign-user/{userId}', 'CounselorCurrentCasesController@counselorAssignUser')->name('counselor-assign-user.counselorAssignUser');
-    Route::get('user-assign-admin/{userId}', 'CounselorCurrentCasesController@userAssignAdmin')->name('user-assign-admin.userAssignAdmin');
+    Route::get('user-assign-admin', 'CounselorCurrentCasesController@userAssignAdmin')->name('user-assign-admin.userAssignAdmin');
+    Route::get('close-chat-async', 'CounselorCurrentCasesController@closeChat')->name('close-chat-async.closeChat');
 
-    Route::get('close-chat/{userId}', 'CounselorCurrentCasesController@closeChat')->name('chat-closed.closeChat');
+    Route::get('close-chat-live/{userId}', 'CounselorCurrentCasesController@closeChatLive')->name('chat-closed-live.closeChatLive');
+
 
     //counselor and user chat
     Route::get('counselor-assign-user-chat/{userId}/{categoryId}', 'CounselorCurrentCasesController@counselorUserChat')->name('counselor-assign-user-chat.counselorUserChat');
 
     Route::post('counselor-chat', 'CounselorCurrentCasesController@chat')->name('counselor-chat.chat');
 
+    Route::post('counselor-chat-live', 'CounselorCurrentCasesController@liveChat')->name('counselor-chat-live.liveChat');
+
     Route::get('counselor-chat-update-chat/{userId}', 'CounselorCurrentCasesController@update_chat_ajax')->name('counselor-chat-update-chat.update_chat_ajax');
+
+    Route::get('counselor-chat-update-chat-live/{userId}', 'CounselorCurrentCasesController@update_chat_live_ajax')->name('counselor-chat-update-chat-live.update_chat_live_ajax');
+
+    Route::get('counselor-start-chat-live/{userId}', 'CounselorCurrentCasesController@start_chat_live_ajax')->name('counselor-start-chat-live.start_chat_live_ajax');
+
 
 
     //Live chat 

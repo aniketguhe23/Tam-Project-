@@ -6,6 +6,8 @@ use App\Models\User;
 use Gate;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Response;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Contracts\Validation\Validator;
 
 class StoreCounselorRequest extends FormRequest
 {
@@ -43,4 +45,6 @@ class StoreCounselorRequest extends FormRequest
             
         ];
     }
+
+    
 }

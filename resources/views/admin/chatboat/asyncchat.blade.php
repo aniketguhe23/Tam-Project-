@@ -10,18 +10,16 @@
   <link rel="shortcut icon" href="{{asset('public/chatboat/assets/images/favicon.ico')}}" />
   
 <div class="content-wrapper">
-          <div id="chat-circle" class="btn btn-raised">
-            <div id="chat-overlay"></div>
-            <i class="material-icons mdi mdi-comment-multiple-outline"></i>
-          </div>
-          <div class="chat-box">
-            <div class="chat-box-header">
-              <div class="profile_img">
-              <img class="img_circle" src="http://askavenue.com/img/17.jpg" alt="Jesse Tino">
-              <span class="availability_status online"></span>
-              </div>
-              <span id="app"></span>
-
+  <div id="chat-circle" class="btn btn-raised">
+    <div id="chat-overlay"></div>
+      <i class="material-icons mdi mdi-comment-multiple-outline"></i>
+  </div>
+<div class="chat-box">
+  <div class="chat-box-header">
+    <div class="profile_img">
+    <p> @if(!empty($counselorAssignToUsers->getUser->name)) {{ $counselorAssignToUsers->getUser->name }} @else  @endif</p>
+    
+          </div><span id="app"></span>
             </div>
             <div class="chat-box-body">
               <div class="chat-logs chat-history" >
@@ -54,7 +52,7 @@
             <div class="chat-input">
             <form id="chatAjax_ids" method="POST" action="{{ route("admin.counselor-chat.chat") }}" enctype="multipart/form-data">
             @csrf
-                <input class="form-control" type="text" name="message" id="chat-input" placeholder="Send a message...">
+                <input class="form-control" type="text" name="message" id="chat-input" placeholder="Send a message..." required>
                 <input class="form-control" type="hidden" name="counselor_id" id="counselor_id" value="{{ $counselorAssignToUsers->counselor_id }}">
                 <input class="form-control" type="hidden" id="user_id"  name="user_id" value="{{ $counselorAssignToUsers->user_id }}">
                 <input class="form-control" type="hidden" name="category_id" value="{{ $counselorAssignToUsers->category_id }}">
@@ -67,28 +65,43 @@
                 <button  type="submit" class="chat-submit"><i class="material-icons mdi mdi-send"></i></button>
               </form>
             </div>
-            <div class="chat_footer">
-             <a class="btn btn-gradient-primary btn-rounded " id="myBtn" href="{{ route('admin.user-assign-admin.userAssignAdmin', $counselorAssignToUsers->getUser->id) }}">
-                  Report chat 
+    <div class="chat_footer">
+        <button class="btn btn-chat-footer btn-sm" id="myBtn">Escalate</button>
+          <!-- The Modal -->
+          <div id="myModal2" class="modal2">
+            <!-- Modal content -->
+            <div class="modal-content2" align="center">
+              <div>
+                  <h3> Choose any Option <span class="close2">&times;</span> </h3>
+              </div>
+              <hr>
+                <div>
+
+                <a  id="tab1" data-index="Inappropriate" name="report">
+                <button class="btn btn-chat-footer inbtns btn-sm " style="margin:5px;"> Inappropriate </button> 
               </a>
-              <a class="btn btn-gradient-primary btn-rounded " id="myBtn" href="{{ route('admin.user-assign-admin.userAssignAdmin', $counselorAssignToUsers->getUser->id) }}">
-                  Inappropriate
+              <a id="tab2" data-index="User At Risk" name="report">
+              <button class="btn btn-chat-footer inbtns btn-sm " style="margin:5px;"> User At Risk </button>
               </a>
-              <a class="btn btn-gradient-primary btn-rounded " id="myBtn" href="{{ route('admin.user-assign-admin.userAssignAdmin', $counselorAssignToUsers->getUser->id) }}">
-                  User At Risk
+              <a id="tab3" data-index="Reassign User" name="report">
+              <button class="btn btn-chat-footer inbtns btn-sm " style="margin:5px;">  Reassign User </button>
               </a>
-              <a class="btn btn-gradient-primary btn-rounded " id="myBtn" href="{{ route('admin.user-assign-admin.userAssignAdmin', $counselorAssignToUsers->getUser->id) }}">
-                  Reassign User
-              </a>
-             <a class="btn btn-gradient-primary btn-rounded " href="{{ route('admin.chat-closed.closeChat', $counselorAssignToUsers->getUser->id) }}">
-                  Close
-                </a>
-              <a class="btn btn-gradient-primary btn-rounded " id="myBtn" href="{{ route('admin.user-assign-admin.userAssignAdmin', $counselorAssignToUsers->getUser->id) }}">
-                  User InActive
-              </a>
-              <a class="btn btn-gradient-primary btn-rounded " id="myBtn" href="{{ route('admin.user-assign-admin.userAssignAdmin', $counselorAssignToUsers->getUser->id) }}">
-                  Chat Report 
-              </a>
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-chat-footer btn-sm"  id="feedbackBtn">Close Chat</button>
+            <!-- <a href="@if(!empty($getLiveChats->getUser->id)) {{ route('admin.chat-closed.closeChat', $getLiveChats->getUser->id) }} @else  @endif "><button class="btn btn-chat-footer btn-sm" id="feedbackBtn">Close Chat</button></a> -->
+            <!-- The Modal -->
+            <div id="myModal1" class="modal1">
+              <!-- Modal content -->
+              <div class="modal-content1">
+                <span class="close1">&times;</span>
+                <input type="text" class="form-control" name="remark" id="remark">
+                <button class="btn btn-chat-footer inbtns btn-sm" onClick="chatRemark();" >Submit</button>
+              </div>
+            </div>
+            </div>
+        
             </div>
         </div>
   </div>
@@ -105,6 +118,7 @@
   <!-- Custom js for this page -->
   <script src="{{asset('public/chatboat/assets/js/chart.js')}}"></script>
   <script src="{{asset('public/chatboat/assets/js/chat.js')}}"></script>
+  <script src="{{asset('public/chatboat/assets/js/modal.js')}}"></script>
   <script>
      $('.chat-history,ul,div').animate({scrollTop: 99999999});
   $(document).on("click", function(e){
@@ -134,21 +148,7 @@
       var userId = parseFloat(payload.data.user_id);
       var categoryId = parseFloat(payload.data.category_id);
       var thisKey = payload.data.key;    
-      if(thisKey == "async_user_message")
-      {
-        $.ajax({
-            url: "{{url('admin/counselor-assign-user-chat')}}/"+ userId + "/" + categoryId,
-            method: 'GET',
-            success: function(data) {
-              console.log('result');
-               console.log(data);
-               // $('#employee_district_id').html(data.html);
-            }
-        });
-      } else
-      {
-        alert("not match");
-      }
+      update_chat_history_data();
     });
 
      $(document).on('submit', 'form#chatAjax_ids', function (e) {
@@ -171,16 +171,18 @@
                   $('.chat-history,ul,div').animate({scrollTop: 99999999});
                   $('.chat-logs').append(result.data);
                   $('#chat-input').val(' ');
-                }              
+                }  else {
+                alert(dataResult.msg);
+              }              
             },
         });
     });
 
       $(document).ready(function(){
-        
+         
         setInterval(function(){
             update_chat_history_data();
-        }, 5000);
+        }, 1000);
     });
 
      function update_chat_history_data(){
@@ -191,14 +193,47 @@
         $.ajax({
              url: urlUpdate,
              method:"GET",
-             dataType:'json',        
+             data:{user_id:user_id,counselor_id:counselor_id},        
              success: function(dataResult){
-              // $('.chat-logs').append(result.data);
-             }
-         });
 
-       
+              if (dataResult.success == true) {
+                  $('.chat-history,ul,div').animate({scrollTop: 99999999});
+                  $('.chat-logs').append(dataResult.data);
+              }
+             }
+         });       
     }
+
+
+    $("a[name=report]").on("click", function () { 
+    var remark = $(this).data("index"); 
+    var user_id = $('#user_id').val();
+      $.ajax({
+            url: "{{url('admin/user-assign-admin')}}",
+            method:"GET",
+            data:{user_id:user_id,remark:remark},        
+            success: function(data) {
+              window.location.href ="{{ route('admin.counselorcurrentcases.index') }}";
+
+            }
+      });       
+});
+
+    function chatRemark()
+    {
+      var remark = $('#remark').val();
+      var user_id = $('#user_id').val();
+      $.ajax({
+            url: "{{url('admin/close-chat-async')}}",
+            method:"GET",
+            data:{user_id:user_id,remark:remark},        
+            success: function(data) {
+              window.location.href ="{{ route('admin.counselorcurrentcases.index') }}";
+            }
+      });       
+    }
+   
+
 </script>
 
 

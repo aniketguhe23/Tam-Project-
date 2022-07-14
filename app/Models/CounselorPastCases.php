@@ -26,8 +26,9 @@ class CounselorPastCases extends Model
         'user_id',
         'counselor_id',
         'chat_type',
+        'reason',
+        'remark',
         'feedback_id',
-       
     ];
 
     protected function serializeDate(DateTimeInterface $date)

@@ -50,10 +50,16 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     Route::post('async-get-chats', 'CounselorAssignmentApiController@getChat');
 
     //user Live chat
-     Route::post('user-live-chat-assign-to-counsellor', 'CounselorAssignmentApiController@liveChatAssign');
+     Route::post('user-live-chat-assign-to-counsellor', 'CounselorLiveChatApiController@liveChatAssign');
 
-     //user Live chat
-     Route::post('user-live-chat', 'CounselorAssignmentApiController@liveChat');
+    //user Live chat
+    Route::post('user-live-chat', 'CounselorLiveChatApiController@liveChat');
+
+    //user Live chat list
+    Route::post('user-live-chat-list', 'CounselorLiveChatApiController@getLiveChat');
+
+    //user chat filter 
+    Route::post('user-chat-filter', 'CounselorAssignmentApiController@chatFilter');
 
     //Api push notification 
     Route::get('/push-notificaiton', 'NotificationApiController@index')->name('push-notificaiton');

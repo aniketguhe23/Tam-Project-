@@ -44,6 +44,9 @@
                             Chat Type
                         </th>
                         <th>
+                            Reason
+                        </th>
+                        <th>
                             Assign By
                         </th>
                         <th>
@@ -64,7 +67,8 @@
                             <td>{{ $getCurrentCounselorByUsers->getUser->location }} </td>
                             <td> 0999 </td>
                             <td> @if($getCurrentCounselorByUsers->chat_type == 0) Async @else Live @endif  </td>
-                            <th> @if($getCurrentCounselorByUsers->counselor_id == 1) Admin @else @endif  </th>
+                            <td> {{ $getCurrentCounselorByUsers->report }}</td>
+                            <td> @if($getCurrentCounselorByUsers->counselor_id == 1) Admin @else @endif  </td>
                              <td>
                                 <a class=" btn btn-gradient-primary btn-rounded btn-icon" href="#">
                                         Activate 

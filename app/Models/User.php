@@ -46,6 +46,7 @@ class User extends Authenticatable
         'category_id',
         'status',
         'counselor_availability',
+        'chat_availability',
         'employment_status',
         'language',
         'age',

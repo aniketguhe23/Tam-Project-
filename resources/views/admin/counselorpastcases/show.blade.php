@@ -8,7 +8,6 @@
 
   <!-- End layout styles -->
   <link rel="shortcut icon" href="{{asset('public/chatboat/assets/images/favicon.ico')}}" />
-  <meta http-equiv="refresh" content="10"/>
 <div class="content-wrapper">
           <div id="chat-circle" class="btn btn-raised">
             <div id="chat-overlay"></div>
@@ -17,8 +16,7 @@
           <div class="chat-box">
             <div class="chat-box-header">
               <div class="profile_img">
-              <img class="img_circle" src="http://askavenue.com/img/17.jpg" alt="Jesse Tino">
-              <span class="availability_status online"></span>
+              <p> @if(!empty($users->name)) {{ $users->name }} @else  @endif</p>
               </div>
               <span id="app"></span>
 

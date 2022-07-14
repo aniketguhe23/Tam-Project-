@@ -26,6 +26,7 @@ class LiveChat extends Model
         'category_id',
         'message',
         'status',
+        'read_status',
         'date',
         'time',
         'labels',

@@ -27,7 +27,7 @@ class CounselorAssignment extends Model
         'category_id',
         'user_id',
         'chat_type', 
-        'availability'
+        'chat_availability'
     ];
 
     protected function serializeDate(DateTimeInterface $date)
