@@ -15,6 +15,8 @@ use App\Models\CounselorCategoryUser;
 use App\Models\CurrentUserMessage;
 use App\Models\CounselorPastCases;
 use App\Models\ChatHistory;
+use App\Models\Feedback;
+
 use Gate;
 use DB;
 use Illuminate\Http\Request;
@@ -37,6 +39,7 @@ class CounselorLiveChatApiController extends Controller
                                                             ->where('counselor_id',$getCounselors->id)
                                                             ->where('user_id',$request->user_id)
                                                             ->whereNull('deleted_at')
+                                                            ->whereNull('report')
                                                             ->first();
                 if(empty($checkCounselorAssignment))
                 {
@@ -63,8 +66,9 @@ class CounselorLiveChatApiController extends Controller
             $checkCounselorAssignment = CounselorAssignment::where('category_id',$request->category_id)
                                                             ->where('user_id',$request->user_id)
                                                             ->whereNull('deleted_at')
+                                                            ->whereNull('report')
                                                             ->first();
-            if(!empty($checkCounselorAssignment)){
+            if(!empty($checkCounselorAssignment) && $checkCounselorAssignment->counselor_id != '1'){
 
                   $response = ['response' => $checkCounselorAssignment,'message'=> 'User already assignment','status'=>true];
                     return response($response, 200);
@@ -105,8 +109,9 @@ class CounselorLiveChatApiController extends Controller
                                                 ->where('counselor_id',$request->counselor_id)
                                                 ->where('chat_availability','1')
                                                 ->whereNull('deleted_at')
+                                                ->whereNull('report')
                                                 ->first();
-        
+     
         if(!empty($checkCounselorAssignment))
         {   
 
@@ -161,6 +166,7 @@ class CounselorLiveChatApiController extends Controller
         $liveChatAssignment = CounselorAssignment::where('category_id',$request->category_id)
                                                     ->where('user_id',$request->sender_id)
                                                     ->whereNull('deleted_at')
+                                                    ->whereNull('report')
                                                     ->first();
         if(!empty($liveChatAssignment))
         {
@@ -176,10 +182,70 @@ class CounselorLiveChatApiController extends Controller
         return response($response, 200);
     }
 
+    public function liveChatFeedback(Request $request)
+    {  
+
+        $closeChatId = $request->closeChatId;
+        $userId = $request->userId;
+
+        $counselorPastCases = CounselorPastCases::where('id',$closeChatId)->first();
+       
+        if(!empty($counselorPastCases)){
+
+                $feedback = array();                
+                $feedback['user_id'] = $userId;
+                $feedback['comment'] = $request->comment;
+                $feedback['feedback'] = $request->feedback;
+                $feedback['star_reviews'] = $request->star_reviews;
+                $feedback['status'] = 1; 
+                               
+                $getfeedback = Feedback::create($feedback);
+
+            $counselorPastCases->feedback_id = $getfeedback->id;            
+            $counselorPastCases->save();
+            $response = ['message'=>"success",'status'=>true];
+
+        } else {
+
+            $response = ['message'=>"Close chat id not found",'status'=>true];
+
+        }
+           
+        return response($response, 200);
+    }
+
+     public function getChatHistory(Request $request){  
+
+            $category_id = $request->category_id;
+            $userId = $request->user_id;
+            
+            // $filter =  $request->filter;
+
+            $chatType =  $request->type;
+
+            $startDate =  $request->startDate;
+            $endDate =  $request->endDate;
 
 
 
+            $liveChatAssignment = CounselorAssignment::where('category_id',$request->category_id)
+                                                        ->where('user_id',$request->sender_id)
+                                                        ->whereNull('deleted_at')
+                                                        ->whereNull('report')
+                                                        ->first();
+            if(!empty($liveChatAssignment))
+            {
+                $response = LiveChat::where('counselor_assignment_id',$liveChatAssignment->id)->get();
 
+                $response = ['response' => $response,'message'=>"success",'status'=>true];
+            }
+            else
+            {
+                $response = ['response' => [],'message'=>"Chat not found",'status'=>true];
+            }
+               
+            return response($response, 200);
+    }
     
     public function sendNotificationToCounselor($categoryId, $userId, $chatType)
     {

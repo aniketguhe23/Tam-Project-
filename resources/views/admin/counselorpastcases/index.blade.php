@@ -94,7 +94,15 @@
                                 <td>@if($counselorpastcase->chat_type == 0) Async @else Live @endif </td>
                                 <td>{{ $counselorpastcase->reason }}</td>
                                 <td>{{ $counselorpastcase->remark }}</td>
-                                <td> @if($counselorpastcase->getFeedback != " ") {{ $counselorpastcase->getFeedback->feedback }} @endif </td>
+                                <td> @if($counselorpastcase->getFeedback != " ")
+
+                                    <?php for ($ii=1; $ii <= 6; $ii++) { 
+                                        if($counselorpastcase->getFeedback->star_reviews >= $ii){
+                                            echo '<span class="fa fa-star" style="color: orange;"></span>';
+                                        } else {
+                                            echo '<span class="fa fa-star" ></span>';
+                                        }
+                                    }?> @endif </td>
                                 <td>
                                     @can('counselor_past_cases_show')
                                         <a class=" btn btn-gradient-primary btn-rounded btn-icon" href="{{ route('admin.past-chat-history.show', $counselorpastcase->id) }}">

@@ -69,6 +69,11 @@
                     @endforeach
                 </tbody>
             </table>
+            @if(!empty($counselorLiveChats) AND isset($counselorLiveChats['0']->id))
+                <input type="hidden" id="ajax_table_refresh_live" value="{{$counselorLiveChats['0']->id}}">
+            @else 
+                <input type="hidden" id="ajax_table_refresh_live" value="00">
+            @endif
         </div>
     </div>
 </div>
@@ -137,6 +142,13 @@
                     @endforeach
                 </tbody>
             </table>
+            @if(!empty($counselorLiveChats) AND isset($counselorCurrentChat))
+                <input type="hidden" id="ajax_table_refresh_async" value="{{ $counselorCurrentChat->id }}">
+            @else 
+                <input type="hidden" id="ajax_table_refresh_async" value="00">
+            @endif
+
+           
         </div>
     </div>
 </div>
@@ -226,5 +238,26 @@
         };
         new Notification(title, options);
     });
+
+    $(document).ready(function(){
+        setInterval(function(){
+            ajax_table_refresh();
+        }, 2000);
+    });
+
+    function ajax_table_refresh(){
+        var countAsync = $('#ajax_table_refresh_async').val();
+        var countLive = $('#ajax_table_refresh_live').val();
+        $.ajax({
+             url: "{{url('admin/ajax-table-refresh-Live-async')}}",
+             method:"GET",
+             data:{countAsync:countAsync,countLive:countLive},        
+             success: function(result){
+              if (result.success == true) {
+                window.location.href ="{{ route('admin.counselorcurrentcases.index') }}";
+              }
+             }
+         });
+    }
 </script>
 @endsection

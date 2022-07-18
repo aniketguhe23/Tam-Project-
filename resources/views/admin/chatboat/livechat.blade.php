@@ -24,7 +24,7 @@
 <p class="chat_p">User Name</p>
 <span id="appLiveTimershow"></span>
 <div class="text-right ml-auto">
-  <a class="btn start_btn mt-2 " id="liveChatButtonStart" onclick="liveChatStart('liveChatButtonStart','appLiveTimershow')">Start</a>
+  <a class="btn start_btn mt-2 " id="liveChatButtonStart" onclick="liveChatStart('liveChatButtonStart','appLiveTimershow')">Chat Start</a>
   <!-- <a class="btn start_btn mt-2 liveChatButtonStop"  onclick="liveChatStart()">Stop</a> -->
 </div>
 
@@ -76,29 +76,44 @@
 <button class="btn btn-chat-footer btn-sm" id="myBtn">Escalate</button>
 
     <!-- The Modal -->
-    <div id="myModal2" class="modal2">
-      <!-- Modal content -->
-      <div class="modal-content2" align="center">
-        <div>
-            <h3> Choose any Option
-                  <span class="close2">&times;</span> </h3>
-        </div>
-        <hr>
-          <div>
-          <a class="btn btn-gradient-primary btn-rounded" id="myBtn" href=" @if(!empty($getLiveChats->getUser->id))  {{ route('admin.user-assign-admin.userAssignAdmin', $getLiveChats->getUser->id) }} @else  @endif "><button class="btn btn-chat-footer inbtns btn-sm " style="margin:5px;">Inappropriate</button></a>
-          <a class="btn btn-gradient-primary btn-rounded" id="myBtn" href=" @if(!empty($getLiveChats->getUser->id))  {{ route('admin.user-assign-admin.userAssignAdmin', $getLiveChats->getUser->id) }} @else  @endif "><button class="btn btn-chat-footer inbtns btn-sm " style="margin:5px;"> Reassign User</button></a>
-          <a class="btn btn-gradient-primary btn-rounded" id="myBtn" href=" @if(!empty($getLiveChats->getUser->id))  {{ route('admin.user-assign-admin.userAssignAdmin', $getLiveChats->getUser->id) }} @else  @endif "><button class="btn btn-chat-footer inbtns btn-sm " style="margin:5px;">User At Risk </button></a>
-        </div>
-      </div>
-    </div>
-    <a href="@if(!empty($getLiveChats->getUser->id)) {{ route('admin.chat-closed-live.closeChatLive', $getLiveChats->getUser->id) }} @else  @endif "><button class="btn btn-chat-footer btn-sm" id="feedbackBtn">Close Chat</button></a>
+          <div id="myModal2" class="modal2">
+            <!-- Modal content -->
+            <div class="modal-content2" align="center">
+              <div>
+                  <h3> Choose any Option <span class="close2">&times;</span> </h3>
+              </div>
+              <hr>
+                <div>
+
+                <a  id="tab1" data-index="Inappropriate" name="report">
+                <button class="btn btn-chat-footer inbtns btn-sm " style="margin:5px;"> Inappropriate </button> 
+              </a>
+              <a id="tab2" data-index="User At Risk" name="report">
+              <button class="btn btn-chat-footer inbtns btn-sm " style="margin:5px;"> User At Risk </button>
+              </a>
+              <a id="tab3" data-index="Reassign User" name="report">
+              <button class="btn btn-chat-footer inbtns btn-sm " style="margin:5px;">  Reassign User </button>
+              </a>
+              </div>
+            </div>
+          </div>
+
+
+
+    <a ><button class="btn btn-chat-footer btn-sm" id="feedbackBtn">Close Chat</button></a>
     <!-- The Modal -->
     <div id="myModal1" class="modal1">
       <!-- Modal content -->
       <div class="modal-content1">
+        <form  method="get" action="@if(!empty($getLiveChats->getUser->id)) {{ route('admin.chat-closed-live.closeChatLive', $getLiveChats->getUser->id) }} @else  @endif " enctype="multipart/form-data">
+        @csrf
         <span class="close1">&times;</span>
-        <input type="text" class="form-control">
-        <button class="btn">Submit</button>
+        
+        <label class="required" for="remark">Remark</label>
+        <textarea class="form-control" name="remark" id="remark" rows="5" cols="20" required></textarea>
+        <br>
+        <button class="btn btn-chat-footer btn-sm">Submit</button>
+        </form>
       </div>
     </div>
   </div>
@@ -194,7 +209,7 @@
          
         setInterval(function(){
             update_chat_history_data();
-        }, 1000);
+        }, 2000);
     });
 
      function update_chat_history_data(){
@@ -226,6 +241,26 @@
             }        
         }
     // End validation 
+
+
+    // Assign to admin 
+
+    $("a[name=report]").on("click", function () { 
+    var remark = $(this).data("index"); 
+    var user_id = $('#user_id').val();
+      $.ajax({
+            url: "{{url('admin/user-assign-admin-live')}}",
+            method:"GET",
+            data:{user_id:user_id,remark:remark},        
+            success: function(data) {
+                // console.log(data);
+              window.location.href ="{{ route('admin.counselorcurrentcases.index') }}";
+
+            }
+          });       
+    });
+
+    // End Assign to admin 
 
 </script>
 

@@ -58,6 +58,13 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     //user Live chat list
     Route::post('user-live-chat-list', 'CounselorLiveChatApiController@getLiveChat');
 
+
+    // Filter data 
+    Route::post('user-get-chat-history-filter', 'CounselorLiveChatApiController@getChatHistory');
+
+    //user Live chat close feedback
+    Route::post('user-live-chat-feedback', 'CounselorLiveChatApiController@liveChatFeedback');
+
     //user chat filter 
     Route::post('user-chat-filter', 'CounselorAssignmentApiController@chatFilter');
 

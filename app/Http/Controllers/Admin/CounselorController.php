@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\Category;
 use App\Models\AsyncChat;
 use App\Models\CounselorCategoryUser;
+use App\Models\CounselorAssignment;
 use Gate;
 use DB;
 use Auth;
@@ -110,7 +111,10 @@ class CounselorController extends Controller
         $categorys = Category::get();
         $counselors = User::with(['roles','category'])->where('status','2')->get();
         $getCurrentCounselorByUsers = CounselorCategoryUser::with('getUser','getCategory')->where('counselor_id',$sessionCounselorid)->get();
-        return view('admin.counselors.mychat', compact('getCurrentCounselorByUsers','counselors','sessionCounselorid','categorys'));
+
+        $getCurrentCounselorByUsersLive = CounselorAssignment::with('getUser','getCategory')->where('counselor_id',$sessionCounselorid)->get();
+
+        return view('admin.counselors.mychat', compact('getCurrentCounselorByUsers','counselors','sessionCounselorid','categorys','getCurrentCounselorByUsersLive'));
     }
 
     public function mychat($id)

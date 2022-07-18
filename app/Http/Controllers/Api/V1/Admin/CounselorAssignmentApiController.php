@@ -150,8 +150,6 @@ class CounselorAssignmentApiController extends Controller
         return $result;
     }
 
-    
-
     public function getChat(Request $request)
     {
         $chatMessages = array();
@@ -166,17 +164,72 @@ class CounselorAssignmentApiController extends Controller
                                                                   ->first();
             if(!empty($checkCounselor))
             {
-                $chekUserCurrentMessage =  CurrentUserMessage::where('current_chat_id', $checkCounselor->id)
+                $getCurrentChat = array();
+                $pastChats = CounselorPastCases::where('category_id',$checkCounselor->category_id)
+                                              ->where('user_id',$checkCounselor->user_id)
+                                              ->where('chat_type','0')
+                                              ->get();
+                $getChatHistory = array();
+                if(!empty($pastChats))
+                {
+                    foreach($pastChats as $pastChat)
+                    {
+                        $data = ChatHistory::where('counselor_past_cases_id',$pastChat->id)->get();
+                        $getChatHistory = $data;
+                    }
+                }
+
+                $getCurrentChat =  CurrentUserMessage::where('current_chat_id', $checkCounselor->id)
                                                                 ->where('category_id',$checkCounselor->category_id)
                                                                 ->where('user_id',$checkCounselor->user_id)
                                                                 ->whereNull('deleted_at')
                                                                 ->get();
+                if(!empty($getCurrentChat))
+                {
+                    if(!empty($getChatHistory))
+                    {
+                        $result = $getChatHistory->merge($getCurrentChat);
+
+                    }else
+                    {
+                        $result = $getCurrentChat;
+                    }
+                }
+                else
+                {
+                    $result = $getChatHistory;
+                }
             }
-            else{
-                $response = ['response' => [],'message'=> 'Category does not exixt.','status'=>False];
-                return response($response, 400);
+            else
+            {
+                $pastChats = CounselorPastCases::where('category_id',$request->category_id)
+                                              ->where('user_id',$request->sender_id)
+                                              ->where('chat_type','0')
+                                              ->get();
+                $getChatHistory = array();
+                if(!empty($pastChats))
+                {
+                    foreach($pastChats as $pastChat)
+                    {
+                        $data = ChatHistory::where('counselor_past_cases_id',$pastChat->id)->get();
+                        $getChatHistory = $data;
+                    }
+                }
+
+                if(!empty($getChatHistory))
+                {
+                    $response = ['response' => $getChatHistory,'message'=> 'past chat get succsessfully','status'=>true];
+                    return response($response, 200);
+                    die();
+                }
+                else
+                {
+                    $response = ['response' => [],'message'=> 'chat not found','status'=>FALSE];
+                    return response($response, 200);
+                    die();
+                }
             }
-            $response = ['response' => $chekUserCurrentMessage,'message'=> 'message send successfully.....!','status'=>true];
+            $response = ['response' => $result,'message'=> 'message send successfully.....!','status'=>true];
             return response($response, 200);
         }
         else{
@@ -184,39 +237,94 @@ class CounselorAssignmentApiController extends Controller
             $response = ['response' => $chatMessages,'message'=> 'message send successfully.....!','status'=>true];
             return response($response, 200);
         }
+    
     }
 
+    // public function getChat(Request $request)
+    // {
+    //     $chatMessages = array();
+    //     $checkCounselor = DB::table('counselor_current_cases')
+    //                         ->where('category_id',$request->category_id)
+    //                         ->where('user_id',$request->sender_id)
+    //                         ->where('chat_type','0')
+    //                         ->whereNull('deleted_at')
+    //                         ->first();
 
-    public function chatFilter(Request $request)
-    {
-        if(!empty($request->sender_id) && !empty($request->category_id) && $request->chat_type != NULL && $request->chat_type == 0)
-        {
+                            
+    //     if(!empty($checkCounselor))
+    //     {
+    //             $data = DB::table('counselor_current_cases')
+    //                         ->join('current_user_message', 'counselor_current_cases.id','current_user_message.current_chat_id')
+    //                         ->select('counselor_current_cases.id','counselor_current_cases.user_id','counselor_current_cases.category_id','counselor_current_cases.deleted_at','counselor_current_cases.chat_type','current_user_message.status','current_user_message.current_chat_id','current_user_message.user_id','current_user_message.category_id', 'current_user_message.message')
+    //                         ->where('counselor_current_cases.category_id',$request->category_id)
+    //                         ->where('counselor_current_cases.user_id',$request->sender_id)
+    //                         ->where('chat_type','0')
+    //                         ->whereNull('counselor_current_cases.deleted_at')
+    //                         ->get();
 
-        }
-        if(!empty($request->sender_id) && !empty($request->category_id) && $request->chat_type != NULL)
-        {
+    //             $userAssignment = CounselorCategoryUser::where('category_id',$request->category_id)
+    //                                                    ->where('user_id',$request->sender_id)
+    //                                                    ->where('chat_type',0)
+    //                                                    ->whereNull('deleted_at')
+    //                                                    ->first();
+    //             if(!empty($userAssignment))
+    //             {
+    //                 $chatMessages = DB::select("SELECT * FROM `async_chat` WHERE `deleted_at` IS NULL AND `category_id` = ".$request->category_id." AND (`sender_id` = $request->sender_id OR `reciver_id` = $request->sender_id) ORDER BY `date`,`time` ASC");
+    //                 $result = $chatMessages;
+    //             }
+    //             else
+    //             {
+    //                 $result = $data;
+    //             }
+    //     }
+    //     else
+    //     {
+    //           $pastChat = CounselorPastCases::Where('category_id',$request->category_id)
+    //                                             ->where('user_id',$request->sender_id)
+    //                                             ->where('chat_type','0')
+    //                                             ->first();
+    //             if(!empty($pastChat))
+    //             {
+    //                 $data = ChatHistory::where('counselor_past_cases_id',$pastChat->id)->whereNull('deleted_at')->get();
+    //                 $result = $data;
+    //             }
+    //     }
 
-        }
+    //     $response = ['response' => $result,'message'=> 'message get successfully.....!','status'=>true];
+    //     return response($response, 200);
+    // }
 
-        $chatMessages = array();
+
+    // public function chatFilter(Request $request)
+    // {
+    //     if(!empty($request->sender_id) && !empty($request->category_id) && $request->chat_type != NULL && $request->chat_type == 0)
+    //     {
+
+    //     }
+    //     if(!empty($request->sender_id) && !empty($request->category_id) && $request->chat_type != NULL)
+    //     {
+
+    //     }
+
+    //     $chatMessages = array();
   
-        $chatMessages = CounselorPastCases::where('category_id',$request->category_id)
-                                            ->where('user_id',$request->sender_id)
-                                            ->where('chat_type',"Live")
-                                            ->whereNull('deleted_at')
-                                            ->first();
-        if(!empty($chatMessages))
-        {
-            $getChatHistory = ChatHistory::where('counselor_past_cases_id',$chatMessages->id)->get();
-                $response = ['response' => $getChatHistory, 'status'=>true];
-        }
-        else
-        {
-            $response = ['response' => [],'message'=>"Chat not found",'status'=>true];
-        }
+    //     $chatMessages = CounselorPastCases::where('category_id',$request->category_id)
+    //                                         ->where('user_id',$request->sender_id)
+    //                                         ->where('chat_type',"Live")
+    //                                         ->whereNull('deleted_at')
+    //                                         ->first();
+    //     if(!empty($chatMessages))
+    //     {
+    //         $getChatHistory = ChatHistory::where('counselor_past_cases_id',$chatMessages->id)->get();
+    //             $response = ['response' => $getChatHistory, 'status'=>true];
+    //     }
+    //     else
+    //     {
+    //         $response = ['response' => [],'message'=>"Chat not found",'status'=>true];
+    //     }
            
-        return response($response, 200);
-    }
+    //     return response($response, 200);
+    // }
     
 
     

@@ -96,7 +96,8 @@
               <!-- Modal content -->
               <div class="modal-content1">
                 <span class="close1">&times;</span>
-                <input type="text" class="form-control" name="remark" id="remark">
+                <label class="required" for="remark">Remark</label>
+                <textarea class="form-control" name="remark" id="remark" rows="5" cols="20"></textarea>
                 <button class="btn btn-chat-footer inbtns btn-sm" onClick="chatRemark();" >Submit</button>
               </div>
             </div>

@@ -80,7 +80,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::resource('counselorcurrentcases', 'CounselorCurrentCasesController');
     Route::get('counselor-current-cases', 'CounselorCurrentCasesController@currentCounselor')->name('counselor-current-cases.currentCounselor');
     Route::get('counselor-assign-user/{userId}', 'CounselorCurrentCasesController@counselorAssignUser')->name('counselor-assign-user.counselorAssignUser');
+
     Route::get('user-assign-admin', 'CounselorCurrentCasesController@userAssignAdmin')->name('user-assign-admin.userAssignAdmin');
+
+    Route::get('user-assign-admin-live', 'CounselorCurrentCasesController@userAssignAdminLive')->name('user-assign-admin-live.userAssignAdminLive');
+
+    Route::get('ajax-table-refresh-Live-async', 'CounselorCurrentCasesController@ajaxTableRefreshLiveAsync')->name('ajax-table-refresh-Live-async.ajax_table_refresh_live_async');
+
     Route::get('close-chat-async', 'CounselorCurrentCasesController@closeChat')->name('close-chat-async.closeChat');
 
     Route::get('close-chat-live/{userId}', 'CounselorCurrentCasesController@closeChatLive')->name('chat-closed-live.closeChatLive');
@@ -107,7 +113,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
     // Counselor Past Cases
     Route::delete('counselor-past-cases/destroy', 'CounselorPastCasesController@massDestroy')->name('counselor-past-cases.massDestroy');
-    Route::get('past-chat-history/{userId}', 'CounselorPastCasesController@show')->name('past-chat-history.show');
+    Route::get('past-chat-history/{pastChatId}', 'CounselorPastCasesController@show')->name('past-chat-history.show');
     Route::resource('counselor-past-cases', 'CounselorPastCasesController');
 
    

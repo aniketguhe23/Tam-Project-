@@ -26,7 +26,8 @@ class CounselorAssignment extends Model
         'counselor_id',
         'category_id',
         'user_id',
-        'chat_type', 
+        'chat_type',
+        'report', 
         'chat_availability'
     ];
 

@@ -6,6 +6,83 @@
             
         </div>
     </div>
+
+    <div class="card">
+    <div class="card-header">
+      Live My Chats
+    </div>
+
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class=" table   table-striped   datatable datatable-counselors">
+                <thead>
+                    <tr>
+                        <th width="10">
+
+                        </th>
+                        <th>
+                            User {{ trans('cruds.counselor.fields.id') }}
+                        </th>
+                        <th>
+                         {{ trans('cruds.counselor.fields.user_name') }}
+                        </th>
+                        <th>
+                        User {{ trans('cruds.counselor.fields.age') }}
+                        </th>
+                        <th>
+                        User {{ trans('cruds.counselor.fields.gender') }}
+                        </th>
+                        <th>
+                        User {{ trans('cruds.counselor.fields.topic') }}
+                        </th>
+                        <th>
+                        User Location
+                        </th>
+                        <th>
+                            Queue No
+                        </th>
+                        <th>
+                            Chat Type
+                        </th>
+                        <th>
+                            Reason
+                        </th>
+                        <th>
+                            Assign By
+                        </th>
+                        <th>
+                            Activate Chats
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php  $i = 1;?>
+                    @foreach($getCurrentCounselorByUsersLive as $key => $getCurrentCounselorByUsersLive)
+                        <tr data-entry-id="{{ $getCurrentCounselorByUsersLive->id }}">
+                            <td></td>
+                            <td><?php echo $i; $i++ ;?> </td>
+                            <td>{{ $getCurrentCounselorByUsersLive->getUser->name }} </td>
+                            <td>{{ $getCurrentCounselorByUsersLive->getUser->age }}</td>
+                            <td>{{ $getCurrentCounselorByUsersLive->getUser->gender }} </td>
+                            <td>{{ $getCurrentCounselorByUsersLive->getCategory->category_name }} </td>
+                            <td>{{ $getCurrentCounselorByUsersLive->getUser->location }} </td>
+                            <td> 0999 </td>
+                            <td> {{ $getCurrentCounselorByUsersLive->chat_type }} </td>
+                            <td> {{ $getCurrentCounselorByUsersLive->report }}</td>
+                            <td> @if($getCurrentCounselorByUsersLive->counselor_id == 1) Admin @else @endif  </td>
+                             <td>
+                                <a class=" btn btn-gradient-primary btn-rounded btn-icon" href="#">
+                                        Activate 
+                                </a>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </div>
+
     <div class="card">
     <div class="card-header">
       My Chats

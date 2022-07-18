@@ -44,11 +44,14 @@ class CounselorPastCasesController extends Controller
     }
 
     
-    public function show($userId)
+    public function show($pastChatId)
     {
         abort_if(Gate::denies('counselor_past_cases_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        $users = User::where('id',$userId)->where('status','0')->first();
-        $chatHistorys = ChatHistory::where('counselor_past_cases_id',$userId)->get();
+       
+        $pastChats = CounselorPastCases::where('id',$pastChatId)->first();
+        $users = User::where('id',$pastChats->user_id)->where('status','0')->first();
+        $chatHistorys = ChatHistory::where('counselor_past_cases_id',$pastChats->id)->get();
+
         return view('admin.counselorpastcases.show',compact('chatHistorys','users'));
     }
 

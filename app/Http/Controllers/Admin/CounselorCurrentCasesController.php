@@ -103,7 +103,6 @@ class CounselorCurrentCasesController extends Controller
 
             $sessionCounselorid = Auth::user()->id;
             $counselors = User::where('id',$sessionCounselorid)->where('status','2')->whereNull('deleted_at')->first();
-            
 
             
             $currentCounselors = CounselorCurrentCases::where('user_id',$userId)
@@ -116,7 +115,7 @@ class CounselorCurrentCasesController extends Controller
             {
                 $counselorAssignToUsers = CounselorCategoryUser::where('category_id',$counselors->category_id)
                                                       ->where('user_id',$currentCounselors->user_id)
-                                                      ->where('counselor_id',$counselors->id)
+                                                      // ->where('counselor_id',$counselors->id)
                                                       ->whereNull('deleted_at')
                                                       ->first();
                 if(empty($counselorAssignToUsers))
@@ -229,7 +228,7 @@ class CounselorCurrentCasesController extends Controller
             $sessionCounselorid = Auth::user()->id;
             $counselors = User::where('id',$sessionCounselorid)->where('status','2')->first();
                                                         
-            $getLiveChats = CounselorAssignment::where('user_id',$userId)->where('category_id',$counselors->category_id)->whereNull('deleted_at')->first();
+            $getLiveChats = CounselorAssignment::where('user_id',$userId)->where('category_id',$counselors->category_id)->whereNull('report')->whereNull('deleted_at')->first();
             if(!empty($getLiveChats))
             {
                 $liveChats = DB::select("SELECT * FROM `live_chat` WHERE `category_id` = ".$counselors->category_id." AND (`sender_id` = $userId OR `reciver_id` = $userId) ORDER BY `date`,`time` ASC");
@@ -255,9 +254,11 @@ class CounselorCurrentCasesController extends Controller
 
         public function liveChat(Request $request)
         {
+            // $sessionCounselorid = Auth::user()->id;
             $counselorCategoryUsers = CounselorAssignment::where('category_id',$request->category_id)
                                                ->where('user_id',$request->user_id)
                                                ->whereNull('deleted_at')
+                                               ->whereNull('report')
                                                ->first();
             if(!empty($counselorCategoryUsers))
             {
@@ -539,7 +540,7 @@ class CounselorCurrentCasesController extends Controller
             return true;      
         }
 
-        public function sendNotificationLiveCounsellorToUserAssign($userId, $categoryId,$keyMsg)
+        public function sendNotificationLiveCounsellorToUserAssign($userId, $chatCloseId,$keyMsg)
         {
            
             $url = 'https://fcm.googleapis.com/fcm/send';
@@ -559,7 +560,7 @@ class CounselorCurrentCasesController extends Controller
                 ],
                 "data" => [
                     "key" => $keyMsg,
-                    "category_id" => "Counsellor assign to user",
+                    "chatCloseId" => $chatCloseId,
                 ]
             ];
             $encodedData = json_encode($data);
@@ -663,16 +664,18 @@ class CounselorCurrentCasesController extends Controller
                      $chatHistory['time']                = date('H:i:s');
                      $chatHistory['labels']              = $asyncChat->labels;
                     $chatHistory = ChatHistory::create($chatHistory);
+                    Session::flash('message', 'Chat close succsesfully...!');
+
                 }
-                Session::flash('message', 'Chat close succsesfully...!');
                 return true;
             }
         }
 
-        public function closeChatLive($userId)
+        public function closeChatLive(Request $request, $userId)
         {
 
-
+            $remark = request()->get('remark');
+            
             $sessionCounselorid = Auth::user()->id;
 
             $getCounselors = User::where('id',$sessionCounselorid)->where('status','2')->first();
@@ -716,9 +719,9 @@ class CounselorCurrentCasesController extends Controller
                 $pastChatAssign['category_id'] = $getCounselorCategoryUsers->category_id;
                 $pastChatAssign['user_id'] = $getCounselorCategoryUsers->user_id;
                 $pastChatAssign['counselor_id'] = $getCounselorCategoryUsers->counselor_id;
-                $pastChatAssign['chat_type'] = 0;
+                $pastChatAssign['chat_type'] = 1;
                 $pastChatAssign['feedback_id'] = 1;
-
+                $pastChatAssign['remark'] = $remark;
                 $counselorPastChat = CounselorPastCases::create($pastChatAssign);
                
                 $asyncChats = DB::select("SELECT * FROM `live_chat` WHERE `category_id` = ".$counselorPastChat->category_id." AND (`sender_id` = $counselorPastChat->user_id AND `reciver_id` = $counselorPastChat->counselor_id OR `sender_id` = $counselorPastChat->counselor_id AND `reciver_id` = $counselorPastChat->user_id) ORDER BY `date`,`time` ASC");
@@ -739,7 +742,7 @@ class CounselorCurrentCasesController extends Controller
                      $chatHistory = ChatHistory::create($chatHistory);
                 }
 
-                $this->sendNotificationLiveCounsellorToUserAssign($userId,$getCounselors->category_id,'live_chat_end_user');
+                $this->sendNotificationLiveCounsellorToUserAssign($userId,$counselorPastChat->id,'live_chat_end_user');
 
                 $waitingAssignments = WaitingAssignments::where('category_id',$getCounselorCategoryUsers->category_id)->whereNull('deleted_at')->first();
 
@@ -808,8 +811,82 @@ class CounselorCurrentCasesController extends Controller
             }
                 return ;
         }
-    
-    
+        
+
+        public function userAssignAdminLive(Request $request)
+        {
+            $userId = request()->get('user_id');
+            $remark = request()->get('remark');
+
+            $sessionCounselorid = Auth::user()->id;
+
+            $counselorCategoryUsers = CounselorAssignment::where('user_id',$userId)
+                                                            ->where('counselor_id',$sessionCounselorid)
+                                                            ->where('chat_availability','1')
+                                                            ->where('chat_type','Live')
+                                                            ->whereNull('deleted_at')
+                                                            ->first();
+            
+           
+            if(!empty($counselorCategoryUsers))
+            {
+                
+                $currentCounselorRemove = CounselorCurrentCases::where('user_id',$userId)
+                                                                ->where('category_id',$counselorCategoryUsers->category_id)
+                                                                ->delete();
+             
+                $counselorAssigntoUser = array();
+                $counselorAssigntoUser['counselor_id'] = 1;
+                $counselorAssigntoUser['user_id'] = $counselorCategoryUsers->user_id;
+                $counselorAssigntoUser['category_id'] = $counselorCategoryUsers->category_id;
+                $counselorAssigntoUser['chat_type'] = 'Live';
+                $counselorAssigntoUser['chat_availability'] = '1';
+                $counselorAssigntoUser['report'] = $remark;
+                $counselorAssignToUsers = CounselorAssignment::create($counselorAssigntoUser);
+                
+
+                $removeCounselorAssignment  = CounselorAssignment::where('id',$counselorCategoryUsers->id)
+                                                                    ->whereNull('deleted_at')
+                                                                    ->delete();
+
+                $sessionCounselorid = Auth::user()->id;
+                $getCounselors = User::where('id',$sessionCounselorid)->where('status','2')->first();                                                 
+                $waitingAssignments = WaitingAssignments::where('category_id',$getCounselors->category_id)->whereNull('deleted_at')->first();
+
+                if(!empty($waitingAssignments)){
+                    
+                    $userAssignment  = array();
+                    $userAssignment['counselor_id'] = $getCounselors->id;
+                    $userAssignment['user_id'] = $waitingAssignments->user_id;
+                    $userAssignment['category_id'] = $waitingAssignments->category_id;
+                    $userAssignment['chat_type'] = "Live";
+                    $userAssignment['chat_availability'] = '1';
+                    $checkCounselor = CounselorAssignment::create($userAssignment);
+
+                    if(!empty($checkCounselor)){
+
+                        $userId = $waitingAssignments->user_id;
+                        $categoryId =  $waitingAssignments->category_id;
+
+                        $this->sendNotificationLiveCounsellorToUserAssign($userId,$categoryId,'live_counsellor_assign');
+
+                        WaitingAssignments::where('id',$waitingAssignments->id)
+                                            ->whereNull('deleted_at')
+                                            ->delete();
+
+                    }
+                } else {
+
+                    $getCounselors->chat_availability = '0';
+                    $getCounselors->save();
+                }
+
+                Session::flash('message', 'Live Chat Assign to admin succsesfully...!');
+                return $counselorAssignToUsers->id;
+            }
+            
+        }
+
         public function update(UpdateCounselorRequest $request, User $counselor)
         {
             $counselorArr = array();
@@ -847,6 +924,100 @@ class CounselorCurrentCasesController extends Controller
     
             return response(null, Response::HTTP_NO_CONTENT);
         }
+
+
+        public function ajaxTableRefreshLiveAsync(Request $request)
+            {
+                $countAsync = request()->get('countAsync');
+                $countLive = request()->get('countLive');
+
+                $sessionCounselorid = Auth::user()->id;
+                $counselorCheckit = User::where('id',$sessionCounselorid)->where('status','2')->first();
+
+                $counselorCurrentChats = array();
+
+                if($countAsync == '00'){
+                    $counselorCurrentChats = CounselorCurrentCases::with('getCategory','getUser')
+                                        ->where('category_id',$counselorCheckit->category_id)
+                                        ->where('chat_type','0')
+                                        ->whereNull('deleted_at')
+                                        ->get();
+
+                    if(!empty($counselorCurrentChats) AND count($counselorCurrentChats) > '0' ){
+                        $output = ['success' => true,
+                            'msg' => __("Async get 00")
+                        ];
+                        return $output;
+                    } else {
+                        $output = ['success' => false,
+                            'msg' => __("Async no get 00")
+                        ];
+                    }
+                } 
+
+                if($countAsync != '00'){
+
+                    $counselorCurrentChats = DB::select("SELECT * FROM `counselor_current_cases` WHERE `deleted_at` = null AND `chat_type` = '0' AND `id`>$countAsync");
+
+                    if(!empty($counselorCurrentChats) AND count($counselorCurrentChats) > '0' ){
+                        $output = ['success' => true,
+                            'msg' => __("Async get id")
+                        ];
+                        return $output;
+                    } else {
+                        $counselorCurrentChats = DB::select("SELECT * FROM `counselor_current_cases` WHERE `chat_type` = '0' AND `id` = $countAsync");
+
+                        if(!empty($counselorCurrentChats)){
+                            $output = ['success' => false,
+                                'msg' => __("Async not get")
+                            ];
+                        } else {
+                            $output = ['success' => true,
+                                'msg' => __(" Async get id")
+                            ];
+                        return $output;                            
+                        } 
+                    }                 
+                }
+
+                if($countLive == '00'){
+                     $counselorLiveChats = CounselorAssignment::with('getCategory','getUser')
+                                    ->where('category_id',$counselorCheckit->category_id)
+                                    ->where('counselor_id',$sessionCounselorid)
+                                    ->where('chat_type','Live')
+                                    ->whereNull('deleted_at')
+                                    ->whereNull('report')
+                                    ->get();
+
+                 if(!empty($counselorLiveChats) AND count($counselorLiveChats) > '0' ){
+                        $output = ['success' => true,
+                            'msg' => __("live get 00")
+                        ];
+                        return $output;
+                    } else {
+                        $output = ['success' => false,
+                            'msg' => __("live no get 00")
+                        ];
+                    }
+
+                } 
+
+                if($countLive != '00') {
+                    $counselorLiveChats = CounselorAssignment::where('id',$countLive)->first();
+                    if(!empty($counselorLiveChats)){
+                        $output = ['success' => false,
+                            'msg' => __("live get id")
+                        ];
+                    } else {
+                        $output = ['success' => true,
+                            'msg' => __("live no get id")
+                        ];
+                    }                   
+                }
+
+                return $output;            
+
+            }
     
        
 }
